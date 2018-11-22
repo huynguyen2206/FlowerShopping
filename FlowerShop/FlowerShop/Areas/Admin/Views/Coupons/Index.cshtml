@@ -1,0 +1,164 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Coupon>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Coupon
+        <small>Mã khuyến mãi</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Coupon</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                </div>
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group" style="margin-left: 10px">
+                        <input type="text" name="kw" class="form-control" placeholder="Search..." style="width: 300px">
+                        <span>
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                }
+                <form method="post" id="randomcoupon">
+                    <div class="input-group" style="margin: 10px 0 0 10px">
+                        <input type="text" name="number" class="form-control" placeholder="Số lượng" style="width: 150px">
+                        <input type="text" name="price" class="form-control" placeholder="Giá trị" style="width: 150px">
+                        <span>
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-random"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Mã Coupon</th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortprice })">Giá Trị</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortactive })">Kích Hoạt</a></th>
+                                <th>Ngày Khởi Tạo</th>
+                                <th style="width: 100px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.CouponCode</td>
+                                    @{
+                                        if (item.Price <= 100 & item.Price > 0)
+                                        {
+                                            <td>@item.Price.ToString("N0")%</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@item.Price.ToString("N0") NVĐ</td>
+                                        }
+                                    }
+
+                                    @{
+                                        if (item.IsActive)
+                                        {
+                                            <td><span class="label label-success" style="font-size:12px">Chưa Sử Dụng</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="label label-danger" style="font-size:12px">Đã Kích Hoạt</span></td>
+                                        }
+                                    }
+
+                                    <td>@item.InitDate.ToString("dd/MM/yyyy")</td>
+
+
+                                    <td><button class="btn_delete_coupon btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        <a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Coupon</a>
+
+                    </table>
+                    <p>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw = ViewBag.kw, sort = ViewBag.sort }))
+                    </p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#randomcoupon").submit(function () {
+            $.ajax({
+                url: "/Admin/Coupons/RandomCoupon",
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (response) {
+
+                    if (response == "OK") {
+                        //alert(response);
+                        locotion.href = "Admin/Coupons";
+                    }
+                    else {
+                        alert(response);
+                    }
+
+                }
+            })
+
+        });
+
+
+        $(".btn_delete_coupon").click(function () {
+            var btn = $(this);
+            var pid = btn.attr("pid");
+
+            if (confirm("Bạn Có Muốn Xóa Sản Phẩm Này?")) {
+                $.ajax({
+                    url: '/Admin/Coupons/Delete',
+                    type: "POST",
+                    data: "id=" + pid,
+                    success: function (response) {
+                        //alert(response);
+
+                        if (response == "OK") {
+                            btn.parent().parent().remove();
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+
+                });
+            }
+
+        });
+
+
+
+    });
+</script>

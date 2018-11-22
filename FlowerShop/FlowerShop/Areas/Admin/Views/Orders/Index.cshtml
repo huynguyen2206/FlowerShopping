@@ -1,0 +1,153 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Order>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Order
+        <small>Order List</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="#">Order</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+
+<div class="chart tab-pane" id="product-pic">
+    <div class="col-md-12" style="margin-top: 10px">
+
+        <div class="box box-info">
+            @using (Html.BeginForm())
+            {
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_price" type="text" class="form-control" id="inputEmail3" placeholder="Price">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+
+                                <div class="col-sm-9">
+                                    @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer" style="text-align:center">
+                    <button type="submit" name="search" class="btn btn-success">Search</button>
+                </div>
+                <!-- /.box-footer -->
+            }
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <a href="@Url.Action("Create", "Orders")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Order</a>
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order Id</th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortstatus })">Order Status</a></th>
+                                <th>Payment Status</th>
+                                <th>Customer</th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortdate })">Created on</a></th>
+                                <th>Order total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                    @{
+                                        var color = "";
+                                        switch (item.StatusId)
+                                        {
+                                            case 1:
+                                                color = "warning";
+                                                break;
+                                            case 2:
+                                                color = "info";
+                                                break;
+                                            case 3:
+                                                color = "success";
+                                                break;
+                                            case 4:
+                                                color = "danger";
+                                                break;
+                                            default:
+                                                color = "info";
+                                                break;
+                                        }
+                                    }
+                                    <td><span class="label label-@color" style="font-size:12px">@item.Status.StatusName</span></td>
+                                    <td>@item.PaymentMethod.MethodName</td>
+                                    <td>@item.Customer.CustomerName</td>
+                                    <td>@item.OrderDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
+                                    @{
+                                        decimal Total = 0;
+                                        if (item.Coupon.Price > 0 && item.Coupon.Price < 100)
+                                        {
+                                            Total = item.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - (((x.UnitPrice - x.Discount) * x.Quantity) * item.Coupon.Price / 100)) - item.Discount;
+                                        }
+                                        else
+                                        {
+                                            Total = item.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - item.Coupon.Price) - item.Discount;
+                                        }
+                                    }
+                                    <td>@Total.ToString("N0") VNĐ</td>
+                                    <td><a href="@Url.Action("Details", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block">View</a></td>
+
+                                    @*<td><button class="btn_delete btn btn-danger btn-block" pid="@item.Id">Delete</button></td>*@
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                    <p>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw_price = ViewBag.kw_price, sort = ViewBag.sort }))
+                    </p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

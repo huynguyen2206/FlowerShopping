@@ -1,0 +1,44 @@
+﻿@using FlowerShop.Models
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                FlowerShoppingEntities db = new FlowerShoppingEntities();
+                var cus = db.Customers.Find(int.Parse(User.Identity.Name));
+                var Orders = db.Orders.Where(x => x.CustomerId.Equals(cus.Id));
+            }
+            @foreach (var item in Orders)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.OrderDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
+                    <td>@item.Status.StatusName</td>
+                    @{
+                        decimal Total = 0;
+                        if (item.Coupon.Price > 0 && item.Coupon.Price < 100)
+                        {
+                            Total = item.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - (((x.UnitPrice - x.Discount) * x.Quantity) * item.Coupon.Price / 100)) - item.Discount;
+                        }
+                        else
+                        {
+                            Total = item.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - item.Coupon.Price) - item.Discount;
+                        }
+                    }
+                    <td>@Total.ToString("N0") VNĐ</td>
+                    <td>@item.PaymentMethod.MethodName</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

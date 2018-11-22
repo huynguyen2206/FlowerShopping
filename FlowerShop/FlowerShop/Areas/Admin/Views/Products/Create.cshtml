@@ -1,0 +1,285 @@
+﻿
+@model FlowerShop.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="content-header">
+        <h1>
+            Add New Product
+            <small><a href="@Url.Action("Index", "Products")"><< Back to products list</a></small>
+        </h1>
+        <ol class="breadcrumb">
+            @*<li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Product</a></li>*@
+            <button type="submit" class="btn btn-info">Save</button>
+        </ol>
+    </section>
+
+    @Html.AntiForgeryToken()
+    <!-- Main content -->
+    <section class="content" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs pull-right">
+                            <li class="active pull-left"><a href="#product-info" data-toggle="tab">Product Info</a></li>
+                            <li class="pull-left"><a href="#product-pic" data-toggle="tab">Picture</a></li>
+                            <li class="pull-right header"><i class="fa fa-inbox"></i>Product Details</li>
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <!-- Morris chart - Sales -->
+                            <div class="chart tab-pane active" id="product-info">
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Product Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Product Code</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.ProductCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Product Code" } })
+                                                        @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Product Name</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", placeholder = "Product Name" } })
+                                                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Unit</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", placeholder = "Unit" } })
+                                                        @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.QuantityAvailable, new { htmlAttributes = new { @class = "form-control", placeholder = "Quantity" } })
+                                                        @Html.ValidationMessageFor(model => model.QuantityAvailable, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Show Home Page</label>
+                                                        <div class="checkbox">
+                                                            @Html.EditorFor(model => model.ShowHomePage)
+                                                            @Html.ValidationMessageFor(model => model.QuantityAvailable, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Description Short</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea class="form-control" name="DescriptionShort" rows="3" placeholder="Enter ..."></textarea>
+                                                        @Html.TextAreaFor(model => model.DescriptionShort, new { htmlAttributes = new { @class = "form-control", rows = "3" } })
+                                                        @Html.ValidationMessageFor(model => model.DescriptionShort, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1" class="col-sm-3 control-label">Description Long</label>
+                                                    <div class="col-sm-12">
+                                                        @Html.TextAreaFor(model => model.DescriptionLong, new { htmlAttributes = new { @class = "form-control", placeholder = "Chủ Đề" } })
+                                                        @Html.ValidationMessageFor(model => model.DescriptionLong, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Product Price</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="box-body">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Price" } })
+                                                            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Sale</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.EditorFor(model => model.SalePrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Sale" } })
+                                                            @Html.ValidationMessageFor(model => model.SalePrice, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Tax</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control", placeholder = "Tax" } })
+                                                            @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Product Mapping</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="box-body">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Categories</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control select2", @placeholder = "-select-", @multiple = "multiple" })
+                                                            @*@Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })*@
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        $('.select2').select2();
+                                                    </script>
+
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-3 control-label">Vendors</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.DropDownList("VendorId", null, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                            </div>
+
+                            <div class="chart tab-pane" id="product-pic">
+                                <div class="col-md-12" style="margin-top: 10px">
+
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Add New Pictures</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Hình Ảnh</label>
+                                                    <div class="col-sm-9">
+                                                        <input id="chooseimg" type="file" name="img" multiple />
+                                                    </div>
+                                                    <img id="image" height="150" />
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </section>
+    <!-- /.content -->
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("DescriptionLong")
+</script>
+
+<!--load image tạm thời-->
+<script type="text/javascript">
+    var file = document.getElementById('chooseimg');
+    var img = document.getElementById('image');
+    file.addEventListener("change", function () {
+        if (this.value) {
+            console.log(this.files)
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

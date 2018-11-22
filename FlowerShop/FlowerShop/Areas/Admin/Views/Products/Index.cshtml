@@ -1,0 +1,212 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Product>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="notification"></div>
+
+<section class="content-header">
+    <h1>
+        Products
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Products</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+
+<div class="chart tab-pane" id="product-pic">
+    <div class="col-md-12" style="margin-top: 10px">
+
+        <div class="box box-info">
+            @using (Html.BeginForm())
+            {
+                <div class="box-body">
+                    <div class="form-horizontal">
+
+
+                        @*<div class="input-group" style="margin-left: 10px">
+                                <input type="text" name="kw" class="form-control" placeholder="Search..." style="width: 300px">
+                                <span>
+                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>*@
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_price" type="text" class="form-control" id="inputEmail3" placeholder="Price">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer" style="text-align:center">
+                    <button type="submit" name="search" class="btn btn-success">Search</button>
+                </div>
+                <!-- /.box-footer -->
+            }
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                @*@using (Html.BeginForm())
+                    {
+                        <div class="input-group" style="margin-left: 10px">
+                            <input type="text" name="kw" class="form-control" placeholder="Search..." style="width: 300px">
+                            <span>
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    }*@
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <a href="@Url.Action("Create", "Products")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Product</a>
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:200px">Tên Sản Phẩm</th>
+                                <th>Hình Ảnh</th>
+                                <th>Đơn Vị</th>
+
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortprice })">Giá</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortquan })">Số Lượng</a></th>
+
+
+                                <th>Danh Mục</th>
+                                <th>Tình Trạng</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                    @{
+                                        string src = "/Uploads/Default/1.jpg";
+                                        var pic = item.PictureUrl;
+                                        if (pic != null)
+                                        {
+                                            src = "/Uploads/Products/" + item.Id + "/" + pic;
+                                        }
+
+                                    }
+                                    <td><img src="@src" style="max-height: 100px; max-width: 150px" /></td>
+                                    <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                                    <td>@item.UnitPrice.ToString("N0")</td>
+                                    <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
+                                    @{
+                                        var cate = item.Products_Categories_Mapping.Where(x => x.ProductId.Equals(item.Id));
+                                    }
+                                    <td>
+                                        @foreach (var c in cate)
+                                        {
+                                            <div>- @c.Category.CategoryName</div>
+                                        }
+                                    </td>
+                                    @if (item.QuantityAvailable == 0)
+                                    {
+                                        <td><span class="label label-danger" style="font-size:12px">Hết Hàng</span></td>
+                                    }
+                                    else if (item.QuantityAvailable <= 5)
+                                    {
+                                        <td><span class="label label-warning" style="font-size:12px">Sắp Hết Hàng</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="label label-success" style="font-size:12px">Còn Hàng</span></td>
+                                    }
+
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Products", new { id = item.Id })"><button class="btn btn-instagram btn-block">Edit</button></a>
+                                        <button style="margin-top: 10px" class="btn_delete btn btn-danger btn-block" pid="@item.Id" pname="@item.ProductName">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        
+                    </table>
+                    <p>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw_price = ViewBag.kw_price, sort = ViewBag.sort }))
+                    </p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".btn_delete").click(function () {
+            var btn = $(this);
+            var pid = btn.attr("pid");
+            var pname = btn.attr("pname");
+
+            if (confirm("Bạn Có Muốn Xóa Sản Phẩm Này?")) {
+                $.ajax({
+                    url: '/Admin/Products/Delete',
+                    type: "POST",
+                    data: "id=" + pid,
+                    success: function (response) {
+                        //alert(response);
+
+                        if (response == "OK") {
+                            btn.parent().parent().remove();
+
+                            $(".notification").append("<div class='callout callout-warning notification" + pid + "'>"
+                                + "<p>Bạn vừa xóa sản phẩm " + pname + "</p>"
+                                + "</div>"
+                            )
+                            setTimeout(function () {
+                                $(".notification" + pid + "").remove();
+                            }, 3000);
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+
+                });
+            }
+        });
+
+
+
+
+    });
+</script>

@@ -1,0 +1,908 @@
+﻿@using FlowerShop.Models
+
+@{
+    ViewBag.Title = "Home Page";
+
+    // add products vào List
+    var ProductsDiscount = ViewBag.ProductsDiscount as List<Product>;
+    var NewProducts = ViewBag.NewProducts as List<Product>;
+    var Product_Showhomepage = ViewBag.Product_Showhomepage as List<Product>;
+    var HotProducts = ViewBag.HotProducts as List<Product>;
+}
+
+@{
+    var disable = new Disable();
+}
+
+@if (ViewBag.DisCategories == "False")
+{
+    <!--Categories Area Start-->
+    <div class="categories-area mt-115">
+        <div class="container">
+            <div class="row">
+                <!--Section Title Start-->
+                <div class="col-12">
+                    <div class="section-title text-center mb-35">
+                        <span>Mua theo danh mục</span>
+                        <h3>Categories</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+        </div>
+        <div class="container-fluid pl-50 pr-50">
+            <div class="row">
+                <div class="cat-1 col-md-4">
+                    <div class="categories-img img-full mb-30">
+                        <a href="https://demo5009.web30s.vn/cay-de-ban"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-1.jpg" alt=""></a>
+                        <div class="categories-content">
+                            <h3>Cây để bàn</h3>
+                            <h4>11 Sản phẩm</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="cat-2 col-md-8">
+                    <div class="row">
+                        <div class="cat-3 col-md-7">
+                            <div class="categories-img img-full mb-30">
+                                <a href="https://demo5009.web30s.vn/cay-thuy-sinh"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-2.jpg" alt=""></a>
+                                <div class="categories-content">
+                                    <h3>Cây thủy sinh</h3>
+                                    <h4>2 Sản phẩm</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cat-4 col-md-5">
+                            <div class="categories-img img-full mb-30">
+                                <a href="https://demo5009.web30s.vn/cay-canh-van-phong"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-3.jpg" alt=""></a>
+                                <div class="categories-content">
+                                    <h3>Cây cảnh văn phòng</h3>
+                                    <h4>15 Sản phẩm</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cat-5 col-md-4">
+                            <div class="categories-img img-full mb-30">
+                                <a href="https://demo5009.web30s.vn/combo-cay-de-ban"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-4.jpg" alt=""></a>
+                                <div class="categories-content">
+                                    <h3>Combo cây để bàn</h3>
+                                    <h4>2 Sản phẩm</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cat-6 col-md-8">
+                            <div class="categories-img img-full mb-30">
+                                <a href="https://demo5009.web30s.vn/cay-phong-thuy"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-5.jpg" alt=""></a>
+                                <div class="categories-content">
+                                    <h3>Cây phong thủy</h3>
+                                    <h4>4 Sản phẩm</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--Categories Area End-->
+}
+
+
+@if (ViewBag.DisProductOrder == "False")
+{
+    <!--House Plant Area Start-->
+    <div class="house-plant-area mt-110">
+        <div class="container">
+            <div class="row">
+                <!--Section Title Start-->
+                <div class="col-12">
+                    <div class="section-title text-center mb-35">
+                        <span>sản phẩm bán chạy nhất</span>
+                        <h3>Hot Products</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+            <div class="indor-plant-product">
+                <div class="row">
+                    <div class="indoor-product-active">
+
+                        <!--Show Products-->
+                        @foreach (var product in HotProducts)
+                        {
+                            @Html.Partial("_Single_Product", product)
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--House Plant Area End-->
+}
+
+
+
+
+@if (ViewBag.DisProductShowHomePage == "False")
+{
+    <!--House Plant Area Start-->
+    <div class="house-plant-area mt-110">
+        <div class="container">
+            <div class="row">
+                <!--Section Title Start-->
+                <div class="col-12">
+                    <div class="section-title text-center mb-35">
+                        <span>sản phẩm Tốt</span>
+                        <h3>Good Products</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+            <div class="product-list-area">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product4.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Fusce tempor</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$55.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product1.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Diam vel neque</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$40.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product1.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Aliquam lobortis</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$115.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                </div>
+            </div>
+            <div class="indor-plant-product">
+                <div class="row">
+                    <div class="indoor-product-active">
+
+                        <!--Show Products-->
+                        @foreach (var product in Product_Showhomepage)
+                        {
+                            @Html.Partial("_Single_Product", product)
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--House Plant Area End-->
+}
+
+@if (ViewBag.DisProductNew == "False")
+{
+    <div class="indoor-plant-area pt-110">
+        <div class="container">
+            <div class="row">
+                <!--Section Title Start-->
+                <div class="col-12">
+                    <div class="section-title text-center mb-35">
+                        <span>Sản Phẩm Mới Nhất</span>
+                        <h3>New Products</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+            <div class="product-list-area">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product24.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Sin autem eos</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$45.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product16.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Volutpat ut</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$145.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <!--Single List Product Start-->
+                        <div class="single-product product-list">
+                            <div class="list-col-4">
+                                <div class="product-img img-full">
+                                    <a href="single-product.html"><img src="/Content/Home/img/product/product8.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="list-col-8">
+                                <div class="product-content">
+                                    <h2><a href="single-product.html">Pharetra sagittis</a></h2>
+                                    <div class="product-price">
+                                        <div class="price-box">
+                                            <span class="regular-price">$100.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Single List Product Start-->
+                    </div>
+                </div>
+            </div>
+            <div class="indor-plant-product">
+                <div class="row">
+                    <div class="indoor-product-active">
+
+                        <!--Show Products-->
+                        @foreach (var product in NewProducts)
+                        {
+                            @Html.Partial("_Single_Product", product)
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Indoor Plant Area End-->
+}
+
+
+
+<!--Table Tree Area Start-->
+<div class="table-tree-area mt-110">
+    <div class="container">
+        <div class="row">
+            <!--Section Title Start-->
+            <div class="col-12">
+                <div class="section-title text-center mb-35">
+                    <span>Sản Phẩm Khuyến Mãi</span>
+                    <h3>Products Discounted</h3>
+                </div>
+            </div>
+            <!--Section Title End-->
+        </div>
+        <div class="product-list-area">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product10.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Lacus dignissim</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$80.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product1.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Ut ornare orci</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$100.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product19.jpg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Kaoreet lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$95.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+            </div>
+        </div>
+        <div class="indor-plant-product">
+            <div class="row">
+                <div class="indoor-product-active">
+
+                    <!--Show Products-->
+                    @foreach (var product in ProductsDiscount)
+                    {
+                        @Html.Partial("_Single_Product", product)
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Table Tree Area End-->
+<!--Banner Area Start-->
+<div class="banner-area pt-110">
+    <div class="container-fluid pl-50 pr-50">
+        <div class="row">
+            <div class="col-md-6">
+                <!--Single Banner Area Start-->
+                <div class="single-banner mb-35">
+                    <div class="banner-img">
+                        <a href="#">
+                            <img src="/Content/Home/img/banner/banner4.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!--Single Banner Area End-->
+            </div>
+            <div class="col-md-6">
+                <!--Single Banner Area Start-->
+                <div class="single-banner mb-35">
+                    <div class="banner-img">
+                        <a href="#">
+                            <img src="/Content/Home/img/banner/banner5.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!--Single Banner Area End-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Banner Area End-->
+<!--Bestseller List Product Area Start-->
+<div class="bestseller-list-product-area mt-80">
+    <div class="container">
+        <div class="row">
+            <!--Section Title Start-->
+            <div class="col-12">
+                <div class="section-title text-center mb-35">
+                    <span>The Most Trendy</span>
+                    <h3>Bestseller Products</h3>
+                </div>
+            </div>
+            <!--Section Title End-->
+        </div>
+        <div class="row">
+            <div class="product-list-slider-active">
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product14.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">dsadsadsa</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$125.00</span>
+                                        <span class="regular-price">$115.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product16.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Adsadsam</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$85.00</span>
+                                        <span class="regular-price">$60.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product5.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Aliquam lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$80.00</span>
+                                        <span class="regular-price">$50.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product15.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Kaoreet lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$95.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product8.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Dignissim venenatis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$80.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product22.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Dignissim furniture</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$125.00</span>
+                                        <span class="regular-price">$115.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product23.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Phasellus vel hendrerit</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$55.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product20.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Ornare sed consequat</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$499.00</span>
+                                        <span class="regular-price">$515.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product19.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Pellentesque posuere</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$120.00</span>
+                                        <span class="regular-price">$100.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product18.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Aliquam lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$90.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product17.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Dignissim venenatis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$80.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product11.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Auctor gravida enim</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$85.00</span>
+                                        <span class="regular-price">$60.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+                <div class="col-md-4">
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product2.jpg" alt=""></a>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Kaoreet lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="price">$125.00</span>
+                                        <span class="regular-price">$120.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                    <!--Single List Product Start-->
+                    <div class="single-product product-list mb-35">
+                        <div class="list-col-4">
+                            <div class="product-img img-full">
+                                <a href="single-product.html"><img src="/Content/Home/img/product/product4.jpg" alt=""></a>
+                                <span class="onsale">Sale!</span>
+                                <div class="product-action">
+                                    <ul>
+                                        <li><a href="#open-modal" data-toggle="modal" title="Quick view" tabindex="0"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href="#" tabindex="0"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-col-8">
+                            <div class="product-content">
+                                <h2><a href="single-product.html">Kaoreet lobortis</a></h2>
+                                <div class="product-price">
+                                    <div class="price-box">
+                                        <span class="regular-price">$45.00</span>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <a href="#" tabindex="0">Add To Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Single List Product Start-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Bestseller List Product Area End-->

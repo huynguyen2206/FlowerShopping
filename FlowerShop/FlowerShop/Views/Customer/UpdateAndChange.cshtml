@@ -1,0 +1,78 @@
+﻿@using FlowerShop.Models
+
+@{
+    ViewBag.Title = "UpdateAndChange";
+}
+
+<div class="breadcrumb-tow mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-title">
+                    <h1>Update Profile</h1>
+                </div>
+                <div class="breadcrumb-content breadcrumb-content-tow">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">Register</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Breadcrumb Tow End-->
+<!--Update Profile Area Strat-->
+<div class="login-register-area mb-80">
+    <div class="container">
+        <div class="row">
+            <!--Update Profile start-->
+            <div class="col-md-6 col-sm-6">
+                <div class="customer-login-register register-pt-0">
+                    <div class="form-register-title">
+                        <h2>Thông Tin Khách Hàng</h2>
+                    </div>
+                    <div class="register-form">
+                        @Html.Partial("UpdateProfile", new UpdateProfileVM())
+                    </div>
+                </div>
+            </div>
+            <!--Update Profile end-->
+            <!--Change Password Form Start-->
+            <div class="col-md-6 col-sm-6">
+                <div class="customer-login-register">
+                    <div class="form-login-title">
+                        <h2>Hình Ảnh Đại Diện</h2>
+                    </div>
+                    <div class="login-form">
+                        @Html.Partial("ChangePassword", new ChangePasswordVM())
+                    </div>
+                </div>
+            </div>
+            <!--Change Password Form end-->
+        </div>
+        <!--Register Form End-->
+    </div>
+</div>
+
+
+@*<div class="login-register-area mb-80">
+    <div class="container">
+        <div class="row">
+            <!--Update Profile Form Start-->
+            @Html.Partial("_UpdateProfile", new UpdateProfileVM())
+            <!--Update Profile Form End-->
+            <!--Change Password Form Start-->
+            @Html.Partial("_ChangePassword", new ChangePasswordVM())
+            <!--Change Password Form End-->
+        </div>
+
+    </div>
+</div>
+<!--Login Register Area End-->*@
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

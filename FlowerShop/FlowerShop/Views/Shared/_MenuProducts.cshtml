@@ -1,0 +1,15 @@
+﻿@model IEnumerable<FlowerShop.Models.Topic>
+
+@foreach (var item in Model)
+{
+    <li>
+        <a href="#" class="item-link">@item.TopicName</a>
+        <ul>
+            @foreach (var category in item.Categories)
+            {
+                <li><a href="@Url.Action("Category", "Product", new { id = item.Id })">@category.CategoryName</a></li>
+            }
+
+        </ul>
+    </li>
+}

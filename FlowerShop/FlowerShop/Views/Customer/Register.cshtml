@@ -1,0 +1,114 @@
+﻿@model FlowerShop.Models.RegisterVM
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<!--Breadcrumb Tow Start-->
+<div class="breadcrumb-tow mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-title">
+                    <h1>Register</h1>
+                </div>
+                <div class="breadcrumb-content breadcrumb-content-tow">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">Register</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Breadcrumb Tow End-->
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <!--Login Register Area Strat-->
+    <div class="login-register-area mb-80">
+        <div class="container">
+            <div class="row">
+                <!--Register Form Start-->
+                <div class="col-md-6 col-sm-6">
+                    <div class="customer-login-register register-pt-0">
+                        <div class="form-register-title">
+                            <h2>Thông Tin Khách Hàng</h2>
+                        </div>
+                        <div class="register-form">
+                            <div class="form-fild">
+                                <p><label>Họ Và Tên<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-fild">
+                                <p><label>Email<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-fild">
+                                <p><label>Mật Khẩu<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-fild">
+                                <p><label>Số Điện Thoại<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-fild">
+                                <p><label>Địa Chỉ<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="register-submit">
+                                <button type="submit" class="form-button">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Login Form Start-->
+                <div class="col-md-6 col-sm-6">
+                    <div class="customer-login-register">
+                        <div class="form-login-title">
+                            <h2>Hình Ảnh Đại Diện</h2>
+                        </div>
+                        <div class="login-form">
+                            <div class="form-fild">
+                                <p><label>Ảnh Đại Diện</label></p>
+                                <input type="file" id="chooseimg" name="img" />
+                            </div>
+                            <img id="image" height="400" />
+                        </div>
+                    </div>
+                </div>
+                <!--Login Form End-->
+            </div>
+            <!--Register Form End-->
+        </div>
+    </div>
+    <!--Login Register Area End-->
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<!--load image tạm thời-->
+<script type="text/javascript">
+	var file = document.getElementById('chooseimg');
+	var img = document.getElementById('image');
+	file.addEventListener("change", function() {
+		if (this.value) {
+			var file = this.files[0];
+			var reader = new FileReader();
+			reader.onloadend = function () {
+				img.src = reader.result;
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+</script>

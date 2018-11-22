@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e34b4b4d26e14200b1c651b55c18ccc4" Name="Diagram1">
+        <EntityTypeShape EntityType="FlowerShoppingModel.Banner" Width="1.5" PointX="1.875" PointY="2.625" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Coupon" Width="1.5" PointX="3.75" PointY="35.875" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Customer" Width="1.5" PointX="3" PointY="14.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Employee" Width="1.5" PointX="6" PointY="1.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.LevelPermission" Width="1.5" PointX="6" PointY="16.125" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Level" Width="1.5" PointX="3.75" PointY="2.625" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Like" Width="1.5" PointX="5.25" PointY="9.375" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.PaymentMethod" Width="1.5" PointX="3.75" PointY="28.25" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Picture" Width="1.5" PointX="5.25" PointY="25.125" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Products_Categories_Mapping" Width="1.5" PointX="5.25" PointY="12.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Shipping" Width="1.5" PointX="3.75" PointY="30.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Status" Width="1.5" PointX="3.75" PointY="33.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Vendor" Width="1.5" PointX="2.5" PointY="9.75" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Likes_Customers" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Employees_Levels" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_LevelPermissions_Levels" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Log_Types" Width="1.5" PointX="6" PointY="20.625" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.LoginLog" Width="1.5" PointX="5.25" PointY="40.5" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Product_Logs" Width="1.5" PointX="10.75" PointY="10.125" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.System_Logs" Width="1.5" PointX="8.25" PointY="2.25" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_LoginLogs_Customers" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_ProductLogs_Employees" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_System_Logs_Employees" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_System_Logs_Log_Types" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Disable" Width="1.5" PointX="2" PointY="4.625" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Category" Width="1.5" PointX="3" PointY="19.25" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Topic" Width="1.5" PointX="0.75" PointY="19.5" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Categories_Topics" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Products_Categories_Mapping_Categories" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Comment" Width="1.5" PointX="10.75" PointY="16.75" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Comments_Customers" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Product" Width="1.5" PointX="4.75" PointY="43.75" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Comments_Products" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Likes_Products" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Pictures_Products" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Product_Logs_Products" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Products_Categories_Mapping_Products" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Products_Vendors" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.OrderDetail" Width="1.5" PointX="10.5" PointY="31.75" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_OrderDetails_Products" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.Order" Width="1.5" PointX="8.25" PointY="17.5" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Coupons" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Customers" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Employees" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_OrderDetails_Orders" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_PaymentMethods" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Shippings" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Statuses" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

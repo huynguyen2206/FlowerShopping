@@ -1,0 +1,120 @@
+﻿@using FlowerShop.Models;
+
+@{
+    ViewBag.Title = "MyAccount";
+}
+
+<!--Breadcrumb Tow Start-->
+<div class="breadcrumb-tow mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-title">
+                    <h1>My Account</h1>
+                </div>
+                <div class="breadcrumb-content breadcrumb-content-tow">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">My Account</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Breadcrumb Tow End-->
+<!--My Account Area Strat-->
+<div class="my-account white-bg mb-110">
+    <div class="container">
+        <div class="account-dashboard">
+            <div class="row">
+                <div class="col-md-12 col-lg-2">
+                    <!-- Nav tabs -->
+                    <ul class="nav flex-column dashboard-list" role="tablist">
+                        <li><a class="nav-link active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
+                        <li> <a class="nav-link" data-toggle="tab" href="#orders">Orders</a></li>
+                        <li><a class="nav-link" data-toggle="tab" href="#updateprofile">Update Profile</a></li>
+                        <li><a class="nav-link" data-toggle="tab" href="#changepassword">Addresses</a></li>
+                        <li><a class="nav-link" data-toggle="tab" href="#account-details">Account details</a></li>
+                        <li><a class="nav-link" href="login-register.html">logout</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 col-lg-10">
+                    <!-- Tab panes -->
+                    <div class="tab-content dashboard-content">
+                        <div id="dashboard" class="tab-pane fade show active">
+                            <h3>Dashboard </h3>
+                            <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a href="#">edit your password and account details.</a></p>
+                        </div>
+
+                        <div id="orders" class="tab-pane fade">
+                            <h3>Orders</h3>
+
+                            @Html.Partial("_Show_Orders")
+
+                        </div>
+
+                        <div id="updateprofile" class="tab-pane fade">
+                            <h3>Update Profile</h3>
+                            <div class="table-responsive">
+
+                                @Html.Partial("UpdateProfile")
+
+                            </div>
+                        </div>
+
+                        <div id="changepassword" class="tab-pane">
+
+                            @Html.Partial("ChangePassword", new ChangePasswordVM())
+
+                        </div>
+
+                        <div id="account-details" class="tab-pane fade">
+                            <h3>Account details </h3>
+                            <div class="login">
+                                <div class="login-form-container">
+                                    <div class="account-login-form">
+                                        <form action="#">
+                                            <p>Already have an account? <a href="#">Log in instead!</a></p>
+                                            <label>Social title</label>
+                                            <div class="input-radio">
+                                                <span class="custom-radio"><input name="id_gender" value="1" type="radio"> Mr.</span>
+                                                <span class="custom-radio"><input name="id_gender" value="1" type="radio"> Mrs.</span>
+                                            </div>
+                                            <label>First Name</label>
+                                            <input name="first-name" type="text">
+                                            <label>Last Name</label>
+                                            <input name="last-name" type="text">
+                                            <label>Email</label>
+                                            <input name="email-name" type="text">
+                                            <label>Password</label>
+                                            <input name="user-password" type="password">
+                                            <label>Birthdate</label>
+                                            <input name="birthday" value="" placeholder="MM/DD/YYYY" type="text">
+                                            <span class="example">
+                                                (E.g.: 05/31/1970)
+                                            </span>
+                                            <span class="custom-checkbox">
+                                                <input name="optin" value="1" type="checkbox">
+                                                <label>Receive offers from our partners</label>
+                                            </span>
+                                            <span class="custom-checkbox">
+                                                <input name="newsletter" value="1" type="checkbox">
+                                                <label>Sign up for our newsletter<br><em>You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</em></label>
+                                            </span>
+                                            <div class="button-box">
+                                                <button type="submit" class="default-btn">save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--My Account Area End-->
+
