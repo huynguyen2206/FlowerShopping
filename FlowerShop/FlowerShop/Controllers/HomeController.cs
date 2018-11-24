@@ -19,6 +19,9 @@ namespace FlowerShop.Controllers
             //    var category = db.Products_Categories_Mapping.Where(x => x.CategoryId.Equals(item.Id));
             //}
 
+            var cate = db.Categories.Where(x => x.ShowHomePage.Equals(true)).Take(5).ToList();
+            ViewBag.Categories = cate;
+
             // lấy dữ liệu product vào ViewBag để show ra ngoài HomePage
             var ProductsDiscount = db.Products.OrderBy(x => x.Id).Where(x => x.SalePrice > 0).Take(8).ToList();
             ViewBag.ProductsDiscount = ProductsDiscount;

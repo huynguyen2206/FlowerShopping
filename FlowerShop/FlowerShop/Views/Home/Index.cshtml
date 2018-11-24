@@ -8,6 +8,7 @@
     var NewProducts = ViewBag.NewProducts as List<Product>;
     var Product_Showhomepage = ViewBag.Product_Showhomepage as List<Product>;
     var HotProducts = ViewBag.HotProducts as List<Product>;
+    var Categories = ViewBag.Categories as List<Category>;
 }
 
 @{
@@ -31,57 +32,9 @@
             </div>
         </div>
         <div class="container-fluid pl-50 pr-50">
-            <div class="row">
-                <div class="cat-1 col-md-4">
-                    <div class="categories-img img-full mb-30">
-                        <a href="https://demo5009.web30s.vn/cay-de-ban"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-1.jpg" alt=""></a>
-                        <div class="categories-content">
-                            <h3>Cây để bàn</h3>
-                            <h4>11 Sản phẩm</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="cat-2 col-md-8">
-                    <div class="row">
-                        <div class="cat-3 col-md-7">
-                            <div class="categories-img img-full mb-30">
-                                <a href="https://demo5009.web30s.vn/cay-thuy-sinh"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-2.jpg" alt=""></a>
-                                <div class="categories-content">
-                                    <h3>Cây thủy sinh</h3>
-                                    <h4>2 Sản phẩm</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cat-4 col-md-5">
-                            <div class="categories-img img-full mb-30">
-                                <a href="https://demo5009.web30s.vn/cay-canh-van-phong"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-3.jpg" alt=""></a>
-                                <div class="categories-content">
-                                    <h3>Cây cảnh văn phòng</h3>
-                                    <h4>15 Sản phẩm</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cat-5 col-md-4">
-                            <div class="categories-img img-full mb-30">
-                                <a href="https://demo5009.web30s.vn/combo-cay-de-ban"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-4.jpg" alt=""></a>
-                                <div class="categories-content">
-                                    <h3>Combo cây để bàn</h3>
-                                    <h4>2 Sản phẩm</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cat-6 col-md-8">
-                            <div class="categories-img img-full mb-30">
-                                <a href="https://demo5009.web30s.vn/cay-phong-thuy"><img src="https://cdn.web30s.vn/datafiles/18352/upload/images/danhmuc/home1-category-5.jpg" alt=""></a>
-                                <div class="categories-content">
-                                    <h3>Cây phong thủy</h3>
-                                    <h4>4 Sản phẩm</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
+            @Html.Partial("_Show_Categories", Categories);
+
         </div>
     </div><!--Categories Area End-->
 }

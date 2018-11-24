@@ -7998,6 +7998,7 @@
     <Content Include="Views\Shared\a.cshtml" />
     <Content Include="Views\Shared\_MenuProducts.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Home\_Show_Categories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

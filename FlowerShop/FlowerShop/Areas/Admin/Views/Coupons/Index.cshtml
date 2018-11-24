@@ -83,7 +83,7 @@
                                         }
                                     }
 
-                                    <td>@item.InitDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.InitDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
 
 
                                     <td><button class="btn_delete_coupon btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
@@ -137,7 +137,7 @@
             var btn = $(this);
             var pid = btn.attr("pid");
 
-            if (confirm("Bạn Có Muốn Xóa Sản Phẩm Này?")) {
+            if (confirm("Bạn Có Muốn Xóa Mã Này?")) {
                 $.ajax({
                     url: '/Admin/Coupons/Delete',
                     type: "POST",
