@@ -163,6 +163,18 @@ namespace FlowerShop.Areas.Admin.Controllers
                 product.IsActive = true;
                 db.Products.Add(product);
                 db.SaveChanges();
+                
+                // Add Categories
+                foreach (var c in CategoryId)
+                {
+                    p_c_m = new Products_Categories_Mapping()
+                    {
+                        ProductId = product.Id,
+                        CategoryId = int.Parse(c),
+                    };
+                    db.Products_Categories_Mapping.Add(p_c_m);
+                }
+                db.SaveChanges();
 
                 string path = Server.MapPath("~/Uploads/Products/" + product.Id);
                 if (!Directory.Exists(path))
@@ -178,17 +190,6 @@ namespace FlowerShop.Areas.Admin.Controllers
                 product_img.PictureUrl = ImageName;
 
                 db.SaveChanges();
-                
-                // Add Categories
-                foreach (var c in CategoryId)
-                {
-                    p_c_m = new Products_Categories_Mapping()
-                    {
-                        ProductId = product.Id,
-                        CategoryId = int.Parse(c),
-                    };
-                    db.Products_Categories_Mapping.Add(p_c_m);
-                }
 
                 // ghi Log
                 System_Logs s_l = new System_Logs()

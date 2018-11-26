@@ -7995,10 +7995,11 @@
     <Content Include="Views\Cart\CheckoutDisplay.cshtml" />
     <Content Include="Views\Customer\MyAccount.cshtml" />
     <Content Include="Views\Customer\_Show_Orders.cshtml" />
-    <Content Include="Views\Shared\a.cshtml" />
     <Content Include="Views\Shared\_MenuProducts.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
     <Content Include="Views\Home\_Show_Categories.cshtml" />
+    <Content Include="Views\Product\_Products_Grid_View.cshtml" />
+    <Content Include="Views\Product\_Products_List_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
