@@ -104,7 +104,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             if (string.IsNullOrEmpty(sort))
             {
-                ViewBag.sort = "price_asc";
+                ViewBag.sort = "id_asc";
             }
             else
             {
@@ -113,6 +113,14 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             switch (sort)
             {
+                case "id_asc":
+                    products = products.OrderBy(x => x.Id);
+                    ViewBag.sortid = "id_desc";
+                    break;
+                case "id_desc":
+                    products = products.OrderByDescending(x => x.Id);
+                    ViewBag.sortid = "id_asc";
+                    break;
                 case "price_asc":
                     products = products.OrderBy(x => x.UnitPrice);
                     ViewBag.sortprice = "price_desc";
@@ -131,6 +139,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                     break;
             }
 
+            ViewBag.sortid = ViewBag.sortid ?? "id_desc";
             ViewBag.sortprice = ViewBag.sortprice ?? "price_desc";
             ViewBag.sortquan = ViewBag.sortquan ?? "quan_asc";
 

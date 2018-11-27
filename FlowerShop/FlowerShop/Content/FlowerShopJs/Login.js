@@ -1,4 +1,5 @@
-﻿function init_reload() {
+﻿
+function init_reload() {
     setInterval(function () {
         window.location.reload();
     }, 90000);
@@ -33,5 +34,32 @@ $(document).ready(function () {
         $(".login_password").val("");
         return false;
     });
+
+
+    $("#forget_password").click(function () {
+        if (email = prompt("Vui lòng nhập Email!")) {
+            if (email == "") {
+                return false;
+            }
+            $.ajax({
+                url: '/Customer/ForgetPassword',
+                type: 'post',
+                data: "myemail=" + email,
+                success: function (response) {
+                    if (response == "OK") {
+                        alert("Vui lòng xác thực trong email của bạn để lấy thông tin cá nhân!");
+                    }
+                    else {
+                        alert(response);
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+        
+    });
+
+
 
 });

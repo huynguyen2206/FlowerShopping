@@ -55,7 +55,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ImageUrl" Type="varchar" MaxLength="250" />
@@ -157,7 +157,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="20" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
-          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
           <Property Name="ShippingId" Type="int" />
           <Property Name="Discount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Tax" Type="decimal" Precision="18" Scale="0" Nullable="false" />
@@ -167,7 +167,7 @@
           <Property Name="Receiver" Type="nvarchar" MaxLength="100" />
           <Property Name="Address" Type="nvarchar" MaxLength="100" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="StatusId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CouponId" Type="int" />
         </EntityType>
         <EntityType Name="PaymentMethods">
@@ -401,7 +401,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Customers">
-          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customers">
@@ -449,7 +449,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Statuses">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Statuses">
@@ -684,37 +684,55 @@
       <Schema Namespace="FlowerShoppingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FlowerShoppingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Banners" EntityType="FlowerShoppingModel.Banner" />
+          <EntitySet Name="Categories" EntityType="FlowerShoppingModel.Category" />
+          <EntitySet Name="Comments" EntityType="FlowerShoppingModel.Comment" />
           <EntitySet Name="Coupons" EntityType="FlowerShoppingModel.Coupon" />
           <EntitySet Name="Customers" EntityType="FlowerShoppingModel.Customer" />
+          <EntitySet Name="Disables" EntityType="FlowerShoppingModel.Disable" />
           <EntitySet Name="Employees" EntityType="FlowerShoppingModel.Employee" />
           <EntitySet Name="LevelPermissions" EntityType="FlowerShoppingModel.LevelPermission" />
           <EntitySet Name="Levels" EntityType="FlowerShoppingModel.Level" />
           <EntitySet Name="Likes" EntityType="FlowerShoppingModel.Like" />
+          <EntitySet Name="Log_Types" EntityType="FlowerShoppingModel.Log_Types" />
+          <EntitySet Name="LoginLogs" EntityType="FlowerShoppingModel.LoginLog" />
+          <EntitySet Name="OrderDetails" EntityType="FlowerShoppingModel.OrderDetail" />
           <EntitySet Name="PaymentMethods" EntityType="FlowerShoppingModel.PaymentMethod" />
           <EntitySet Name="Pictures" EntityType="FlowerShoppingModel.Picture" />
+          <EntitySet Name="Product_Logs" EntityType="FlowerShoppingModel.Product_Logs" />
+          <EntitySet Name="Products" EntityType="FlowerShoppingModel.Product" />
           <EntitySet Name="Products_Categories_Mapping" EntityType="FlowerShoppingModel.Products_Categories_Mapping" />
           <EntitySet Name="Shippings" EntityType="FlowerShoppingModel.Shipping" />
           <EntitySet Name="Statuses" EntityType="FlowerShoppingModel.Status" />
+          <EntitySet Name="System_Logs" EntityType="FlowerShoppingModel.System_Logs" />
+          <EntitySet Name="Topics" EntityType="FlowerShoppingModel.Topic" />
           <EntitySet Name="Vendors" EntityType="FlowerShoppingModel.Vendor" />
+          <AssociationSet Name="FK_Categories_Topics" Association="FlowerShoppingModel.FK_Categories_Topics">
+            <End Role="Topic" EntitySet="Topics" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Categories_Mapping_Categories" Association="FlowerShoppingModel.FK_Products_Categories_Mapping_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Products_Categories_Mapping" EntitySet="Products_Categories_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_Customers" Association="FlowerShoppingModel.FK_Comments_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comments_Products" Association="FlowerShoppingModel.FK_Comments_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Likes_Customers" Association="FlowerShoppingModel.FK_Likes_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Like" EntitySet="Likes" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employees_Levels" Association="FlowerShoppingModel.FK_Employees_Levels">
-            <End Role="Level" EntitySet="Levels" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LevelPermissions_Levels" Association="FlowerShoppingModel.FK_LevelPermissions_Levels">
-            <End Role="Level" EntitySet="Levels" />
-            <End Role="LevelPermission" EntitySet="LevelPermissions" />
-          </AssociationSet>
-          <EntitySet Name="Log_Types" EntityType="FlowerShoppingModel.Log_Types" />
-          <EntitySet Name="LoginLogs" EntityType="FlowerShoppingModel.LoginLog" />
-          <EntitySet Name="Product_Logs" EntityType="FlowerShoppingModel.Product_Logs" />
-          <EntitySet Name="System_Logs" EntityType="FlowerShoppingModel.System_Logs" />
           <AssociationSet Name="FK_LoginLogs_Customers" Association="FlowerShoppingModel.FK_LoginLogs_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="LoginLog" EntitySet="LoginLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_Levels" Association="FlowerShoppingModel.FK_Employees_Levels">
+            <End Role="Level" EntitySet="Levels" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductLogs_Employees" Association="FlowerShoppingModel.FK_ProductLogs_Employees">
             <End Role="Employee" EntitySet="Employees" />
@@ -724,34 +742,21 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="System_Logs" EntitySet="System_Logs" />
           </AssociationSet>
-          <AssociationSet Name="FK_System_Logs_Log_Types" Association="FlowerShoppingModel.FK_System_Logs_Log_Types">
-            <End Role="Log_Types" EntitySet="Log_Types" />
-            <End Role="System_Logs" EntitySet="System_Logs" />
-          </AssociationSet>
-          <EntitySet Name="Disables" EntityType="FlowerShoppingModel.Disable" />
-          <EntitySet Name="Categories" EntityType="FlowerShoppingModel.Category" />
-          <EntitySet Name="Topics" EntityType="FlowerShoppingModel.Topic" />
-          <AssociationSet Name="FK_Categories_Topics" Association="FlowerShoppingModel.FK_Categories_Topics">
-            <End Role="Topic" EntitySet="Topics" />
-            <End Role="Category" EntitySet="Categories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Products_Categories_Mapping_Categories" Association="FlowerShoppingModel.FK_Products_Categories_Mapping_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Products_Categories_Mapping" EntitySet="Products_Categories_Mapping" />
-          </AssociationSet>
-          <EntitySet Name="Comments" EntityType="FlowerShoppingModel.Comment" />
-          <AssociationSet Name="FK_Comments_Customers" Association="FlowerShoppingModel.FK_Comments_Customers">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <EntitySet Name="Products" EntityType="FlowerShoppingModel.Product" />
-          <AssociationSet Name="FK_Comments_Products" Association="FlowerShoppingModel.FK_Comments_Products">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Comment" EntitySet="Comments" />
+          <AssociationSet Name="FK_LevelPermissions_Levels" Association="FlowerShoppingModel.FK_LevelPermissions_Levels">
+            <End Role="Level" EntitySet="Levels" />
+            <End Role="LevelPermission" EntitySet="LevelPermissions" />
           </AssociationSet>
           <AssociationSet Name="FK_Likes_Products" Association="FlowerShoppingModel.FK_Likes_Products">
             <End Role="Product" EntitySet="Products" />
             <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_System_Logs_Log_Types" Association="FlowerShoppingModel.FK_System_Logs_Log_Types">
+            <End Role="Log_Types" EntitySet="Log_Types" />
+            <End Role="System_Logs" EntitySet="System_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Products" Association="FlowerShoppingModel.FK_OrderDetails_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Pictures_Products" Association="FlowerShoppingModel.FK_Pictures_Products">
             <End Role="Product" EntitySet="Products" />
@@ -768,11 +773,6 @@
           <AssociationSet Name="FK_Products_Vendors" Association="FlowerShoppingModel.FK_Products_Vendors">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <EntitySet Name="OrderDetails" EntityType="FlowerShoppingModel.OrderDetail" />
-          <AssociationSet Name="FK_OrderDetails_Products" Association="FlowerShoppingModel.FK_OrderDetails_Products">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
           <EntitySet Name="Orders" EntityType="FlowerShoppingModel.Order" />
           <AssociationSet Name="FK_Orders_Coupons" Association="FlowerShoppingModel.FK_Orders_Coupons">
@@ -803,7 +803,7 @@
             <End Role="Status" EntitySet="Statuses" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="Banner">
           <Key>
             <PropertyRef Name="Id" />
@@ -811,6 +811,31 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Tittle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PictureUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TopicId" Type="Int32" Nullable="false" />
+          <Property Name="ShowHomePage" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Topic" Relationship="FlowerShoppingModel.FK_Categories_Topics" FromRole="Category" ToRole="Topic" />
+          <NavigationProperty Name="Products_Categories_Mapping" Relationship="FlowerShoppingModel.FK_Products_Categories_Mapping_Categories" FromRole="Category" ToRole="Products_Categories_Mapping" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Comment1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CommentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_Comments_Customers" FromRole="Comment" ToRole="Customer" />
+          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Comments_Products" FromRole="Comment" ToRole="Product" />
         </EntityType>
         <EntityType Name="Coupon">
           <Key>
@@ -834,7 +859,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ImageUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -842,10 +867,18 @@
           <Property Name="RegisterToten" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="FlowerShoppingModel.FK_Comments_Customers" FromRole="Customer" ToRole="Comment" />
           <NavigationProperty Name="Likes" Relationship="FlowerShoppingModel.FK_Likes_Customers" FromRole="Customer" ToRole="Like" />
           <NavigationProperty Name="LoginLogs" Relationship="FlowerShoppingModel.FK_LoginLogs_Customers" FromRole="Customer" ToRole="LoginLog" />
-          <NavigationProperty Name="Comments" Relationship="FlowerShoppingModel.FK_Comments_Customers" FromRole="Customer" ToRole="Comment" />
           <NavigationProperty Name="Orders" Relationship="FlowerShoppingModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Disable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -856,6 +889,7 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PictureUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -865,7 +899,6 @@
           <NavigationProperty Name="Level" Relationship="FlowerShoppingModel.FK_Employees_Levels" FromRole="Employee" ToRole="Level" />
           <NavigationProperty Name="Product_Logs" Relationship="FlowerShoppingModel.FK_ProductLogs_Employees" FromRole="Employee" ToRole="Product_Logs" />
           <NavigationProperty Name="System_Logs" Relationship="FlowerShoppingModel.FK_System_Logs_Employees" FromRole="Employee" ToRole="System_Logs" />
-          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="FlowerShoppingModel.FK_Orders_Employees" FromRole="Employee" ToRole="Order" />
         </EntityType>
         <EntityType Name="LevelPermission">
@@ -903,6 +936,41 @@
           <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_Likes_Customers" FromRole="Like" ToRole="Customer" />
           <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Likes_Products" FromRole="Like" ToRole="Product" />
         </EntityType>
+        <EntityType Name="Log_Types">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Log_Type_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="System_Logs" Relationship="FlowerShoppingModel.FK_System_Logs_Log_Types" FromRole="Log_Types" ToRole="System_Logs" />
+        </EntityType>
+        <EntityType Name="LoginLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="TimeLogin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsLogin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_LoginLogs_Customers" FromRole="LoginLog" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Tax" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DescriptionLong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_OrderDetails_Products" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="Order" Relationship="FlowerShoppingModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
+        </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
             <PropertyRef Name="Id" />
@@ -919,6 +987,47 @@
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="PictureUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Pictures_Products" FromRole="Picture" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product_Logs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="FlowerShoppingModel.FK_ProductLogs_Employees" FromRole="Product_Logs" ToRole="Employee" />
+          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Product_Logs_Products" FromRole="Product_Logs" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Int32" Nullable="false" />
+          <Property Name="SalePrice" Type="Int32" Nullable="false" />
+          <Property Name="Tax" Type="Int32" Nullable="false" />
+          <Property Name="QuantityAvailable" Type="Int32" Nullable="false" />
+          <Property Name="DescriptionShort" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DescriptionLong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="ShowHomePage" Type="Boolean" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="View" Type="Int32" Nullable="false" />
+          <Property Name="PictureUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Comments" Relationship="FlowerShoppingModel.FK_Comments_Products" FromRole="Product" ToRole="Comment" />
+          <NavigationProperty Name="Likes" Relationship="FlowerShoppingModel.FK_Likes_Products" FromRole="Product" ToRole="Like" />
+          <NavigationProperty Name="OrderDetails" Relationship="FlowerShoppingModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="Pictures" Relationship="FlowerShoppingModel.FK_Pictures_Products" FromRole="Product" ToRole="Picture" />
+          <NavigationProperty Name="Product_Logs" Relationship="FlowerShoppingModel.FK_Product_Logs_Products" FromRole="Product" ToRole="Product_Logs" />
+          <NavigationProperty Name="Products_Categories_Mapping" Relationship="FlowerShoppingModel.FK_Products_Categories_Mapping_Products" FromRole="Product" ToRole="Products_Categories_Mapping" />
+          <NavigationProperty Name="Vendor" Relationship="FlowerShoppingModel.FK_Products_Vendors" FromRole="Product" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="Products_Categories_Mapping">
           <Key>
@@ -949,6 +1058,28 @@
           <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="FlowerShoppingModel.FK_Orders_Statuses" FromRole="Status" ToRole="Order" />
         </EntityType>
+        <EntityType Name="System_Logs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Log_Type_Id" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="FlowerShoppingModel.FK_System_Logs_Employees" FromRole="System_Logs" ToRole="Employee" />
+          <NavigationProperty Name="Log_Types" Relationship="FlowerShoppingModel.FK_System_Logs_Log_Types" FromRole="System_Logs" ToRole="Log_Types" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TopicName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="FlowerShoppingModel.FK_Categories_Topics" FromRole="Topic" ToRole="Category" />
+        </EntityType>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="Id" />
@@ -957,6 +1088,54 @@
           <Property Name="VendorName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="FlowerShoppingModel.FK_Products_Vendors" FromRole="Vendor" ToRole="Product" />
         </EntityType>
+        <Association Name="FK_Categories_Topics">
+          <End Type="FlowerShoppingModel.Topic" Role="Topic" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Category" Role="Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Categories_Mapping_Categories">
+          <End Type="FlowerShoppingModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Products_Categories_Mapping" Role="Products_Categories_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products_Categories_Mapping">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_Customers">
+          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comments_Products">
+          <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Likes_Customers">
           <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="FlowerShoppingModel.Like" Role="Like" Multiplicity="*" />
@@ -965,6 +1144,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Like">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoginLogs_Customers">
+          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.LoginLog" Role="LoginLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoginLog">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -978,72 +1169,6 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="LevelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LevelPermissions_Levels">
-          <End Type="FlowerShoppingModel.Level" Role="Level" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.LevelPermission" Role="LevelPermission" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Level">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LevelPermission">
-              <PropertyRef Name="LevelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Log_Types">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Log_Type_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="System_Logs" Relationship="FlowerShoppingModel.FK_System_Logs_Log_Types" FromRole="Log_Types" ToRole="System_Logs" />
-        </EntityType>
-        <EntityType Name="LoginLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="TimeLogin" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsLogin" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_LoginLogs_Customers" FromRole="LoginLog" ToRole="Customer" />
-        </EntityType>
-        <EntityType Name="Product_Logs">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="FlowerShoppingModel.FK_ProductLogs_Employees" FromRole="Product_Logs" ToRole="Employee" />
-          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Product_Logs_Products" FromRole="Product_Logs" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="System_Logs">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Log_Type_Id" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Message" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Employee" Relationship="FlowerShoppingModel.FK_System_Logs_Employees" FromRole="System_Logs" ToRole="Employee" />
-          <NavigationProperty Name="Log_Types" Relationship="FlowerShoppingModel.FK_System_Logs_Log_Types" FromRole="System_Logs" ToRole="Log_Types" />
-        </EntityType>
-        <Association Name="FK_LoginLogs_Customers">
-          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.LoginLog" Role="LoginLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LoginLog">
-              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1071,6 +1196,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LevelPermissions_Levels">
+          <End Type="FlowerShoppingModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.LevelPermission" Role="LevelPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LevelPermission">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Likes_Products">
+          <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Like" Role="Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_System_Logs_Log_Types">
           <End Type="FlowerShoppingModel.Log_Types" Role="Log_Types" Multiplicity="1" />
           <End Type="FlowerShoppingModel.System_Logs" Role="System_Logs" Multiplicity="*" />
@@ -1083,134 +1232,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Disable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DisableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TopicId" Type="Int32" Nullable="false" />
-          <Property Name="ShowHomePage" Type="Boolean" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Topic" Relationship="FlowerShoppingModel.FK_Categories_Topics" FromRole="Category" ToRole="Topic" />
-          <NavigationProperty Name="Products_Categories_Mapping" Relationship="FlowerShoppingModel.FK_Products_Categories_Mapping_Categories" FromRole="Category" ToRole="Products_Categories_Mapping" />
-        </EntityType>
-        <EntityType Name="Topic">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TopicName" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Categories" Relationship="FlowerShoppingModel.FK_Categories_Topics" FromRole="Topic" ToRole="Category" />
-        </EntityType>
-        <Association Name="FK_Categories_Topics">
-          <End Type="FlowerShoppingModel.Topic" Role="Topic" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.Category" Role="Category" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Topic">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Category">
-              <PropertyRef Name="TopicId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Products_Categories_Mapping_Categories">
-          <End Type="FlowerShoppingModel.Category" Role="Category" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.Products_Categories_Mapping" Role="Products_Categories_Mapping" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Products_Categories_Mapping">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Comment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Comment1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CommentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_Comments_Customers" FromRole="Comment" ToRole="Customer" />
-          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_Comments_Products" FromRole="Comment" ToRole="Product" />
-        </EntityType>
-        <Association Name="FK_Comments_Customers">
-          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UnitPrice" Type="Int32" Nullable="false" />
-          <Property Name="SalePrice" Type="Int32" Nullable="false" />
-          <Property Name="Tax" Type="Int32" Nullable="false" />
-          <Property Name="QuantityAvailable" Type="Int32" Nullable="false" />
-          <Property Name="DescriptionShort" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DescriptionLong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Height" Type="Int32" />
-          <Property Name="ShowHomePage" Type="Boolean" Nullable="false" />
-          <Property Name="VendorId" Type="Int32" Nullable="false" />
-          <Property Name="View" Type="Int32" Nullable="false" />
-          <Property Name="PictureUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" />
-          <NavigationProperty Name="Comments" Relationship="FlowerShoppingModel.FK_Comments_Products" FromRole="Product" ToRole="Comment" />
-          <NavigationProperty Name="Likes" Relationship="FlowerShoppingModel.FK_Likes_Products" FromRole="Product" ToRole="Like" />
-          <NavigationProperty Name="Pictures" Relationship="FlowerShoppingModel.FK_Pictures_Products" FromRole="Product" ToRole="Picture" />
-          <NavigationProperty Name="Product_Logs" Relationship="FlowerShoppingModel.FK_Product_Logs_Products" FromRole="Product" ToRole="Product_Logs" />
-          <NavigationProperty Name="Products_Categories_Mapping" Relationship="FlowerShoppingModel.FK_Products_Categories_Mapping_Products" FromRole="Product" ToRole="Products_Categories_Mapping" />
-          <NavigationProperty Name="Vendor" Relationship="FlowerShoppingModel.FK_Products_Vendors" FromRole="Product" ToRole="Vendor" />
-          <NavigationProperty Name="OrderDetails" Relationship="FlowerShoppingModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
-        </EntityType>
-        <Association Name="FK_Comments_Products">
+        <Association Name="FK_OrderDetails_Products">
           <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.Comment" Role="Comment" Multiplicity="*" />
+          <End Type="FlowerShoppingModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Likes_Products">
-          <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.Like" Role="Like" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Like">
+            <Dependent Role="OrderDetail">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1263,35 +1292,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Unit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Tax" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="DescriptionLong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="FlowerShoppingModel.FK_OrderDetails_Products" FromRole="OrderDetail" ToRole="Product" />
-          <NavigationProperty Name="Order" Relationship="FlowerShoppingModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK_OrderDetails_Products">
-          <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -1299,7 +1299,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" />
           <Property Name="ShippingId" Type="Int32" />
           <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Tax" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -1309,7 +1309,7 @@
           <Property Name="Receiver" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="CouponId" Type="Int32" />
           <NavigationProperty Name="Coupon" Relationship="FlowerShoppingModel.FK_Orders_Coupons" FromRole="Order" ToRole="Coupon" />
           <NavigationProperty Name="Customer" Relationship="FlowerShoppingModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
@@ -1332,7 +1332,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Customers">
-          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="FlowerShoppingModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -1392,7 +1392,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Statuses">
-          <End Type="FlowerShoppingModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="FlowerShoppingModel.Status" Role="Status" Multiplicity="1" />
           <End Type="FlowerShoppingModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
@@ -1409,200 +1409,15 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="FlowerShoppingModelStoreContainer" CdmEntityContainer="FlowerShoppingEntities">
-    <EntitySetMapping Name="Banners">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Banner)">
-        <MappingFragment StoreEntitySet="Banners">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Tittle" ColumnName="Tittle" />
-          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Coupons">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Coupon)">
-        <MappingFragment StoreEntitySet="Coupons">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-          <ScalarProperty Name="InitDate" ColumnName="InitDate" />
-          <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
-          <ScalarProperty Name="UseDate" ColumnName="UseDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Customers">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Customer)">
-        <MappingFragment StoreEntitySet="Customers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-          <ScalarProperty Name="VIP" ColumnName="VIP" />
-          <ScalarProperty Name="RegisterToten" ColumnName="RegisterToten" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Employees">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Employee)">
-        <MappingFragment StoreEntitySet="Employees">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LoginName" ColumnName="LoginName" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
-          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-          <ScalarProperty Name="Gender" ColumnName="Gender" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LevelPermissions">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.LevelPermission)">
-        <MappingFragment StoreEntitySet="LevelPermissions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
-          <ScalarProperty Name="TableName" ColumnName="TableName" />
-          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-          <ScalarProperty Name="AllowAdd" ColumnName="AllowAdd" />
-          <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
-          <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
-          <ScalarProperty Name="AllowView" ColumnName="AllowView" />
-          <ScalarProperty Name="AllowFullList" ColumnName="AllowFullList" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Levels">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Level)">
-        <MappingFragment StoreEntitySet="Levels">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LevelName" ColumnName="LevelName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Likes">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Like)">
-        <MappingFragment StoreEntitySet="Likes">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="IsLike" ColumnName="IsLike" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PaymentMethods">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.PaymentMethod)">
-        <MappingFragment StoreEntitySet="PaymentMethods">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="MethodName" ColumnName="MethodName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Pictures">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Picture)">
-        <MappingFragment StoreEntitySet="Pictures">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Products_Categories_Mapping">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Products_Categories_Mapping)">
-        <MappingFragment StoreEntitySet="Products_Categories_Mapping">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Shippings">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Shipping)">
-        <MappingFragment StoreEntitySet="Shippings">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ShippingName" ColumnName="ShippingName" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Statuses">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Status)">
-        <MappingFragment StoreEntitySet="Statuses">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Vendors">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Vendor)">
-        <MappingFragment StoreEntitySet="Vendors">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Log_Types">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Log_Types)">
-        <MappingFragment StoreEntitySet="Log_Types">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Log_Type_Name" ColumnName="Log_Type_Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LoginLogs">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.LoginLog)">
-        <MappingFragment StoreEntitySet="LoginLogs">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-          <ScalarProperty Name="TimeLogin" ColumnName="TimeLogin" />
-          <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Product_Logs">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Product_Logs)">
-        <MappingFragment StoreEntitySet="Product_Logs">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="System_Logs">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.System_Logs)">
-        <MappingFragment StoreEntitySet="System_Logs">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Log_Type_Id" ColumnName="Log_Type_Id" />
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-          <ScalarProperty Name="Message" ColumnName="Message" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Disables">
-      <EntityTypeMapping TypeName="IsTypeOf(FlowerShoppingModel.Disable)">
-        <MappingFragment StoreEntitySet="Disables">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="DisableName" ColumnName="DisableName" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+          <EntitySetMapping Name="Banners">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Banner">
+              <MappingFragment StoreEntitySet="Banners">
+                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+                <ScalarProperty Name="Tittle" ColumnName="Tittle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="FlowerShoppingModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -1615,16 +1430,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Topics">
-            <EntityTypeMapping TypeName="FlowerShoppingModel.Topic">
-              <MappingFragment StoreEntitySet="Topics">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="TopicName" ColumnName="TopicName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="FlowerShoppingModel.Comment">
               <MappingFragment StoreEntitySet="Comments">
@@ -1632,6 +1437,160 @@
                 <ScalarProperty Name="Comment1" ColumnName="Comment" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coupons">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Coupon">
+              <MappingFragment StoreEntitySet="Coupons">
+                <ScalarProperty Name="UseDate" ColumnName="UseDate" />
+                <ScalarProperty Name="FinishDate" ColumnName="FinishDate" />
+                <ScalarProperty Name="InitDate" ColumnName="InitDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="RegisterToten" ColumnName="RegisterToten" />
+                <ScalarProperty Name="VIP" ColumnName="VIP" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disables">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Disable">
+              <MappingFragment StoreEntitySet="Disables">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DisableName" ColumnName="DisableName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LevelPermissions">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.LevelPermission">
+              <MappingFragment StoreEntitySet="LevelPermissions">
+                <ScalarProperty Name="AllowFullList" ColumnName="AllowFullList" />
+                <ScalarProperty Name="AllowView" ColumnName="AllowView" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+                <ScalarProperty Name="AllowAdd" ColumnName="AllowAdd" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Levels">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Level">
+              <MappingFragment StoreEntitySet="Levels">
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Likes">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Like">
+              <MappingFragment StoreEntitySet="Likes">
+                <ScalarProperty Name="IsLike" ColumnName="IsLike" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Types">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Log_Types">
+              <MappingFragment StoreEntitySet="Log_Types">
+                <ScalarProperty Name="Log_Type_Name" ColumnName="Log_Type_Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginLogs">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.LoginLog">
+              <MappingFragment StoreEntitySet="LoginLogs">
+                <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
+                <ScalarProperty Name="TimeLogin" ColumnName="TimeLogin" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="DescriptionLong" ColumnName="DescriptionLong" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethods">
+                <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pictures">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Picture">
+              <MappingFragment StoreEntitySet="Pictures">
+                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Logs">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Product_Logs">
+              <MappingFragment StoreEntitySet="Product_Logs">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1659,18 +1618,59 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderDetails">
-            <EntityTypeMapping TypeName="FlowerShoppingModel.OrderDetail">
-              <MappingFragment StoreEntitySet="OrderDetails">
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="DescriptionLong" ColumnName="DescriptionLong" />
-                <ScalarProperty Name="Tax" ColumnName="Tax" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <EntitySetMapping Name="Products_Categories_Mapping">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Products_Categories_Mapping">
+              <MappingFragment StoreEntitySet="Products_Categories_Mapping">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shippings">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Shipping">
+              <MappingFragment StoreEntitySet="Shippings">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ShippingName" ColumnName="ShippingName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Status">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="System_Logs">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.System_Logs">
+              <MappingFragment StoreEntitySet="System_Logs">
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Log_Type_Id" ColumnName="Log_Type_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topics">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Topic">
+              <MappingFragment StoreEntitySet="Topics">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendors">
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1696,7 +1696,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-  </EntityContainerMapping>
+        </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

@@ -26,32 +26,28 @@ namespace FlowerShop.Models
         }
     
         public virtual DbSet<Banner> Banners { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Coupon> Coupons { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Disable> Disables { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<LevelPermission> LevelPermissions { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
+        public virtual DbSet<Log_Types> Log_Types { get; set; }
+        public virtual DbSet<LoginLog> LoginLogs { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
+        public virtual DbSet<Product_Logs> Product_Logs { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Products_Categories_Mapping> Products_Categories_Mapping { get; set; }
         public virtual DbSet<Shipping> Shippings { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
-        public virtual DbSet<Vendor> Vendors { get; set; }
-        public virtual DbSet<Log_Types> Log_Types { get; set; }
-        public virtual DbSet<LoginLog> LoginLogs { get; set; }
-        public virtual DbSet<Product_Logs> Product_Logs { get; set; }
         public virtual DbSet<System_Logs> System_Logs { get; set; }
-        public virtual DbSet<Disable> Disables { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
-        public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-
-        public System.Data.Entity.DbSet<FlowerShop.Models.OrderDetailsVM> OrderDetailsVMs { get; set; }
-
-        public System.Data.Entity.DbSet<FlowerShop.Models.AddShipperVM> AddShipperVMs { get; set; }
     }
 }

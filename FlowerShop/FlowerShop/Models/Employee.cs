@@ -27,13 +27,13 @@ namespace FlowerShop.Models
         public string Password { get; set; }
         public string EmployeeName { get; set; }
         public string Phone { get; set; }
+        public string Gender { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
         public string PictureUrl { get; set; }
         public int LevelId { get; set; }
         public System.DateTime LastLogin { get; set; }
         public System.DateTime RegisterDate { get; set; }
-        public string Gender { get; set; }
     
         public virtual Level Level { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

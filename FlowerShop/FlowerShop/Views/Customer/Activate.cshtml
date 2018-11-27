@@ -1,0 +1,57 @@
+﻿@model FlowerShop.Models.ActivatePasswordVM
+
+@{
+    ViewBag.Title = "Activate";
+}
+
+
+@using (Html.BeginForm())
+{
+    <!--Login Register Area Strat-->
+    <div class="login-register-area mb-80">
+        <div class="container">
+            <div class="row">
+                <!--Register Form Start-->
+                <div class="col-md-6 col-sm-6">
+                    <div class="customer-login-register register-pt-0">
+                        <div class="form-register-title">
+                            <h2>Thay Đổi Mật Khẩu</h2>
+                        </div>
+                        <div class="register-form">
+                            @Html.HiddenFor(x => x.Id)
+                            <div class="form-fild">
+                                <p><label>Password<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-fild">
+                                <p><label>Password<span class="required">*</span></label></p>
+                                @Html.EditorFor(model => model.RePassword, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="register-submit">
+                                <button type="submit" class="form-button">Update</button>
+                            </div>
+
+                            <div class="register-submit">
+                                @ViewBag.Msg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--Register Form End-->
+        </div>
+    </div>
+    <!--Login Register Area End-->
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

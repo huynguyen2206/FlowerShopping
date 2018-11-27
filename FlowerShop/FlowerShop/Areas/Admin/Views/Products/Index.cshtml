@@ -91,6 +91,7 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortid })">MS</a></th>
                                 <th style="width:200px">Tên Sản Phẩm</th>
                                 <th>Hình Ảnh</th>
                                 <th>Đơn Vị</th>
@@ -108,6 +109,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>@item.Id</td>
                                     <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                     @{
                                         string src = "/Uploads/Default/1.jpg";
@@ -145,7 +147,7 @@
                                     }
 
                                     <td>
-                                        <a href="@Url.Action("Edit", "Products", new { id = item.Id })"><button class="btn btn-instagram btn-block">Edit</button></a>
+                                        <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block">Edit</a>
                                         <button style="margin-top: 10px" class="btn_delete btn btn-danger btn-block" pid="@item.Id" pname="@item.ProductName">Delete</button>
                                     </td>
                                 </tr>

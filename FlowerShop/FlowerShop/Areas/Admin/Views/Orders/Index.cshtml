@@ -115,7 +115,15 @@
                                     }
                                     <td><span class="label label-@color" style="font-size:12px">@item.Status.StatusName</span></td>
                                     <td>@item.PaymentMethod.MethodName</td>
-                                    <td>@item.Customer.CustomerName</td>
+                                    @if (item.CustomerId != null)
+                                    {
+                                        <td>@item.Customer.CustomerName</td>
+                                    }
+                                    else
+                                    {
+                                        <td>User Guess</td>
+                                    }
+
                                     <td>@item.OrderDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
                                     @{
                                         decimal Total = 0;

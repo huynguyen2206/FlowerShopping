@@ -50,7 +50,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Phone" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="Address" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="ImageUrl" Type="varchar" MaxLength="250" />
@@ -152,7 +152,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderCode" Type="nvarchar" MaxLength="20" />
     <Property Name="OrderDate" Type="datetime" Nullable="false" />
-    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" />
     <Property Name="ShippingId" Type="int" />
     <Property Name="Discount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
     <Property Name="Tax" Type="decimal" Precision="18" Scale="0" Nullable="false" />
@@ -162,7 +162,7 @@
     <Property Name="Receiver" Type="nvarchar" MaxLength="100" />
     <Property Name="Address" Type="nvarchar" MaxLength="100" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
-    <Property Name="StatusId" Type="int" />
+    <Property Name="StatusId" Type="int" Nullable="false" />
     <Property Name="CouponId" Type="int" />
   </EntityType>
   <EntityType Name="PaymentMethods">
@@ -396,7 +396,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Orders_Customers">
-    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Customers">
@@ -444,7 +444,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Orders_Statuses">
-    <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+    <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Statuses">

@@ -23,7 +23,7 @@ namespace FlowerShop.Models
         public int Id { get; set; }
         public string OrderCode { get; set; }
         public System.DateTime OrderDate { get; set; }
-        public int CustomerId { get; set; }
+        public Nullable<int> CustomerId { get; set; }
         public Nullable<int> ShippingId { get; set; }
         public decimal Discount { get; set; }
         public decimal Tax { get; set; }
@@ -33,7 +33,7 @@ namespace FlowerShop.Models
         public string Receiver { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
-        public Nullable<int> StatusId { get; set; }
+        public int StatusId { get; set; }
         public Nullable<int> CouponId { get; set; }
     
         public virtual Coupon Coupon { get; set; }

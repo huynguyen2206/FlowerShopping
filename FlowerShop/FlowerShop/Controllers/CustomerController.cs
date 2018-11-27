@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -28,6 +29,7 @@ namespace FlowerShop.Controllers
             try
             {
                 Customer cus = Mapper.Map<Customer>(data);
+                cus.Password = Security.Encrypt(data.Password);
                 cus.RegisterDate = DateTime.Now;
                 cus.VIP = false;
                 cus.IsActive = true;
@@ -47,6 +49,7 @@ namespace FlowerShop.Controllers
 
                 var customer = db.Customers.Find(cus.Id);
                 customer.ImageUrl = ImageName;
+                
 
                 db.SaveChanges();
 
@@ -80,7 +83,7 @@ namespace FlowerShop.Controllers
                     return Content("Email chưa được đăng ký");
                 }
 
-                if (!cus.Password.Equals(Password))
+                if (!cus.Password.Equals(Security.Encrypt(Password)))
                 {
                     if (Session["login_log"] != null)
                     {
@@ -220,5 +223,76 @@ namespace FlowerShop.Controllers
                 return Content("Error!");
             }
         }
+
+        // FORGET PASSWORD
+        public ActionResult ForgetPassword(string myemail)
+        {
+            var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(myemail));
+            if (cus == null)
+            {
+                return Content("Email của bạn chưa được đăng ký");
+            }
+
+            string token = Security.Encrypt(DateTime.Now.Ticks + cus.Id.ToString() + "thienbienvanhoa");
+            cus.RegisterToten = token;
+            db.SaveChanges();
+
+            string email = cus.Email;
+            string subject = "Your lost password?";
+            string body = "<a href = 'http://localhost:64803/Customer/Activate?token=" + token + "'>Click here to change your password</a>";
+
+            SentMail.Sent(email, subject ,body);
+
+            return Content("OK");
+        }
+
+
+        // ACTIVE TOKEN
+        public ActionResult Activate(string token)
+        {
+            try
+            {
+                var cus = db.Customers.SingleOrDefault(x => x.RegisterToten.Equals(token));
+                if (cus == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                ActivatePasswordVM data = new ActivatePasswordVM()
+                {
+                    Id = cus.Id,
+                };
+
+                return View(data);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult Activate(ActivatePasswordVM data)
+        {
+            try
+            {
+                var cus = db.Customers.Find(data.Id);
+
+                cus.Password = Security.Encrypt(data.Password);
+                cus.RegisterToten = "";
+                db.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 }

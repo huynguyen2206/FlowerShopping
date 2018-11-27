@@ -167,9 +167,11 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CouponsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -255,6 +257,8 @@
     <Compile Include="Models\Repository\GenericRepository.cs" />
     <Compile Include="Models\Repository\IRepository.cs" />
     <Compile Include="Models\Repository\ProductRepository.cs" />
+    <Compile Include="Models\Security\Security.cs" />
+    <Compile Include="Models\SentMail\SentMail.cs" />
     <Compile Include="Models\Shipping.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
@@ -270,6 +274,7 @@
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\ActivatePasswordVM.cs" />
     <Compile Include="Models\ViewModel\AddShipperVM.cs" />
     <Compile Include="Models\ViewModel\ChangePasswordVM.cs" />
     <Compile Include="Models\ViewModel\OrderDetailsVM.cs" />
@@ -7945,6 +7950,7 @@
     <Content Include="Areas\Admin\Views\Categories\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Categories\EditTopic.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\AddShipper.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -8000,10 +8006,13 @@
     <Content Include="Views\Home\_Show_Categories.cshtml" />
     <Content Include="Views\Product\_Products_Grid_View.cshtml" />
     <Content Include="Views\Product\_Products_List_View.cshtml" />
+    <Content Include="Views\Error\Page404.cshtml" />
+    <Content Include="Views\Customer\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Reports\" />
     <Folder Include="Content\Home\css\images\" />
   </ItemGroup>
   <ItemGroup>

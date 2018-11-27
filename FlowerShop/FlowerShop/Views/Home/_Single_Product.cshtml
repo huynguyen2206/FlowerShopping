@@ -44,10 +44,10 @@
             @{
                 // Show Product Name
                 string name = Model.ProductName;
-                if (name.Length > 40)
+                if (name.Length > 25)
                 {
-                    string name1 = name.Substring(0, 35);
-                    string name2 = name.Substring(35, 5).Split(' ').First();
+                    string name1 = name.Substring(0, 20);
+                    string name2 = name.Substring(20, 6).Split(' ').First();
                     name = name1 + name2 + " ...";
                 }
             }
@@ -61,7 +61,7 @@
                     }
                     @if (Model.SalePrice > 0)
                     {
-                        <span style="text-decoration: line-through">@Model.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                        <span class="price">@Model.UnitPrice.ToString("N0") <sup> đ</sup></span>
                         <span class="regular-price">> @NewPrice.ToString("N0") <sup> đ</sup></span>
                     }
                     else

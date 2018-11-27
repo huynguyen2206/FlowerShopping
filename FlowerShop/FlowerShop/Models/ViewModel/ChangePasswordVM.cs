@@ -8,15 +8,15 @@ namespace FlowerShop.Models
 {
     public class ChangePasswordVM
     {
-        [DataType(DataType.Password), MinLength(6), MaxLength(30)]
+        [DataType(DataType.Password), MinLength(8), MaxLength(30)]
         [Required]
         public string Password { get; set; }
 
-        [DataType(DataType.Password), MinLength(6), MaxLength(30)]
+        [DataType(DataType.Password), MinLength(8), MaxLength(30)]
         [Required]
         public string NewPassword { get; set; }
 
-        [DataType(DataType.Password), MinLength(6), MaxLength(30)]
+        [DataType(DataType.Password), MinLength(8), MaxLength(30)]
         [Compare("NewPassword", ErrorMessage = "Mật khẩu không trùng khớp")]
         public string RePassword { get; set; }
     }

@@ -68,10 +68,13 @@
                                                     <th>Order Id:</th>
                                                     <td>@Model.Id</td>
                                                 </tr>
-                                                <tr>
-                                                    <th>Customer:</th>
-                                                    <td>@Model.Customer.CustomerName</td>
-                                                </tr>
+                                                @if (Model.CustomerId != null)
+                                                {
+                                                    <tr>
+                                                        <th>Customer:</th>
+                                                        <td>@Model.Customer.CustomerName</td>
+                                                    </tr>
+                                                }
                                                 <tr>
                                                     <th>Create Order:</th>
                                                     <td>@Model.OrderDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>

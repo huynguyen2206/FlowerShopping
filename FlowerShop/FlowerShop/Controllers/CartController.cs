@@ -35,11 +35,6 @@ namespace FlowerShop.Controllers
                 return Content("Giỏ Hàng Của Bạn Chưa Có Sản Phẩm!");
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Content("Bạn phải đăng nhập trước khi thanh toán");
-            }
-
             if (string.IsNullOrEmpty(receiver) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(phone))
             {
                 return Content("Vui Lòng Nhập Đầy Đủ Thông Tin Người Nhận Hàng");
@@ -55,7 +50,7 @@ namespace FlowerShop.Controllers
                 }
             }
 
-            if(!coupon.Equals(1))
+            if (!coupon.Equals(1))
             {
                 var cp = db.Coupons.SingleOrDefault(x => x.Id.Equals(coupon));
                 if (cp.IsActive == true)
@@ -68,22 +63,43 @@ namespace FlowerShop.Controllers
                 }
             }
 
-            Order o = new Order()
-            {
-                OrderDate = DateTime.Now,
-                StatusId = 1,
-                CustomerId = int.Parse(User.Identity.Name),
-                CouponId = coupon,
-                Discount = 0,
-                Tax = 0,
-                ShippingFee = 0,
-                PaymentMethodId = 1,
-                Receiver = receiver,
-                Address = address,
-                PhoneNumber = phone,
-            };
+            Order order;
 
-            db.Orders.Add(o);
+            if (!User.Identity.IsAuthenticated)
+            {
+                order = new Order()
+                {
+                    OrderDate = DateTime.Now,
+                    StatusId = 1,
+                    CouponId = coupon,
+                    Discount = 0,
+                    Tax = 0,
+                    ShippingFee = 0,
+                    PaymentMethodId = 1,
+                    Receiver = receiver,
+                    Address = address,
+                    PhoneNumber = phone,
+                };
+            }
+            else
+            {
+                order = new Order()
+                {
+                    OrderDate = DateTime.Now,
+                    StatusId = 1,
+                    CustomerId = int.Parse(User.Identity.Name),
+                    CouponId = coupon,
+                    Discount = 0,
+                    Tax = 0,
+                    ShippingFee = 0,
+                    PaymentMethodId = 1,
+                    Receiver = receiver,
+                    Address = address,
+                    PhoneNumber = phone,
+                };
+            }
+            
+            db.Orders.Add(order);
             db.SaveChanges();
 
             foreach (var item in cart_items)
@@ -91,7 +107,7 @@ namespace FlowerShop.Controllers
                 var picture = item.picture.Split('\\').Last();
                 OrderDetail od = new OrderDetail()
                 {
-                    OrderId = o.Id,
+                    OrderId = order.Id,
                     ProductId = item.productid,
                     Unit = "Lãng",
                     UnitPrice = item.price,

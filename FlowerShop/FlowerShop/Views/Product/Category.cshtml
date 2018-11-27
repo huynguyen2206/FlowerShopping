@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<FlowerShop.Models.Products_Categories_Mapping>
+@using FlowerShop.Models;
 
 @{
     ViewBag.Title = "Category";
@@ -14,42 +15,20 @@
                     <div class="categori-checkbox">
                         <form action="#">
                             <ul>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Accessories</a><span class="count">(14)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Clothings</a><span class="count">(14)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Dress</a><span class="count">(14)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Drink</a><span class="count">(14)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Fashion</a><span class="count">(11)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Food </a><span class="count">(13)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Men </a><span class="count">(7)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Short</a><span class="count">(24)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Women</a><span class="count">(9)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Food </a><span class="count">(13)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Men </a><span class="count">(7)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Short</a><span class="count">(24)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Women</a><span class="count">(9)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Clothings</a><span class="count">(29)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Dress</a><span class="count">(14)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Drink</a><span class="count">(2)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Fashion</a><span class="count">(11)</span></li>
+                                @{ 
+                                    var db = new FlowerShoppingEntities();
+                                    var categories = db.Categories.ToList();
+                                }
+                                @foreach (var item in categories)
+                                {
+                                    <li><input name="product-categori" type="checkbox"><a href="#">@item.CategoryName</a><span class="count">(@item.Products_Categories_Mapping.Count())</span></li>
+                                }
                             </ul>
                         </form>
                     </div>
                 </div>
                 <!--Product Category Widget End-->
-                <!--Color Category Widget Start-->
-                <div class="shop-sidebar">
-                    <h4>Color</h4>
-                    <div class="categori-checkbox">
-                        <form action="#">
-                            <ul>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Gold</a><span class="count">(1)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">Green</a><span class="count">(4)</span></li>
-                                <li><input name="product-categori" type="checkbox"><a href="#">White</a><span class="count">(5)</span></li>
-                            </ul>
-                        </form>
-                    </div>
-                </div>
-                <!--Color Category Widget End-->
+
                 <!--Price Filter Widget Start-->
                 <div class="shop-sidebar">
                     <h4>Filter by price</h4>
@@ -116,54 +95,10 @@
                             <div id="list" class="tab-pane fade">
                                 <div class="product-list-view">
 
-                                    @*sử dụng partial "Products_List_View đã tạo sẵn"*@
-                                    <div class="product-list-item mb-40">
-                                        <div class="row">
-                                            <!--Single List Product Start-->
-                                            <div class="col-md-4">
-                                                <div class="single-product">
-                                                    <div class="product-img img-full">
-                                                        <a href="single-product.html">
-                                                            <img src="img/product/product9.jpg" alt="">
-                                                        </a>
-                                                        <span class="onsale">Sale!</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="product-content shop-list">
-                                                    <h2><a href="single-product.html">Aliquam furniture</a></h2>
-                                                    <div class="product-reviews">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <div class="product-description">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                                    </div>
-                                                    <div class="product-price">
-                                                        <div class="price-box">
-                                                            <span class="price">$125.00</span>
-                                                            <span class="regular-price">$115.00</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-list-action">
-                                                        <div class="add-btn">
-                                                            <a href="#">Add To Cart</a>
-                                                        </div>
-                                                        <ul>
-                                                            <li><a href="#open-modal" data-toggle="modal" title="Quick view"><i class="fa fa-search"></i></a></li>
-                                                            <li><a href="#" title="Whishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                            <li><a href="#" title="Compare"><i class="fa fa-refresh"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--Single List Product End-->
-                                        </div>
-                                    </div>
+                                    @foreach (var item in Model)
+                                    {
+                                        @Html.Partial("_Products_List_View", item);
+                                    }
 
                                 </div>
                             </div>

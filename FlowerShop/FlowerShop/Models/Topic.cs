@@ -11,8 +11,7 @@ namespace FlowerShop.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Topic
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,8 +21,6 @@ namespace FlowerShop.Models
         }
     
         public int Id { get; set; }
-
-        [Required]
         public string TopicName { get; set; }
         public System.DateTime CreateDate { get; set; }
         public bool IsActive { get; set; }

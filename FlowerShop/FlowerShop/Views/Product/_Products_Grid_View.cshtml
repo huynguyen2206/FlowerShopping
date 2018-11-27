@@ -4,7 +4,7 @@
     <!--Single Product Start-->
     <div class="single-product mb-25">
         <div class="product-img img-full">
-            <a href="single-product.html">
+            <a href="@Url.Action("ProductDetails", "Product", new { id = Model.Product.Id })">
                 @{
                     string src = "/Uploads/Default/1.jpg";
                     //var pic = Model.Pictures.LastOrDefault();
@@ -34,7 +34,7 @@
         <div class="product-content">
             @{
                 // Show Product Name
-                string name = Model.Product.ProductName.Split('-').Last();
+                string name = Model.Product.ProductName;
                 if (name.Length > 25)
                 {
                     string name1 = name.Substring(0, 20);
@@ -42,7 +42,7 @@
                     name = name1 + name2 + " ...";
                 }
             }
-            <h2><a href="single-product.html">@name</a></h2>
+            <h2><a href="@Url.Action("ProductDetails", "Product", new { id = Model.Product.Id })">@name</a></h2>
             <div class="product-price">
                 <div class="price-box">
                     @{
@@ -51,7 +51,7 @@
                     }
                     @if (Model.Product.SalePrice > 0)
                     {
-                        <span style="text-decoration: line-through">@Model.Product.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                        <span class="price">@Model.Product.UnitPrice.ToString("N0") <sup> đ</sup></span>
                         <span class="regular-price">> @NewPrice.ToString("N0") <sup> đ</sup></span>
                     }
                     else

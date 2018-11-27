@@ -1,1 +1,75 @@
-﻿
+﻿@model FlowerShop.Models.Products_Categories_Mapping
+
+<div class="product-list-item mb-40">
+    <div class="row">
+        <!--Single List Product Start-->
+        <div class="col-md-4">
+            <div class="single-product">
+                <div class="product-img img-full">
+                    <a href="@Url.Action("ProductDetails", "Product", new { id = Model.Product.Id })">
+                        @{
+                            string src = "/Uploads/Default/1.jpg";
+                            //var pic = Model.Pictures.LastOrDefault();
+                            var pic = Model.Product.PictureUrl;
+                            if (pic != null)
+                            {
+                                src = "/Uploads/Products/" + Model.Product.Id + "\\" + pic;
+                            }
+                        }
+                        <img src="@src" alt="">
+                    </a>
+                    @{
+                        if (Model.Product.SalePrice > 0)
+                        {
+                            <span class="onsale">Sale!</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="product-content shop-list">
+                <h2><a href="@Url.Action("ProductDetails", "Product", new { id = Model.Product.Id })">@Model.Product.ProductName</a></h2>
+                <div class="product-reviews">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <div class="product-description">
+                    <p>@Model.Product.DescriptionShort</p>
+                </div>
+                <div class="product-price">
+                    <div class="price-box">
+                        @{
+                            // Show Price
+                            var NewPrice = Model.Product.UnitPrice - Model.Product.SalePrice;
+
+                            if (Model.Product.SalePrice > 0)
+                            {
+                                <span class="price">@Model.Product.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                                <span class="regular-price">> @NewPrice.ToString("N0") <sup> đ</sup></span>
+                            }
+                            else
+                            {
+                                <span class="regular-price"> @Model.Product.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="product-list-action">
+                    <div class="add-btn">
+                        <a href="#" class="btnAddProduct" pid="@Model.Id" pname="@Model.Product.ProductName" pprice="@Model.Product.UnitPrice" psale="@Model.Product.SalePrice" ppic="@src" pdes="@Model.Product.DescriptionShort" pstock="@Model.Product.QuantityAvailable">Add To Cart</a>
+                    </div>
+                    <ul>
+                        <li><a href="#open-modal" data-toggle="modal" title="Quick view"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#" title="Whishlist"><i class="fa fa-heart-o"></i></a></li>
+                        <li><a href="#" title="Compare"><i class="fa fa-refresh"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--Single List Product End-->
+    </div>
+</div>
