@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
 
     var products = ViewBag.products as List<Product>;
+    var customer = ViewBag.cus as List<Customer>;
 }
 
 <section class="content-header">
@@ -53,6 +54,51 @@
                                 @*<td><span class="badge bg-red">55%</span></td>*@
                             </tr>
                         }
+                    </table>
+
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+</div>
+
+<div class="chart tab-pane active" id="product-info">
+    <div class="col-md-6" style="margin-top: 10px">
+        <!-- TABLE: LATEST ORDERS -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Khách hàng mới</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="form-horizontal">
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Customers Name</th>
+                            <th>Phone Number</th>
+                            <th style="width: 40px">Total</th>
+                            <th>View</th>
+                        </tr>
+                        @foreach(var item in customer)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.CustomerName</td>
+                            </tr>
+                        }
+
                     </table>
 
                 </div>

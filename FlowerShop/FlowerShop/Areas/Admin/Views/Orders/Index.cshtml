@@ -8,7 +8,6 @@
 <section class="content-header">
     <h1>
         Order
-        <small>Order List</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -30,28 +29,57 @@
                                 <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
 
                                 <div class="col-sm-9">
-                                    <input name="kw_price" type="text" class="form-control" id="inputEmail3" placeholder="Price">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                        <input name="kw_price" type="text" class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+                                <label for="inputPassword3" class="col-sm-3 control-label">Customer Name</label>
 
                                 <div class="col-sm-9">
-                                    <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
+                                    <input name="kw_customername" type="text" class="form-control" id="inputEmail3" placeholder="Customer Name">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+                                <label for="inputPassword3" class="col-sm-3 control-label">Date range</label>
 
                                 <div class="col-sm-9">
-                                    @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control" })
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="reservation" name="kw_daterange">
+                                    </div>
                                 </div>
+                                <script>
+                                    $(function () {
+                                        //Date range picker
+                                        $('#reservation').daterangepicker()
+                                        $('#reservation').val("")
+                                    })
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Status</label>
+
+                                <div class="col-sm-9">
+                                    @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control kw_status select2" })
+                                </div>
+                                <script>
+                                    $(".kw_status").val("")
+                                    $('.select2').select2();
+                                </script>
                             </div>
                         </div>
 
@@ -69,7 +97,7 @@
     </div>
 </div>
 
-<section class="content">
+<section class="content" style="margin-top: -30px">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">

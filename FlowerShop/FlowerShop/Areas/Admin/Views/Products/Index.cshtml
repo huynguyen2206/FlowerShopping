@@ -1,4 +1,17 @@
-﻿@model PagedList.IPagedList<FlowerShop.Models.Product>
+﻿<!-- daterange picker -->
+<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+<!-- bootstrap datepicker -->
+<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet" href="/Content/AdminTemplate/plugins/timepicker/bootstrap-timepicker.min.css">
+
+
+
+
+@model PagedList.IPagedList<FlowerShop.Models.Product>
 @using PagedList.Mvc
 
 @{
@@ -26,21 +39,15 @@
                 <div class="box-body">
                     <div class="form-horizontal">
 
-
-                        @*<div class="input-group" style="margin-left: 10px">
-                                <input type="text" name="kw" class="form-control" placeholder="Search..." style="width: 300px">
-                                <span>
-                                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>*@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
 
                                 <div class="col-sm-9">
-                                    <input name="kw_price" type="text" class="form-control" id="inputEmail3" placeholder="Price">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                        <input name="kw_price" type="text" class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -52,6 +59,28 @@
                                 <div class="col-sm-9">
                                     <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Date range</label>
+
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="reservation" name="kw_daterange">
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        //Date range picker
+                                        $('#reservation').daterangepicker()
+                                        $('#reservation').val("")
+                                    })
+                                </script>
                             </div>
                         </div>
 
@@ -69,7 +98,7 @@
     </div>
 </div>
 
-<section class="content">
+<section class="content"  style="margin-top: -30px">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -154,7 +183,7 @@
                             }
 
                         </tbody>
-                        
+
                     </table>
                     <p>
                         @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw_price = ViewBag.kw_price, sort = ViewBag.sort }))
@@ -206,9 +235,9 @@
                 });
             }
         });
-
-
-
+        
 
     });
 </script>
+
+

@@ -186,6 +186,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangeVN_EN\ChangeVN_EN.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>

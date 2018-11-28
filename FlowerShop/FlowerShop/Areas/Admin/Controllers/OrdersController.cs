@@ -16,7 +16,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         FlowerShoppingEntities db = new FlowerShoppingEntities();
         
         // SHOW INDEX ORDER
-        public ActionResult Index(int? page, string kw, string sort, string StatusId)
+        public ActionResult Index(int? page, string kw_customername, string StatusId, string kw_daterange, string sort)
         {
             int pagenumber = page ?? 1;
             int pagesize = 10;
@@ -25,9 +25,24 @@ namespace FlowerShop.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(StatusId))
             {
                 orders = orders.Where(x => x.StatusId.ToString().Equals(StatusId));
-                //products = productRepository.Getbykw_productname(kw_productname);
                 ViewBag.kw_productname = StatusId;
             }
+
+            if (!string.IsNullOrEmpty(kw_customername))
+            {
+                orders = orders.Where(x => x.CustomerId != null && ChangeVN_EN.change(x.Customer.CustomerName.ToLower()).Contains(kw_customername.ToLower().Trim())
+                || x.CustomerId != null && x.Customer.CustomerName.ToLower().Contains(kw_customername.ToLower().Trim()));
+                ViewBag.kw = kw_customername;
+            }
+
+            if (!string.IsNullOrEmpty(kw_daterange))
+            {
+                var dt = kw_daterange.Split('-');
+
+                orders = orders.Where(x => x.OrderDate.Date >= DateTime.Parse(dt[0]) && x.OrderDate.Date <= DateTime.Parse(dt[1]));
+                ViewBag.kw_date = kw_daterange;
+            }
+
 
             if (string.IsNullOrEmpty(sort))
             {

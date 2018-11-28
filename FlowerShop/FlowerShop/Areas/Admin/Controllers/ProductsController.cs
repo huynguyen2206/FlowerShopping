@@ -81,7 +81,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
 
         // INDEX SHOW PRODUCT
-        public ActionResult Index(int? page, string kw_price, string kw_productname, string sort)
+        public ActionResult Index(int? page, string kw_price, string kw_productname, string kw_daterange, string sort)
         {
             int pagesize = 10;
             int pagenumber = page ?? 1;
@@ -91,7 +91,8 @@ namespace FlowerShop.Areas.Admin.Controllers
             // lọc qua keywork để search
             if (!string.IsNullOrEmpty(kw_productname))
             {
-                products = products.Where(x => x.ProductName.ToLower().Contains(kw_productname.ToLower()));
+                products = products.Where(x => ChangeVN_EN.change(x.ProductName.ToLower()).Contains(kw_productname.ToLower().Trim()) 
+                || x.ProductName.ToLower().Contains(kw_productname.ToLower().Trim()) );
                 ViewBag.kw = kw_productname;
             }
 
@@ -99,6 +100,14 @@ namespace FlowerShop.Areas.Admin.Controllers
             {
                 products = products.Where(x => x.UnitPrice.ToString().Equals(kw_price));
                 ViewBag.kw_price = kw_price;
+            }
+
+            if (!string.IsNullOrEmpty(kw_daterange))
+            {
+                var dt = kw_daterange.Split('-');
+
+                products = products.Where(x => x.CreateDate.Date >= DateTime.Parse(dt[0]) && x.CreateDate.Date <= DateTime.Parse(dt[1]));
+                ViewBag.kw_date = kw_price;
             }
 
 
@@ -172,7 +181,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 product.IsActive = true;
                 db.Products.Add(product);
                 db.SaveChanges();
-                
+
                 // Add Categories
                 foreach (var c in CategoryId)
                 {
