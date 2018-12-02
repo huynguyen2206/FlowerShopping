@@ -7,7 +7,7 @@
         <ul>
             @foreach (var category in item.Categories)
             {
-                <li><a href="@Url.Action("Category", "Product", new { id = item.Id })">@category.CategoryName</a></li>
+                <li><a href="@Url.Action("Category", "Product", new { id = category.Id })">@category.CategoryName</a></li>
             }
 
         </ul>

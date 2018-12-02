@@ -7,6 +7,7 @@ using FlowerShop.Models;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
+    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
     public class DashboardController : Controller
     {
         FlowerShoppingEntities db = new FlowerShoppingEntities();

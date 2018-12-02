@@ -97,11 +97,7 @@
           <Property Name="LevelId" Type="int" Nullable="false" />
           <Property Name="TableName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DisplayName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="AllowAdd" Type="bit" Nullable="false" />
-          <Property Name="AllowEdit" Type="bit" Nullable="false" />
-          <Property Name="AllowDelete" Type="bit" Nullable="false" />
-          <Property Name="AllowView" Type="bit" Nullable="false" />
-          <Property Name="AllowFullList" Type="bit" Nullable="false" />
+          <Property Name="Total" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Levels">
           <Key>
@@ -690,7 +686,6 @@
           <EntitySet Name="Customers" EntityType="FlowerShoppingModel.Customer" />
           <EntitySet Name="Disables" EntityType="FlowerShoppingModel.Disable" />
           <EntitySet Name="Employees" EntityType="FlowerShoppingModel.Employee" />
-          <EntitySet Name="LevelPermissions" EntityType="FlowerShoppingModel.LevelPermission" />
           <EntitySet Name="Levels" EntityType="FlowerShoppingModel.Level" />
           <EntitySet Name="Likes" EntityType="FlowerShoppingModel.Like" />
           <EntitySet Name="Log_Types" EntityType="FlowerShoppingModel.Log_Types" />
@@ -741,10 +736,6 @@
           <AssociationSet Name="FK_System_Logs_Employees" Association="FlowerShoppingModel.FK_System_Logs_Employees">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="System_Logs" EntitySet="System_Logs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LevelPermissions_Levels" Association="FlowerShoppingModel.FK_LevelPermissions_Levels">
-            <End Role="Level" EntitySet="Levels" />
-            <End Role="LevelPermission" EntitySet="LevelPermissions" />
           </AssociationSet>
           <AssociationSet Name="FK_Likes_Products" Association="FlowerShoppingModel.FK_Likes_Products">
             <End Role="Product" EntitySet="Products" />
@@ -802,6 +793,11 @@
           <AssociationSet Name="FK_Orders_Statuses" Association="FlowerShoppingModel.FK_Orders_Statuses">
             <End Role="Status" EntitySet="Statuses" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="LevelPermissions" EntityType="FlowerShoppingModel.LevelPermission" />
+          <AssociationSet Name="FK_LevelPermissions_Levels" Association="FlowerShoppingModel.FK_LevelPermissions_Levels">
+            <End Role="Level" EntitySet="Levels" />
+            <End Role="LevelPermission" EntitySet="LevelPermissions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Banner">
@@ -900,21 +896,6 @@
           <NavigationProperty Name="Product_Logs" Relationship="FlowerShoppingModel.FK_ProductLogs_Employees" FromRole="Employee" ToRole="Product_Logs" />
           <NavigationProperty Name="System_Logs" Relationship="FlowerShoppingModel.FK_System_Logs_Employees" FromRole="Employee" ToRole="System_Logs" />
           <NavigationProperty Name="Orders" Relationship="FlowerShoppingModel.FK_Orders_Employees" FromRole="Employee" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="LevelPermission">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LevelId" Type="Int32" Nullable="false" />
-          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AllowAdd" Type="Boolean" Nullable="false" />
-          <Property Name="AllowEdit" Type="Boolean" Nullable="false" />
-          <Property Name="AllowDelete" Type="Boolean" Nullable="false" />
-          <Property Name="AllowView" Type="Boolean" Nullable="false" />
-          <Property Name="AllowFullList" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Level" Relationship="FlowerShoppingModel.FK_LevelPermissions_Levels" FromRole="LevelPermission" ToRole="Level" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
@@ -1196,18 +1177,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LevelPermissions_Levels">
-          <End Type="FlowerShoppingModel.Level" Role="Level" Multiplicity="1" />
-          <End Type="FlowerShoppingModel.LevelPermission" Role="LevelPermission" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Level">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LevelPermission">
-              <PropertyRef Name="LevelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Likes_Products">
           <End Type="FlowerShoppingModel.Product" Role="Product" Multiplicity="1" />
           <End Type="FlowerShoppingModel.Like" Role="Like" Multiplicity="*" />
@@ -1403,6 +1372,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LevelPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LevelId" Type="Int32" Nullable="false" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Level" Relationship="FlowerShoppingModel.FK_LevelPermissions_Levels" FromRole="LevelPermission" ToRole="Level" />
+        </EntityType>
+        <Association Name="FK_LevelPermissions_Levels">
+          <End Type="FlowerShoppingModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="FlowerShoppingModel.LevelPermission" Role="LevelPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LevelPermission">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1496,21 +1488,6 @@
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="LoginName" ColumnName="LoginName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LevelPermissions">
-            <EntityTypeMapping TypeName="FlowerShoppingModel.LevelPermission">
-              <MappingFragment StoreEntitySet="LevelPermissions">
-                <ScalarProperty Name="AllowFullList" ColumnName="AllowFullList" />
-                <ScalarProperty Name="AllowView" ColumnName="AllowView" />
-                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
-                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
-                <ScalarProperty Name="AllowAdd" ColumnName="AllowAdd" />
-                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="TableName" ColumnName="TableName" />
-                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1692,6 +1669,17 @@
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LevelPermissions">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.LevelPermission">
+              <MappingFragment StoreEntitySet="LevelPermissions">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

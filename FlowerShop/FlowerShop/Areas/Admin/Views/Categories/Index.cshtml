@@ -40,6 +40,10 @@
                 }
                 <!-- /.box-header -->
                 <div class="box-body">
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("Create", "Categories")" class="btn btn-block btn-success myaction" style="margin-bottom: 20px">Add New Category</a>
+                    }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -47,7 +51,6 @@
                                 <th>Category Name</th>
                                 <th>Show Home Page</th>
                                 <th>Create Date</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,21 +61,27 @@
                                     <td>@item.CategoryName</td>
                                     <td>@item.ShowHomePage</td>
                                     <td>@item.CreateDate.ToString("dd/MM/yyyy")</td>
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Categories", new { id = item.Id })" class="btn btn-instagram btn-block myaction">Edit</a>
-                                        
-                                    </td>
-                                    @{
+
+                                    @if (ViewBag.Edit == "True")
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Categories", new { id = item.Id })" class="btn btn-instagram btn-block myaction">Edit</a>
+
+                                        </td>
+                                    }
+                                    @if (ViewBag.Delete == "True")
+                                    {
                                         var count = item.Products_Categories_Mapping.Count;
                                         if (count == 0)
                                         {
                                             <td><button class="btn_delete btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
                                         }
                                     }
+
                                 </tr>
                             }
                         </tbody>
-                        <a href="@Url.Action("Create", "Categories")" class="btn btn-block btn-success myaction" style="margin-bottom: 20px">Add New Category</a>
+
                     </table>
                     @*<p>
                             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw = ViewBag.kw, sort = ViewBag.sort }))

@@ -36,13 +36,16 @@
                 }
                 <!-- /.box-header -->
                 <div class="box-body">
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("CreateTopic", "Categories")" class="btn btn-block btn-success myaction" style="margin-bottom: 20px">Add New Topic</a>
+                    }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Topic Name</th>
                                 <th>Create Date</th>
                                 <th>IsAcvite</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,12 +55,13 @@
                                     <td>@item.TopicName</td>
                                     <td>@item.CreateDate.ToString("dd/MM/yyyy")</td>
                                     <td>@item.IsActive</td>
-                                    <td><a href="@Url.Action("EditTopic", "Categories", new { id = item.Id })" class="btn btn-instagram btn-block myaction">Edit</a></td>
-                                   
+                                    @if (ViewBag.Edit == "True")
+                                    {
+                                        <td><a href="@Url.Action("EditTopic", "Categories", new { id = item.Id })" class="btn btn-instagram btn-block myaction">Edit</a></td>
+                                    }
                                 </tr>
                             }
                         </tbody>
-                        <a href="@Url.Action("CreateTopic", "Categories")" class="btn btn-block btn-success myaction" style="margin-bottom: 20px">Add New Topic</a>
                     </table>
                     @*<p>
                             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw = ViewBag.kw, sort = ViewBag.sort }))

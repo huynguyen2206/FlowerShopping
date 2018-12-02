@@ -27,6 +27,8 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="/Content/AdminTemplate/plugins/iCheck/all.css">
     <link rel="stylesheet" href="/Content/AdminTemplate/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-daterangepicker/daterangepicker.css">
@@ -323,7 +325,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="@Url.Action("Logout", "Employees")" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -463,6 +465,7 @@
     <script src="/Content/AdminTemplate/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <script src="/Content/AdminTemplate/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
+    <script src="/Content/AdminTemplate/plugins/iCheck/icheck.min.js"></script>
     <!-- Slimscroll -->
     <script src="/Content/AdminTemplate/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->

@@ -1,18 +1,7 @@
-﻿<!-- daterange picker -->
-<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-daterangepicker/daterangepicker.css">
-<!-- bootstrap datepicker -->
-<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-
-<!-- Bootstrap Color Picker -->
-<link rel="stylesheet" href="/Content/AdminTemplate/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
-<!-- Bootstrap time Picker -->
-<link rel="stylesheet" href="/Content/AdminTemplate/plugins/timepicker/bootstrap-timepicker.min.css">
-
-
-
-
+﻿
 @model PagedList.IPagedList<FlowerShop.Models.Product>
 @using PagedList.Mvc
+
 
 @{
     ViewBag.Title = "Index";
@@ -98,7 +87,7 @@
     </div>
 </div>
 
-<section class="content"  style="margin-top: -30px">
+<section class="content" style="margin-top: -30px">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -116,7 +105,10 @@
                     }*@
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <a href="@Url.Action("Create", "Products")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Product</a>
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("Create", "Products")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Product</a>
+                    }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -176,8 +168,15 @@
                                     }
 
                                     <td>
-                                        <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block">Edit</a>
-                                        <button style="margin-top: 10px" class="btn_delete btn btn-danger btn-block" pid="@item.Id" pname="@item.ProductName">Delete</button>
+                                        @if (ViewBag.Edit == "True")
+                                        {
+                                            <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block">Edit</a>
+                                        }
+                                        @if (ViewBag.Delete == "True")
+                                        {
+                                            <button style="margin-top: 10px" class="btn_delete btn btn-danger btn-block" pid="@item.Id" pname="@item.ProductName">Delete</button>
+                                        }
+
                                     </td>
                                 </tr>
                             }
@@ -235,7 +234,7 @@
                 });
             }
         });
-        
+
 
     });
 </script>

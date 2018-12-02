@@ -168,10 +168,11 @@
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CouponsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PermisstionsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -193,7 +194,6 @@
     <Compile Include="Models\Coupon.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomAuthentication\CustomAuthorization.cs" />
     <Compile Include="Models\Customer.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
@@ -258,6 +258,9 @@
     <Compile Include="Models\Repository\GenericRepository.cs" />
     <Compile Include="Models\Repository\IRepository.cs" />
     <Compile Include="Models\Repository\ProductRepository.cs" />
+    <Compile Include="Models\Security\CustomAuthorize.cs" />
+    <Compile Include="Models\Security\CustomPermisstions.cs" />
+    <Compile Include="Models\Security\CustomRoleProvider.cs" />
     <Compile Include="Models\Security\Security.cs" />
     <Compile Include="Models\SentMail\SentMail.cs" />
     <Compile Include="Models\Shipping.cs">
@@ -279,6 +282,7 @@
     <Compile Include="Models\ViewModel\AddShipperVM.cs" />
     <Compile Include="Models\ViewModel\ChangePasswordVM.cs" />
     <Compile Include="Models\ViewModel\OrderDetailsVM.cs" />
+    <Compile Include="Models\ViewModel\PermisstionsVM.cs" />
     <Compile Include="Models\ViewModel\RegisterVM.cs" />
     <Compile Include="Models\ViewModel\UpdateProfileVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7936,7 +7940,6 @@
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
-    <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
@@ -7952,6 +7955,13 @@
     <Content Include="Areas\Admin\Views\Categories\EditTopic.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\AddShipper.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Permisstions\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -8009,6 +8019,8 @@
     <Content Include="Views\Product\_Products_List_View.cshtml" />
     <Content Include="Views\Error\Page404.cshtml" />
     <Content Include="Views\Customer\Activate.cshtml" />
+    <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Product\_Products_Grid_Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

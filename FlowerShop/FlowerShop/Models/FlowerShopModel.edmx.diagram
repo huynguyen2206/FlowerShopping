@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="FlowerShoppingModel.Customer" Width="1.5" PointX="3" PointY="2.625" />
         <EntityTypeShape EntityType="FlowerShoppingModel.Disable" Width="1.5" PointX="7.75" PointY="3.75" />
         <EntityTypeShape EntityType="FlowerShoppingModel.Employee" Width="1.5" PointX="0.75" PointY="14.875" />
-        <EntityTypeShape EntityType="FlowerShoppingModel.LevelPermission" Width="1.5" PointX="3.75" PointY="28.5" />
         <EntityTypeShape EntityType="FlowerShoppingModel.Level" Width="1.5" PointX="1.5" PointY="26" />
         <EntityTypeShape EntityType="FlowerShoppingModel.Like" Width="1.5" PointX="8.25" PointY="6.5" />
         <EntityTypeShape EntityType="FlowerShoppingModel.Log_Types" Width="1.5" PointX="3.75" PointY="33.125" />
@@ -37,7 +36,6 @@
         <AssociationConnector Association="FlowerShoppingModel.FK_Employees_Levels" />
         <AssociationConnector Association="FlowerShoppingModel.FK_ProductLogs_Employees" />
         <AssociationConnector Association="FlowerShoppingModel.FK_System_Logs_Employees" />
-        <AssociationConnector Association="FlowerShoppingModel.FK_LevelPermissions_Levels" />
         <AssociationConnector Association="FlowerShoppingModel.FK_Likes_Products" />
         <AssociationConnector Association="FlowerShoppingModel.FK_System_Logs_Log_Types" />
         <AssociationConnector Association="FlowerShoppingModel.FK_OrderDetails_Products" />
@@ -53,6 +51,8 @@
         <AssociationConnector Association="FlowerShoppingModel.FK_Orders_PaymentMethods" />
         <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Shippings" />
         <AssociationConnector Association="FlowerShoppingModel.FK_Orders_Statuses" />
+        <EntityTypeShape EntityType="FlowerShoppingModel.LevelPermission" Width="1.5" PointX="3.75" PointY="28.75" />
+        <AssociationConnector Association="FlowerShoppingModel.FK_LevelPermissions_Levels" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

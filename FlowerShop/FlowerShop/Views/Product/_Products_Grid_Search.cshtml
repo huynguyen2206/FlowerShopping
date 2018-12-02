@@ -1,0 +1,69 @@
+﻿@model FlowerShop.Models.Product
+
+<div class="col-md-4">
+    <!--Single Product Start-->
+    <div class="single-product mb-25">
+        <div class="product-img img-full">
+            <a href="@Url.Action("ProductDetails", "Product", new { id = Model.Id })">
+                @{
+                    string src = "/Uploads/Default/1.jpg";
+                    //var pic = Model.Pictures.LastOrDefault();
+                    var pic = Model.PictureUrl;
+                    if (pic != null)
+                    {
+                        src = "/Uploads/Products/" + Model.Id + "\\" + pic;
+                    }
+                }
+                <img src="@src" alt="">
+            </a>
+            @{
+                if (Model.SalePrice > 0)
+                {
+                    <span class="onsale">Sale!</span>
+                }
+            }
+
+            <div class="product-action">
+                <ul>
+                    <li><a href="#open-modal" data-toggle="modal" title="Quick view"><i class="fa fa-search"></i></a></li>
+                    <li><a href="#" title="Whishlist"><i class="fa fa-heart-o"></i></a></li>
+                    <li><a href="#" title="Compare"><i class="fa fa-refresh"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="product-content">
+            @{
+                // Show Product Name
+                string name = Model.ProductName;
+                if (name.Length > 25)
+                {
+                    string name1 = name.Substring(0, 20);
+                    string name2 = name.Substring(20, 6).Split(' ').First();
+                    name = name1 + name2 + " ...";
+                }
+            }
+            <h2><a href="@Url.Action("ProductDetails", "Product", new { id = Model.Id })">@name</a></h2>
+            <div class="product-price">
+                <div class="price-box">
+                    @{
+                        // Show Price
+                        var NewPrice = Model.UnitPrice - Model.SalePrice;
+                    }
+                    @if (Model.SalePrice > 0)
+                    {
+                        <span class="price">@Model.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                        <span class="regular-price">> @NewPrice.ToString("N0") <sup> đ</sup></span>
+                    }
+                    else
+                    {
+                        <span class="regular-price"> @Model.UnitPrice.ToString("N0") <sup> đ</sup></span>
+                    }
+                </div>
+                <div class="add-to-cart">
+                    <a href="#" class="btnAddProduct" pid="@Model.Id" pname="@Model.ProductName" pprice="@Model.UnitPrice" psale="@Model.SalePrice" ppic="@src" pdes="@Model.DescriptionShort" pstock="@Model.QuantityAvailable">Add To Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Single Product End-->
+</div>

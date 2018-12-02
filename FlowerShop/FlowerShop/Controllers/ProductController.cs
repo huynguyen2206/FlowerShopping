@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FlowerShop.Models;
+using PagedList;
 
 namespace FlowerShop.Controllers
 {
     public class ProductController : Controller
     {
+        private ProductRepository productRepository = new ProductRepository();
         FlowerShoppingEntities db = new FlowerShoppingEntities();
 
         // GET: Product
@@ -17,11 +19,23 @@ namespace FlowerShop.Controllers
             return View();
         }
 
+        public ActionResult Search(int? page, string kw)
+        {
+            int pagesize = 9;
+            int pagenumber = page ?? 1;
+
+            var products = productRepository.GetModel();
+            products = products.Where(x => ChangeVN_EN.change(x.ProductName.ToLower()).Contains(kw.ToLower().Trim())
+                || x.ProductName.ToLower().Contains(kw.ToLower().Trim()));
+            ViewBag.kw = kw;
+
+            return View(products.ToPagedList(pagenumber, pagesize));
+        }
 
         public ActionResult Category(int id)
         {
-            var product = db.Products_Categories_Mapping.Where(x => x.CategoryId.Equals(id));
-            return View(product.ToList());
+            var products = db.Products_Categories_Mapping.Where(x => x.CategoryId.Equals(id));
+            return View(products.ToList());
         }
 
         public ActionResult ProductDetails(int id)

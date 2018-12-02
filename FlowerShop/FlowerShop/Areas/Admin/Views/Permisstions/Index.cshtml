@@ -1,0 +1,134 @@
+﻿@model IEnumerable<FlowerShop.Models.PermisstionsVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Permisstion
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Permisstion</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-horizontal">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Level Name</label>
+
+                                    <div class="col-sm-6">
+                                        @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control kw_status select2" })
+                                    </div>
+                                    <script>
+                                    $('.select2').select2();
+                                    </script>
+                                    <button type="submit" name="search" class="btn btn-success">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @*<a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Coupon</a>*@
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Display</th>
+                                <th>View</th>
+                                <th>Create</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.DisplayName</td>
+                                    @if (item.View)
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="1" checked></td>
+                                    }
+                                    else
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="1"></td>
+                                    }
+                                    @if (item.Create)
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="2" checked></td>
+                                    }
+                                    else
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="2"></td>
+                                    }
+                                    @if (item.Edit)
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="4" checked></td>
+                                    }
+                                    else
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="4"></td>
+                                    }
+                                    @if (item.Delete)
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="8" checked></td>
+                                    }
+                                    else
+                                    {
+                                        <td><input type="checkbox" class="minimal" pid="@item.Id" pnumber="8"></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @*<p>
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw = ViewBag.kw, sort = ViewBag.sort }))
+                        </p>*@
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.minimal').change(function () {
+            var check = $(this);
+            var pid = check.attr("pid");
+            var pnumber = check.attr("pnumber");
+            $.ajax({
+                url: '/Permisstions/Change',
+                type: "POST",
+                data: "pid=" + pid + "&pnumber=" + pnumber,
+                success: function (response) {
+                    if (response == "OK") {
+                        //location.href = "/Admin/Permisstions/Index";
+                    }
+                }
+            });
+
+        });
+
+    })
+</script>

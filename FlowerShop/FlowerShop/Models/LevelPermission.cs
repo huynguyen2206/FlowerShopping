@@ -18,11 +18,7 @@ namespace FlowerShop.Models
         public int LevelId { get; set; }
         public string TableName { get; set; }
         public string DisplayName { get; set; }
-        public bool AllowAdd { get; set; }
-        public bool AllowEdit { get; set; }
-        public bool AllowDelete { get; set; }
-        public bool AllowView { get; set; }
-        public bool AllowFullList { get; set; }
+        public int Total { get; set; }
     
         public virtual Level Level { get; set; }
     }

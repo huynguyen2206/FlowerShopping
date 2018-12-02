@@ -92,21 +92,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LevelPermissions">
-      <EntityTypeMapping TypeName="FlowerShoppingModel.LevelPermission">
-        <MappingFragment StoreEntitySet="LevelPermissions">
-          <ScalarProperty Name="AllowFullList" ColumnName="AllowFullList" />
-          <ScalarProperty Name="AllowView" ColumnName="AllowView" />
-          <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
-          <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
-          <ScalarProperty Name="AllowAdd" ColumnName="AllowAdd" />
-          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-          <ScalarProperty Name="TableName" ColumnName="TableName" />
-          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Levels">
       <EntityTypeMapping TypeName="FlowerShoppingModel.Level">
         <MappingFragment StoreEntitySet="Levels">
@@ -284,6 +269,17 @@
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
           <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LevelPermissions">
+      <EntityTypeMapping TypeName="FlowerShoppingModel.LevelPermission">
+        <MappingFragment StoreEntitySet="LevelPermissions">
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="LevelId" ColumnName="LevelId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

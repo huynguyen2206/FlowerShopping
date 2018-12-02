@@ -8,7 +8,6 @@
 <section class="content-header">
     <h1>
         Coupon
-        <small>Mã khuyến mãi</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -33,19 +32,27 @@
                         </span>
                     </div>
                 }
-                <form method="post" id="randomcoupon">
-                    <div class="input-group" style="margin: 10px 0 0 10px">
-                        <input type="text" name="number" class="form-control" placeholder="Số lượng" style="width: 150px">
-                        <input type="text" name="price" class="form-control" placeholder="Giá trị" style="width: 150px">
-                        <span>
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                                <i class="fa fa-random"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
+                @if (ViewBag.Create == "True")
+                {
+                    <form method="post" id="randomcoupon">
+                        <div class="input-group" style="margin: 10px 0 0 10px">
+                            <input type="text" name="number" class="form-control" placeholder="Số lượng" style="width: 150px">
+                            <input type="text" name="price" class="form-control" placeholder="Giá trị" style="width: 150px">
+                            <span>
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-random"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                }
+
                 <!-- /.box-header -->
                 <div class="box-body">
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Coupon</a>
+                    }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -53,7 +60,6 @@
                                 <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortprice })">Giá Trị</a></th>
                                 <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortactive })">Kích Hoạt</a></th>
                                 <th>Ngày Khởi Tạo</th>
-                                <th style="width: 100px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,13 +91,16 @@
 
                                     <td>@item.InitDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
 
+                                    @if (ViewBag.Delete == "True")
+                                    {
+                                        <td><button class="btn_delete_coupon btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
+                                    }
 
-                                    <td><button class="btn_delete_coupon btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
                                 </tr>
                             }
 
                         </tbody>
-                        <a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Coupon</a>
+
 
                     </table>
                     <p>

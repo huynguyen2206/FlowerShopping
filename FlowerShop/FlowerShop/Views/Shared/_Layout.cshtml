@@ -41,10 +41,10 @@
     <link rel="stylesheet" href="/Content/Home/style.css">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="/Content/Home/css/responsive.css">
+    <!-- PagedList CSS -->
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
     <!-- Modernizr Js -->
     <script src="/Content/Home/js/vendor/modernizr-2.8.3.min.js"></script>
-
-
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -69,7 +69,7 @@
                                 <!--Header Top Right Start-->
                                 <div class="header-top-right">
                                     <ul class="menu-top-menu text-md-right">
-                                        @if (User.Identity.IsAuthenticated)
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole(""))
                                         {
                                             <li>
 
@@ -166,9 +166,9 @@
                             <div class="col-xl-5 col-lg-3 col-md-10 order-md-4 order-lg-3">
                                 <!--Header Search Area-->
                                 <div class="header-search-area">
-                                    <form action="#">
+                                    <form action="/Product/Search" method="post">
                                         <div class="form-input">
-                                            <input name="search" id="search" placeholder="" value="Search..." onblur="if(this.value==''){this.value='Search...'}" onfocus="if(this.value=='Search...'){this.value=''}" type="text">
+                                            <input name="kw" id="search" placeholder="" value="Search..." onblur="if(this.value==''){this.value='Search...'}" onfocus="if(this.value=='Search...'){this.value=''}" type="text">
                                             <button type="submit" class="header-search-btn"><i class="fa fa-search"></i></button>
                                         </div>
                                     </form>

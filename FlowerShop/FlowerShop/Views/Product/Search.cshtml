@@ -1,0 +1,131 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Product>
+@using PagedList.Mvc;
+@using FlowerShop.Models;
+
+@{
+    ViewBag.Title = "Category";
+}
+
+<div class="shop-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 order-2 order-lg-1">
+                <!--Product Category Widget Start-->
+                <div class="shop-sidebar">
+                    <h4>Product Categories</h4>
+                    <div class="categori-checkbox">
+                        <form action="#">
+                            <ul>
+                                @{
+                                    var db = new FlowerShoppingEntities();
+                                    var categories = db.Categories.ToList();
+                                }
+                                @foreach (var item in categories)
+                                {
+                                    <li><input name="product-categori" type="checkbox"><a href="#">@item.CategoryName</a><span class="count">(@item.Products_Categories_Mapping.Count())</span></li>
+                                }
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+                <!--Product Category Widget End-->
+                <!--Price Filter Widget Start-->
+                <div class="shop-sidebar">
+                    <h4>Filter by price</h4>
+                    <div class="price-filter">
+                        <div id="slider-range"></div>
+                        <div class="price-slider-amount">
+                            <div class="label-input">
+                                <label>price : </label>
+                                <input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                            </div>
+                            <button type="button">Filter</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Price Filter Widget End-->
+            </div>
+            <div class="col-lg-9 order-1 order-lg-2">
+                <div class="shop-layout">
+                    <!--Grid & List View Start-->
+                    <div class="shop-topbar-wrapper d-md-flex justify-content-md-between align-items-center">
+                        <div class="grid-list-option">
+                            <ul class="nav">
+                                <li>
+                                    <a class="active" data-toggle="tab" href="#grid"><i class="fa fa-th-large"></i></a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#list"><i class="fa fa-th-list"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--Toolbar Short Area Start-->
+                        <div class="toolbar-short-area d-md-flex align-items-center">
+                            <div class="toolbar-shorter ">
+                                <label>Sort By:</label>
+                                <select class="wide">
+                                    <option data-display="Select">Nothing</option>
+                                    <option value="Relevance">Relevance</option>
+                                    <option value="Name, A to Z">Name, A to Z</option>
+                                    <option value="Name, Z to A">Name, Z to A</option>
+                                    <option value="Price, low to high">Price, low to high</option>
+                                    <option value="Price, high to low">Price, high to low</option>
+                                </select>
+                            </div>
+                            <p class="show-product">Showing 1–9 of 42 results</p>
+                        </div>
+                        <!--Toolbar Short Area End-->
+                    </div>
+                    <!--Grid & List View End-->
+                    <!--Shop Product Start-->
+                    <div class="shop-product">
+                        <div id="myTabContent-2" class="tab-content">
+                            <div id="grid" class="tab-pane fade show active">
+                                <div class="product-grid-view">
+                                    <div class="row">
+
+                                        @foreach (var item in Model)
+                                        {
+                                            @Html.Partial("_Products_Grid_Search", item);
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="list" class="tab-pane fade">
+                                <div class="product-list-view">
+
+                                    @*@foreach (var item in Model)
+                                        {
+                                            @Html.Partial("_Products_List_View", item);
+                                        }*@
+
+                                </div>
+                            </div>
+                            <!--Pagination Start-->
+                            @Html.PagedListPager(Model, page => Url.Action("Search", new { page, kw = ViewBag.kw }))
+                            @*<div class="product-pagination">
+                                <ul>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                                </ul>
+                            </div>*@
+
+                            <!--Pagination End-->
+                        </div>
+                    </div>
+                    <!--Shop Product End-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Shop Area End-->
+<p>
+
+</p>
+

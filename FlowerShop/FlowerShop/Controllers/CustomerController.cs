@@ -107,7 +107,7 @@ namespace FlowerShop.Controllers
                 Session.Abandon();
                 FormsAuthentication.SetAuthCookie(cus.Id.ToString(), false);
                 Response.Cookies["name"].Value = cus.CustomerName;
-
+                
                 return Content("OK");
             }
             catch (Exception)
@@ -124,7 +124,7 @@ namespace FlowerShop.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        [CustomAuthorize]
         public ActionResult MyAccount()
         {
             int id = int.Parse(User.Identity.Name);

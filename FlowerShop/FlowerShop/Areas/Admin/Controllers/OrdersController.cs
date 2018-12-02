@@ -10,6 +10,7 @@ using PagedList;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
+    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
     public class OrdersController : Controller
     {
         private GenericRepository<Order> orderRepository = new GenericRepository<Order>();
@@ -18,6 +19,15 @@ namespace FlowerShop.Areas.Admin.Controllers
         // SHOW INDEX ORDER
         public ActionResult Index(int? page, string kw_customername, string StatusId, string kw_daterange, string sort)
         {
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Order");
+            ViewBag.Create = per.Create.ToString();
+            ViewBag.Edit = per.Edit.ToString();
+            ViewBag.Delete = per.Delete.ToString();
+            if (!per.View)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             int pagenumber = page ?? 1;
             int pagesize = 10;
             var orders = orderRepository.GetModel();
@@ -85,6 +95,11 @@ namespace FlowerShop.Areas.Admin.Controllers
         // SHOW ORDER DETAILS
         public ActionResult Details(int id)
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Order", 4);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
             var orderdetails = orderRepository.GetModelById(id);
             ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", orderdetails.StatusId);
             return View(orderdetails);

@@ -102,7 +102,10 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <a href="@Url.Action("Create", "Orders")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Order</a>
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("Create", "Orders")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Order</a>
+                    }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -112,7 +115,6 @@
                                 <th>Customer</th>
                                 <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortdate })">Created on</a></th>
                                 <th>Order total</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,7 +167,11 @@
                                         }
                                     }
                                     <td>@Total.ToString("N0") VNĐ</td>
-                                    <td><a href="@Url.Action("Details", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block">View</a></td>
+                                    @if (ViewBag.Edit == "True")
+                                    {
+                                        <td><a href="@Url.Action("Details", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block">View</a></td>
+                                    }
+
 
                                     @*<td><button class="btn_delete btn btn-danger btn-block" pid="@item.Id">Delete</button></td>*@
                                 </tr>

@@ -8,6 +8,7 @@ using FlowerShop.Models;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
+    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
     public class CategoriesController : Controller
     {
         private GenericRepository<Category> categoryRepository = new GenericRepository<Category>();
@@ -17,6 +18,15 @@ namespace FlowerShop.Areas.Admin.Controllers
         // INDEX SHOW CATEGORIES
         public ActionResult Index(string kw)
         {
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Category");
+            ViewBag.Create = per.Create.ToString();
+            ViewBag.Edit = per.Edit.ToString();
+            ViewBag.Delete = per.Delete.ToString();
+            if (!per.View)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             var categories = categoryRepository.GetModel();
 
             if (!string.IsNullOrEmpty(kw))
@@ -32,6 +42,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Category", 2);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
+
             ViewBag.TopicId = new SelectList(db.Topics, "Id", "TopicName");
             return PartialView();
         }
@@ -69,6 +85,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         // EDIT CATEGORY
         public ActionResult Edit(int id)
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Category", 4);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
+
             var category = categoryRepository.GetModelById(id);
             ViewBag.TopicId = new SelectList(db.Topics, "Id", "TopicName", category.TopicId);
             return PartialView(category);
@@ -91,6 +113,15 @@ namespace FlowerShop.Areas.Admin.Controllers
         // SHOW TOPIC
         public ActionResult Topic()
         {
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Topic");
+            ViewBag.Create = per.Create.ToString();
+            ViewBag.Edit = per.Edit.ToString();
+            ViewBag.Delete = per.Delete.ToString();
+            if (!per.View)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             var topic = topicRepository.GetModel();
             return View(topic);
         }
@@ -100,6 +131,11 @@ namespace FlowerShop.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult CreateTopic()
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Topic", 2);
+            if (!per)
+            {
+                return RedirectToAction("Topic");
+            }
             return PartialView();
         }
 
@@ -137,6 +173,11 @@ namespace FlowerShop.Areas.Admin.Controllers
         // EDIT TOPIC
         public ActionResult EditTopic(int id)
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Topic", 4);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
             var topic = topicRepository.GetModelById(id);
             return PartialView(topic);
         }

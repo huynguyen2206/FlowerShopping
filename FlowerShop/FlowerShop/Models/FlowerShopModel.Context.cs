@@ -32,7 +32,6 @@ namespace FlowerShop.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Disable> Disables { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<LevelPermission> LevelPermissions { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Log_Types> Log_Types { get; set; }
@@ -49,5 +48,6 @@ namespace FlowerShop.Models
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<LevelPermission> LevelPermissions { get; set; }
     }
 }

@@ -12,11 +12,12 @@ using PagedList;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
+    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
     public class ProductsController : Controller
     {
         private ProductRepository productRepository = new ProductRepository();
         //private GenericRepository<Product> productRepository = new GenericRepository<Product>();
-        private FlowerShoppingEntities db = new FlowerShoppingEntities();
+        FlowerShoppingEntities db = new FlowerShoppingEntities();
         Products_Categories_Mapping p_c_m;
 
         // UPLOAD PICTURES
@@ -83,6 +84,15 @@ namespace FlowerShop.Areas.Admin.Controllers
         // INDEX SHOW PRODUCT
         public ActionResult Index(int? page, string kw_price, string kw_productname, string kw_daterange, string sort)
         {
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Product");
+            ViewBag.Create = per.Create.ToString();
+            ViewBag.Edit = per.Edit.ToString();
+            ViewBag.Delete = per.Delete.ToString();
+            if(!per.View)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             int pagesize = 10;
             int pagenumber = page ?? 1;
 
@@ -160,6 +170,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         // CREATE PRODUCT
         public ActionResult Create()
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Product", 2);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
+
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName");
             ViewBag.PictureId = new SelectList(db.Pictures, "Id", "PictureUrl");
             ViewBag.VendorId = new SelectList(db.Vendors, "Id", "VendorName");
@@ -234,6 +250,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         // EDIT PRODUCT
         public ActionResult Edit(int? id)
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Product", 4);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -308,6 +330,11 @@ namespace FlowerShop.Areas.Admin.Controllers
         // DELETE PRODUCT
         public ActionResult Delete(int id)
         {
+            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Product", 8);
+            if (!per)
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
                 //tìm ra product Id
