@@ -213,7 +213,8 @@ namespace FlowerShop.Areas.Admin.Controllers
                         Directory.CreateDirectory(path);
                         string ImageName = pic.FileName.Split('\\').Last();
                         pic.SaveAs(path + "\\" + ImageName);
-                        emp.PictureUrl = ImageName;
+                        employee.PictureUrl = ImageName;
+
                     }
                 }
 
