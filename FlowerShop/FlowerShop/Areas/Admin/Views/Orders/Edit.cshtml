@@ -1,0 +1,306 @@
+﻿@model FlowerShop.Models.Order
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    <section class="content-header">
+        <h1>
+            Order Details
+            <small><a href="@Url.Action("Index", "Orders")"><< Back to Orders list</a></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Admin/Orders">Order List</a></li>
+            <li><a href="#">Order Details</a></li>
+        </ol>
+    </section>
+
+    @Html.AntiForgeryToken()
+    <!-- Main content -->
+    <section class="content" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs pull-right">
+                            <li class="active pull-left"><a href="#order-info" data-toggle="tab">Order Info</a></li>
+                            <li class="pull-left"><a href="#order-details" data-toggle="tab">Products Details</a></li>
+                            <li class="pull-right header"><i class="fa fa-inbox"></i>Order Details</li>
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <!-- Morris chart - Sales -->
+                            <div class="chart tab-pane active" id="order-info">
+                                <div class="col-md-12" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Order Status:</th>
+                                                    <td>
+                                                        <b>@Model.Status.StatusName</b>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-danger cancel-order" style="margin-left: 15px" oid="@Model.Id">Cancel Order</button>
+                                                        <button class="btn btn-instagram btn_change_status">Change Status</button>
+                                                        @if (Model.ShippingId == null)
+                                                        {
+                                                            <a href="@Url.Action("AddShipper", "Orders", new { id = Model.Id })" class="btn btn-instagram myaction">Add Shiper</a>
+                                                        }
+                                                        <div class="change_status_form" style="margin-top: 10px">
+                                                            <div class="col-sm-6">
+                                                                @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control ddl_status" })
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button class="btn btn-instagram change_status" oid="@Model.Id">Save</button>
+                                                                <button class="btn btn-foursquare cancel-Change">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Order Id:</th>
+                                                    <td>@Model.Id</td>
+                                                </tr>
+                                                @if (Model.CustomerId != null)
+                                                {
+                                                    <tr>
+                                                        <th>Customer:</th>
+                                                        <td>@Model.Customer.CustomerName</td>
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <th>Create Order:</th>
+                                                    <td>@Model.OrderDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Discount:</th>
+                                                    <td>@Model.Discount</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tax:</th>
+                                                    <td>@Model.Tax</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Shipping Fee:</th>
+                                                    <td>@Model.ShippingFee</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Method:</th>
+                                                    <td>@Model.PaymentMethod.MethodName</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Receiver:</th>
+                                                    <td>@Model.Receiver</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Address:</th>
+                                                    <td>@Model.Address</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Phone Number:</th>
+                                                    <td>@Model.PhoneNumber</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Coupon:</th>
+                                                    @{
+                                                        if (Model.Coupon.Price > 0 && Model.Coupon.Price < 100)
+                                                        {
+                                                            <td>@Model.Coupon.Price %</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.Coupon.Price.ToString("N0") VNĐ</td>
+                                                        }
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Order Total:</th>
+                                                    @{
+                                                        decimal Total = 0;
+                                                        if (Model.Coupon.Price > 0 && Model.Coupon.Price < 100)
+                                                        {
+                                                            Total = Model.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - (((x.UnitPrice - x.Discount) * x.Quantity) * Model.Coupon.Price / 100)) - Model.Discount;
+                                                        }
+                                                        else
+                                                        {
+                                                            Total = Model.OrderDetails.Sum(x => (x.UnitPrice - x.Discount) * x.Quantity) - Model.Coupon.Price - Model.Discount;
+                                                        }
+                                                    }
+                                                    <td>@Total.ToString("N0") VNĐ</td>
+                                                </tr>
+                                                @if (Model.ShippingId != null)
+                                                {
+                                                    <tr>
+                                                        <th>Shipper:</th>
+                                                        <td>@Model.Shipping.ShippingName</td>
+                                                    </tr>
+                                                }
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box -->
+
+
+                                </div>
+
+                            </div>
+
+                            <div class="chart tab-pane" id="order-details">
+                                <div class="col-md-12" style="margin-top: 10px">
+
+                                    <div class="box box-info">
+
+                                        <table id="example2" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Picture</th>
+                                                    <th>Product Name</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Discount</th>
+                                                    <th>Tax</th>
+                                                    <th>Total</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.OrderDetails)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <img style="height:100px" src="~/Uploads/Products/@item.ProductId/@item.ImageUrl" />
+                                                        </td>
+                                                        <td>
+                                                            @item.Product.ProductName
+                                                        </td>
+                                                        <td>
+                                                            @item.UnitPrice.ToString("N0")
+                                                        </td>
+                                                        <td>@item.Quantity</td>
+                                                        <td>@item.Discount.ToString("N0")</td>
+                                                        <td>@item.Tax</td>
+                                                        @{
+                                                            var ProductTotal = ((item.UnitPrice - item.Discount) * item.Quantity) - item.Tax;
+                                                        }
+                                                        <td>@ProductTotal.ToString("N0")</td>
+                                                        <td>
+                                                            <a href="@Url.Action("OrderDetails", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block myaction">Edit</a>
+                                                            <button style="margin-top: 10px" class="btn_delete_orderdetails btn btn-danger btn-block" odid="@item.Id">Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </section>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        $("th").addClass("text-center");
+        $(".change_status_form").hide();
+
+        // Set Order Status is Cancel
+        $(".cancel-order").click(function () {
+            var btn = $(this);
+            var oid = btn.attr("oid");
+            if (confirm("Are you sure cancel this order?")) {
+                $.ajax({
+                    url: '/Admin/Orders/CancelOrder',
+                    type: "POST",
+                    data: "oid=" + oid,
+                    success: function (response) {
+                        if (response == "OK") {
+                            return false;
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+
+                });
+                return true;
+            }
+            return false;
+        });
+
+        // Delete Order Details
+        $(".btn_delete_orderdetails").click(function () {
+            var btn = $(this);
+            var odid = btn.attr("odid");
+            if (confirm("Bạn Có Muốn Xóa Sản Phẩm Này?")) {
+                $.ajax({
+                    url: '/Admin/Orders/Delete_Orderdetails',
+                    type: "POST",
+                    data: "odid=" + odid,
+                    success: function (response) {
+                        if (response == "OK") {
+                            btn.parent().parent().remove();
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+
+                });
+            }
+            return false;
+        });
+
+        $(".btn_change_status").click(function () {
+            $(".change_status_form").show();
+            return false;
+        });
+
+        $(".cancel-Change").click(function () {
+            $(".change_status_form").hide();
+            return false;
+        });
+
+        // Change Status
+        $(".change_status").click(function () {
+            var btn = $(this);
+            var oid = btn.attr("oid");
+            var statusid = $(".ddl_status").val();
+
+            $.ajax({
+                url: '/Admin/Orders/ChangeStatus',
+                type: "POST",
+                data: "oid=" + oid + "&statusid=" + statusid,
+                success: function (response) {
+                    if (response == "OK") {
+                        $(".change_status_form").hide();
+                    }
+                }
+            });
+        });
+
+
+
+    })
+</script>

@@ -83,6 +83,7 @@
     <Property Name="LevelId" Type="int" Nullable="false" />
     <Property Name="LastLogin" Type="datetime" Nullable="false" />
     <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="LevelPermissions">
     <Key>
@@ -225,6 +226,7 @@
     <Property Name="Email" Type="nvarchar" MaxLength="150" />
     <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Statuses">
     <Key>

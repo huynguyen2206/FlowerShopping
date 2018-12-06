@@ -60,8 +60,16 @@ namespace FlowerShop.Models
         {
             using (var db = new FlowerShoppingEntities())
             {
-                var emp = db.Employees.SingleOrDefault(x => x.Id.ToString().Equals(username));
-                return emp.Level.LevelName.Equals(roleName);
+                if(roleName == "")
+                {
+                    return false;
+                }
+                else
+                {
+                    var emp = db.Employees.SingleOrDefault(x => x.Id.ToString().Equals(username));
+                    return emp.Level.LevelName.Equals(roleName);
+                }
+                
             }
         }
 

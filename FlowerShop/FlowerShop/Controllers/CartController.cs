@@ -83,11 +83,12 @@ namespace FlowerShop.Controllers
             }
             else
             {
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
                 order = new Order()
                 {
                     OrderDate = DateTime.Now,
                     StatusId = 1,
-                    CustomerId = int.Parse(User.Identity.Name),
+                    CustomerId = cus.Id,
                     CouponId = coupon,
                     Discount = 0,
                     Tax = 0,

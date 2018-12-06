@@ -76,10 +76,10 @@
                                                 <a href="@Url.Action("MyAccount", "Customer")">
                                                     @{
                                                         var db = new FlowerShoppingEntities();
-                                                        var Customer = db.Customers.SingleOrDefault(x => x.Id.ToString().Equals(User.Identity.Name));
+                                                        var Customer = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
                                                         var src = Customer.ImageUrl;
                                                     }
-                                                    <img src="~/Uploads/Customers/@User.Identity.Name/@src" class="user-image" alt="User Image" style="width: 30px; border-radius: 50%">
+                                                    <img src="~/Uploads/Customers/@Customer.Id/@src" class="user-image" alt="User Image" style="width: 30px; border-radius: 50%">
                                                     <span class="hidden-xs">@Request.Cookies["name"].Value</span>
                                                 </a>
                                             </li>
@@ -185,7 +185,7 @@
                                     </a>
                                     <!--Cart Dropdown Start-->
                                     <div class="cart-dropdown">
-                                        <ul id="carts1">
+                                        <ul class="show_mini_carts">
 
                                             @*<li class="single-cart-item">
                                                     <div class="cart-img">
@@ -231,7 +231,7 @@
                                     </div>
                                     <!--Logo Sticky End-->
                                     <!--Main Menu Area Start-->
-                                    <div class="header-menu text-center">
+                                    <div class="text-center">
                                         <nav>
                                             <ul class="main-menu">
                                                 <li>
@@ -247,6 +247,23 @@
                                                     </ul>
                                                     <!--Mega Menu End-->
                                                 </li>
+                                                <div class="mini-cart logo-sticky header-menu">
+                                                    <a href="@Url.Action("Index", "Cart")">
+                                                        <span class="cart-icon">
+                                                        </span>
+                                                        <span class="cart-title">Your cart <br><strong class="sumtotal"></strong></span>
+                                                    </a>
+                                                    <!--Cart Dropdown Start-->
+                                                    <div class="cart-dropdown">
+                                                        <ul class="show_mini_carts"></ul>
+                                                        <p class="cart-subtotal"><strong>Subtotal:</strong> <span class="float-right sumtotal"></span></p>
+                                                        <p class="cart-btn">
+                                                            <a href="@Url.Action("Index", "Cart")">View cart</a>
+                                                            <a href="@Url.Action("CheckoutDisplay", "Cart")">Checkout</a>
+                                                        </p>
+                                                    </div>
+                                                    <!--Cart Dropdown End-->
+                                                </div>
                                             </ul>
                                         </nav>
                                     </div>
@@ -756,6 +773,20 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
 
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5c072302fd65052a5c93c9d3/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
     <!--All Js Here-->
     <!--Jquery 1.12.4-->
     <script src="/Content/Home/js/vendor/jquery-1.12.4.min.js"></script>

@@ -8,11 +8,11 @@ namespace FlowerShop.Models
 {
     public class CustomPermisstions
     {
-        public static PermisstionsVM CheckPermisstion(int id, string TableName)
+        public static PermisstionsVM CheckPermisstion(string TableName)
         {
             using (var db = new FlowerShoppingEntities())
             {
-                var emp = db.Employees.Find(id);
+                var emp = db.Employees.Find(int.Parse(HttpContext.Current.User.Identity.Name));
                 var permisstion = db.LevelPermissions.SingleOrDefault(x => x.LevelId == emp.LevelId && x.TableName == TableName);
                 var per = new PermisstionsVM()
                 {
@@ -23,17 +23,6 @@ namespace FlowerShop.Models
                 };
                 
                 return per;
-            }
-
-        }
-
-        public static bool CheckPermisstion(int id, string TableName, int number)
-        {
-            using (var db = new FlowerShoppingEntities())
-            {
-                var emp = db.Employees.Find(id);
-                var permisstion = db.LevelPermissions.SingleOrDefault(x => x.LevelId == emp.LevelId && x.TableName == TableName);
-                return Convert.ToBoolean(permisstion.Total & number);
             }
 
         }

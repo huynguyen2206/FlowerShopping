@@ -20,7 +20,7 @@ namespace FlowerShop.Models
         public string Message { get; set; }
         public System.DateTime RegisterDate { get; set; }
     
-        public virtual Employee Employee { get; set; }
         public virtual Log_Types Log_Types { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

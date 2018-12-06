@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using FlowerShop.Models;
+using PagedList;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
-    //[AdminCustomAuthorize(Roles = "Admin, Manager")]
+    
     public class EmployeesController : Controller
     {
+        private GenericRepository<Employee> EmployeeRepository = new GenericRepository<Employee>();
         private FlowerShoppingEntities db = new FlowerShoppingEntities();
         
         // LOGIN
         public ActionResult Login()
         {
-            if(User.Identity.IsAuthenticated && !User.IsInRole(""))
+            if (User.Identity.IsAuthenticated && !User.IsInRole(""))
             {
                 return RedirectToAction("Index", "Dashboard");
             }
@@ -54,17 +57,15 @@ namespace FlowerShop.Areas.Admin.Controllers
                 return View();
             }
 
-            //if (!emp.isActive)
-            //{
-            //    ViewBag.Msg = "Tài khoản đã bị khóa";
-            //}
-
+            if (!emp.IsActive)
+            {
+                ViewBag.Msg = "Tài khoản đã bị khóa";
+            }
 
             FormsAuthentication.SetAuthCookie(emp.Id.ToString(), false);
             return RedirectToAction("Index", "Dashboard");
         }
-
-
+        
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -72,13 +73,47 @@ namespace FlowerShop.Areas.Admin.Controllers
         }
 
 
-
-
-        // GET: Admin/Employees
-        public ActionResult Index()
+        [AdminCustomAuthorize]
+        public ActionResult Index(int? page, string sort, string Kw_EmployeeName)
         {
-            var employees = db.Employees.Include(e => e.Level);
-            return View(employees.ToList());
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion("Employees");
+            ViewBag.Create = per.Create.ToString();
+            ViewBag.Edit = per.Edit.ToString();
+            ViewBag.Delete = per.Delete.ToString();
+
+            int pagesize = 10;
+            int pagenumber = page ?? 1;
+            var employees = EmployeeRepository.GetModel();
+            employees = employees.Where(x => x.IsActive == true);
+
+            if (!string.IsNullOrEmpty(Kw_EmployeeName))
+            {
+                employees = employees.Where(x => x.EmployeeName.ToLower().Contains(Kw_EmployeeName.ToLower()));
+                ViewBag.kw = Kw_EmployeeName;
+            }
+
+            if (string.IsNullOrEmpty(sort))
+            {
+                ViewBag.sort = "id_asc";
+            }
+            else
+            {
+                ViewBag.sort = sort;
+            }
+
+            switch (sort)
+            {
+                case "id_asc":
+                    employees = employees.OrderBy(x => x.Id);
+                    ViewBag.sortid = "id_desc";
+                    break;
+                case "id_desc":
+                    employees = employees.OrderByDescending(x => x.Id);
+                    ViewBag.sortid = "id_asc";
+                    break;
+            }
+            ViewBag.sortid = ViewBag.sortid ?? "id_desc";
+            return View(employees.ToPagedList(pagenumber, pagesize));
         }
 
         // GET: Admin/Employees/Details/5
@@ -96,6 +131,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             return View(employee);
         }
 
+        [AdminCustomAuthorize]
         // GET: Admin/Employees/Create
         public ActionResult Create()
         {
@@ -108,11 +144,29 @@ namespace FlowerShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,LoginName,Password,EmployeeName,Phone,Gender,Email,Address,PictureUrl,LevelId,LastLogin,RegisterDate")] Employee employee)
+        public ActionResult Create(HttpPostedFileBase pic, [Bind(Include = "Id,LoginName,Password,EmployeeName,Phone,Gender,Email,Address,PictureUrl,LevelId,LastLogin,RegisterDate")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                employee.PictureUrl = "";
+                employee.RegisterDate = DateTime.Now;
+                employee.LastLogin = DateTime.Now;
                 db.Employees.Add(employee);
+
+                db.SaveChanges();
+                // picture
+                string path = Server.MapPath("~/Uploads/Employee/" + employee.Id);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+
+                string ImageName = pic.FileName.Split('\\').Last();
+                pic.SaveAs(path + "\\" + ImageName);
+                var employees = db.Employees.Find(employee.Id);
+
+                employees.PictureUrl = ImageName;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -121,6 +175,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             return View(employee);
         }
 
+        [AdminCustomAuthorize]
         // GET: Admin/Employees/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -142,11 +197,34 @@ namespace FlowerShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,LoginName,Password,EmployeeName,Phone,Gender,Email,Address,PictureUrl,LevelId,LastLogin,RegisterDate")] Employee employee)
+        public ActionResult Edit(HttpPostedFileBase pic, [Bind(Include = "Id,LoginName,Password,EmployeeName,Phone,Gender,Email,Address,PictureUrl,LevelId,LastLogin,RegisterDate")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
+                var emp = db.Employees.Find(employee.Id);
+                if (pic != null)
+                {
+                    // picture
+                    string path = Server.MapPath("~/Uploads/Employee/") + emp.Id + "\\" + emp.PictureUrl;
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                        path = Server.MapPath("~/Uploads/Employee/" + emp.Id);
+                        Directory.CreateDirectory(path);
+                        string ImageName = pic.FileName.Split('\\').Last();
+                        pic.SaveAs(path + "\\" + ImageName);
+                        emp.PictureUrl = ImageName;
+                    }
+                }
+
+
+                emp.LevelId = employee.LevelId;
+                emp.Email = employee.Email;
+                emp.Phone = employee.Phone;
+                emp.Address = employee.Address;
+                emp.Gender = employee.Gender;
+
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -154,19 +232,35 @@ namespace FlowerShop.Areas.Admin.Controllers
             return View(employee);
         }
 
+
+        [AdminCustomAuthorize]
         // GET: Admin/Employees/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //Employee employee = db.Employees.Find(id);
+            //if (employee == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(employee);
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var employee = db.Employees.Find(id);
+                employee.IsActive = false;
+                db.SaveChanges();
+
+
+                return Content("OK");
             }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+
+                return Content(ex.Message);
             }
-            return View(employee);
         }
 
         // POST: Admin/Employees/Delete/5

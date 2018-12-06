@@ -335,7 +335,8 @@ textarea:focus {
 	line-height: 40px;
 	border-radius: 100%;
 	bottom: 25px;
-	right: 25px;
+	/*right: 25px;*/
+    left: 25px;
 	color: #fff;
 	text-align: center;
 	font-size: 25px;

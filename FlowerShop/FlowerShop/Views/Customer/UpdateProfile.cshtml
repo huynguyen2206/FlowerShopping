@@ -1,5 +1,5 @@
 ﻿@model FlowerShop.Models.UpdateProfileVM
-
+@using FlowerShop.Models
 
 <form method="post" action="/Customer/UpdateProfile" enctype="multipart/form-data">
     <div class="form-fild">
@@ -28,7 +28,12 @@
     }
     else
     {
-        <img src="~/Uploads/Customers/@User.Identity.Name/@Model.ImageUrl" height="400" />
+        using (var db = new FlowerShoppingEntities())
+        {
+            var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
+            <img src="~/Uploads/Customers/@cus.Id/@Model.ImageUrl" height="400" />
+        }
+        
     }
 
 

@@ -14,9 +14,8 @@
         <tbody>
             @{ 
                 FlowerShoppingEntities db = new FlowerShoppingEntities();
-                //var cus = db.Customers.Find(int.Parse(User.Identity.Name));
-                var id = int.Parse(User.Identity.Name);
-                var Orders = db.Orders.Where(x => x.CustomerId == id);
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
+                var Orders = db.Orders.Where(x => x.CustomerId == (cus.Id)).ToList();
             }
             @foreach (var item in Orders)
             {

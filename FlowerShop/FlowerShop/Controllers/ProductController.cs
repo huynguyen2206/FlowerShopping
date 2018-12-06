@@ -65,15 +65,16 @@ namespace FlowerShop.Controllers
         {
             try
             {
-                var user_id = int.Parse(User.Identity.Name);
+                //var user_id = int.Parse(User.Identity.Name);
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
 
-                Like l = db.Likes.Where(x => x.CustomerId == user_id && x.ProductId == id).SingleOrDefault();
+                Like l = db.Likes.Where(x => x.CustomerId.Equals(cus.Id) && x.ProductId == id).SingleOrDefault();
 
                 if (l == null)
                 {
                     l = new Like()
                     {
-                        CustomerId = user_id,
+                        CustomerId = cus.Id,
                         IsLike = true,
                         ProductId = id,
                     };
@@ -102,9 +103,10 @@ namespace FlowerShop.Controllers
         {
             try
             {
-                var user_id = int.Parse(User.Identity.Name);
+                //var user_id = int.Parse(User.Identity.Name);
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
 
-                Like l = db.Likes.Where(x => x.CustomerId == user_id && x.ProductId == id).SingleOrDefault();
+                Like l = db.Likes.Where(x => x.CustomerId.Equals(cus.Id) && x.ProductId == id).SingleOrDefault();
 
                 return Content(l.IsLike.ToString());
             }

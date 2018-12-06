@@ -7,7 +7,7 @@ using FlowerShop.Models;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
-    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
+    [AdminCustomAuthorize]
     public class DashboardController : Controller
     {
         FlowerShoppingEntities db = new FlowerShoppingEntities();
@@ -15,6 +15,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public ActionResult Index()
         {
+
             //var pr = (from p in db.Products
             //          join od in db.OrderDetails on p.Id equals od.ProductId
             //          join o in db.Orders on od.OrderId equals o.Id

@@ -20,7 +20,7 @@ namespace FlowerShop.Models
         public int ProductQuantity { get; set; }
         public int EmployeeId { get; set; }
     
-        public virtual Employee Employee { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

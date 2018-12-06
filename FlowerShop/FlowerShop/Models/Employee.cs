@@ -18,9 +18,9 @@ namespace FlowerShop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
+            this.Orders = new HashSet<Order>();
             this.Product_Logs = new HashSet<Product_Logs>();
             this.System_Logs = new HashSet<System_Logs>();
-            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -36,13 +36,14 @@ namespace FlowerShop.Models
         public int LevelId { get; set; }
         public System.DateTime LastLogin { get; set; }
         public System.DateTime RegisterDate { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Level Level { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Logs> Product_Logs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<System_Logs> System_Logs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -1,0 +1,148 @@
+﻿@model IEnumerable<FlowerShop.Models.Product>
+
+@{
+    ViewBag.Title = "ReportProducts";
+}
+
+<section class="content-header">
+    <h1>
+        Report Products
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                @using (Html.BeginForm())
+                {
+                    @*<div class="input-group" style="margin: 10px 0 0 25px">
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">Date Range</label>
+
+                                        <input type="text" class="form-control pull-right" id="reservation" name="kw_daterange">
+                                        <script>
+                                        $(function () {
+                                            //Date range picker
+                                            $('#reservation').daterangepicker()
+                                            $('#reservation').val("")
+                                        })
+                                        </script>
+                                        <button type="submit" name="search" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                }
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Sản Phẩm Ế</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Product Name</th>
+                                            <th>Price Total</th>
+                                            <th>Discount</th>
+                                            <th>View</th>
+                                        </tr>
+
+                                        @foreach (var item in Model.Where(x => x.OrderDetails.Count.Equals(0)))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.ProductName</td>
+                                                <td>@item.UnitPrice.ToString("N0") đ</td>
+                                                <td>@item.SalePrice.ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Top 10 - Sản Phẩm Bán Chạy</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in Model.OrderByDescending(x => x.OrderDetails.Count).Take(10))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.ProductName</td>
+                                                <td>@item.OrderDetails.Sum(x => x.Quantity)</td>
+                                                <td>@item.OrderDetails.Sum(o => (o.UnitPrice - o.Discount) * o.Quantity).ToString("N0")</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

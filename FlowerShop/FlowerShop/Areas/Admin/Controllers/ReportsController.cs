@@ -7,9 +7,10 @@ using System.Web.Mvc;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
-    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
+    [AdminCustomAuthorize]
     public class ReportsController : Controller
     {
+        FlowerShoppingEntities db = new FlowerShoppingEntities();
         // GET: Admin/Reports
         public ActionResult Index()
         {
@@ -17,9 +18,23 @@ namespace FlowerShop.Areas.Admin.Controllers
         }
 
 
+        public ActionResult ReportEmployees()
+        {
+            var emp = db.Employees.ToList();
+            return View(emp);
+        }
+
+
         public ActionResult ReportProducts()
         {
-            return View();
+            var products = db.Products.ToList();
+            return View(products);
+        }
+
+        public ActionResult ReportOrders()
+        {
+            var orders = db.Orders.ToList();
+            return View(orders);
         }
     }
 }

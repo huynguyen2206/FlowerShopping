@@ -61,5 +61,49 @@ namespace FlowerShop.Areas.Admin.Controllers
         }
 
 
+        public ActionResult AddLevel()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult AddLevel(Level data)
+        {
+            string[] TableName = {"Orders", "Coupons", "Products", "Employees", "Customers", "Categories", "Shippers", "Topics" };
+            string[] DisplayName = { "Orders Manager", "Coupons Manager", "Products Manager", "Employees Manager", "Customers Manager", "Categories manager", "Shippers Manager", "Topics Manager" };
+
+            try
+            {
+                Level level = new Level()
+                {
+                    LevelName = data.LevelName
+                };
+
+                db.Levels.Add(level);
+                db.SaveChanges();
+
+                for (int i = 0; i < TableName.Length; i++)
+                {
+                    LevelPermission per = new LevelPermission()
+                    {
+                        LevelId = level.Id,
+                        TableName = TableName[i],
+                        DisplayName = DisplayName[i],
+                        Total = 1,
+                    };
+                    db.LevelPermissions.Add(per);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
     }
 }

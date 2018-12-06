@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using FlowerShop.Models
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -366,42 +367,104 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
+                    @{
+                        var db = new FlowerShoppingEntities();
+                        var emp = db.Employees.Find(int.Parse(User.Identity.Name));
+                        var per = db.LevelPermissions.Where(x => x.LevelId == emp.LevelId).ToList();
+                    }
                     @*<li class="header">MAIN NAVIGATION</li>*@
                     <li class="active menu_bar_left">
                         <a href="@Url.Action("Index", "Dashboard")">
-                            <i class="fa fa-th"></i> <span>Dashboard</span>
+                            <i class="glyphicon glyphicon-blackboard"></i> <span>Dashboard</span>
                         </a>
                     </li>
 
-                    <li class="menu_bar_left">
-                        <a href="@Url.Action("Index", "Products")">
-                            <i class="fa fa-th"></i> <span>Products</span>
-                        </a>
-                    </li>
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Products")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Products")">
+                                <i class="fa fa-tree"></i> <span>Products</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li class="menu_bar_left">
-                        <a href="@Url.Action("Index", "Categories")">
-                            <i class="fa fa-th"></i> <span>Categories</span>
-                        </a>
-                    </li>
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Categories")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Categories")">
+                                <i class="fa fa-th"></i> <span>Categories</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li class="menu_bar_left">
-                        <a href="@Url.Action("Index", "Orders")">
-                            <i class="fa fa-th"></i> <span>Orders</span>
-                        </a>
-                    </li>
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Orders")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Orders")">
+                                <i class="glyphicon glyphicon-shopping-cart"></i> <span>Orders</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li class="menu_bar_left">
-                        <a href="@Url.Action("Index", "Coupons")">
-                            <i class="fa fa-gift"></i> <span>Coupons</span>
-                        </a>
-                    </li>
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Coupons")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Coupons")">
+                                <i class="fa fa-gift"></i> <span>Coupons</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li class="menu_bar_left">
-                        <a href="@Url.Action("Index", "Reports")">
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Employees")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Employees")">
+                                <i class="glyphicon glyphicon-user"></i> <span>Employees</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Customers")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Customers")">
+                                <i class="fa fa-users"></i> <span>Customers</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (Convert.ToBoolean(per.SingleOrDefault(x => x.TableName.Equals("Shippers")).Total & 1))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Shippers")">
+                                <i class="fa fa-motorcycle"></i> <span>Shipers</span>
+                            </a>
+                        </li>
+                    }
+
+                    <li id="navMenus" class="treeview">
+                        <a href="#">
                             <i class="fa fa-line-chart"></i> <span>Reports</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("ReportOrders", "Reports")"><i class="fa fa-circle-o"></i>Orders</a></li>
+                            <li><a href="@Url.Action("ReportProducts", "Reports")"><i class="fa fa-circle-o"></i>Products</a></li>
+                        </ul>
                     </li>
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="menu_bar_left">
+                            <a href="@Url.Action("Index", "Permisstions")">
+                                <i class="fa fa-gear"></i> <span>Permisstions</span>
+                            </a>
+                        </li>
+                    }
+
 
                     @*<li id="navMenus" class="active treeview">
                             <a href="#">

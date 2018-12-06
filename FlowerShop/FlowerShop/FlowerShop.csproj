@@ -167,12 +167,15 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CouponsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CustomersController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermisstionsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShippersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TopicsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -7955,13 +7958,25 @@
     <Content Include="Areas\Admin\Views\Categories\EditTopic.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\AddShipper.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Employees\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Employees\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Employees\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Employees\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Employees\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Employees\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Permisstions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\ReportEmployees.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\ReportProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\ReportOrders.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Topics\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Topics\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Topics\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shippers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Shippers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Shippers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Permisstions\AddLevel.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -8025,7 +8040,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Reports\" />
     <Folder Include="Content\Home\css\images\" />
   </ItemGroup>
   <ItemGroup>

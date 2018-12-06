@@ -130,7 +130,7 @@
                                                         }
                                                         else
                                                         {
-                                                            Total = Model.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - Model.Coupon.Price) - Model.Discount;
+                                                            Total = Model.OrderDetails.Sum(x => (x.UnitPrice - x.Discount) * x.Quantity) - Model.Coupon.Price - Model.Discount;
                                                         }
                                                     }
                                                     <td>@Total.ToString("N0") VNĐ</td>

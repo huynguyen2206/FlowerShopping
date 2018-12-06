@@ -49,7 +49,7 @@ namespace FlowerShop.Controllers
 
                 var customer = db.Customers.Find(cus.Id);
                 customer.ImageUrl = ImageName;
-                
+
 
                 db.SaveChanges();
 
@@ -105,9 +105,9 @@ namespace FlowerShop.Controllers
                 }
 
                 Session.Abandon();
-                FormsAuthentication.SetAuthCookie(cus.Id.ToString(), false);
+                FormsAuthentication.SetAuthCookie(cus.Email, false);
                 Response.Cookies["name"].Value = cus.CustomerName;
-                
+
                 return Content("OK");
             }
             catch (Exception)
@@ -127,8 +127,9 @@ namespace FlowerShop.Controllers
         [CustomAuthorize]
         public ActionResult MyAccount()
         {
-            int id = int.Parse(User.Identity.Name);
-            var cus = db.Customers.Find(id);
+            //int id = int.Parse(User.Identity.Name);
+            //var cus = db.Customers.Find(id);
+            var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
 
             UpdateProfileVM data = Mapper.Map<UpdateProfileVM>(cus);
             return View(data);
@@ -148,8 +149,9 @@ namespace FlowerShop.Controllers
         {
             try
             {
-                int id = int.Parse(User.Identity.Name);
-                var cus = db.Customers.Find(id);
+                //int id = int.Parse(User.Identity.Name);
+                //var cus = db.Customers.Find(id);
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
 
                 UpdateProfileVM data = Mapper.Map<UpdateProfileVM>(cus);
                 return PartialView(data);
@@ -163,10 +165,12 @@ namespace FlowerShop.Controllers
         [HttpPost]
         public ActionResult UpdateProfile(UpdateProfileVM data, HttpPostedFileBase img)
         {
-            int id = int.Parse(User.Identity.Name);
-            var cus = db.Customers.Find(id);
+            //int id = int.Parse(User.Identity.Name);
+            //var cus = db.Customers.Find(id);
+            var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
+            Mapper.Map(data, cus);
 
-            string path = Server.MapPath("/Uploads/Customers/") + id + "\\" + cus.ImageUrl;
+            string path = Server.MapPath("/Uploads/Customers/") + cus.Id + "\\" + cus.ImageUrl;
 
             if (System.IO.File.Exists(path))
             {
@@ -178,11 +182,15 @@ namespace FlowerShop.Controllers
                 Directory.CreateDirectory(path_new);
             }
 
-            string ImageName = img.FileName.Split('\\').Last();
-            img.SaveAs(path_new + "\\" + ImageName);
-            Mapper.Map(data, cus);
-            cus.ImageUrl = ImageName;
+            if(img != null)
+            {
+                string ImageName = img.FileName.Split('\\').Last();
+                img.SaveAs(path_new + "\\" + ImageName);
+                
+                cus.ImageUrl = ImageName;
+            }
 
+            cus.ImageUrl = data.ImageUrl;
             db.SaveChanges();
 
             return RedirectToAction("MyAccount");
@@ -204,8 +212,9 @@ namespace FlowerShop.Controllers
 
             try
             {
-                int id = int.Parse(User.Identity.Name);
-                var cus = db.Customers.Find(id);
+                //int id = int.Parse(User.Identity.Name);
+                //var cus = db.Customers.Find(id);
+                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
 
                 if (cus.Password.Equals(Password))
                 {
@@ -241,7 +250,7 @@ namespace FlowerShop.Controllers
             string subject = "Your lost password?";
             string body = "<a href = 'http://localhost:64803/Customer/Activate?token=" + token + "'>Click here to change your password</a>";
 
-            SentMail.Sent(email, subject ,body);
+            SentMail.Sent(email, subject, body);
 
             return Content("OK");
         }
@@ -270,7 +279,7 @@ namespace FlowerShop.Controllers
 
                 throw;
             }
-            
+
         }
 
         [HttpPost]

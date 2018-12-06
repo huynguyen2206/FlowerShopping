@@ -4,6 +4,7 @@ $.cookie.defaults.path = '/';
 
 function getCartItems() {
     if ($.cookie('productlist')) {
+        //alert(($.cookie('productlist').cartItems).length);
         return $.cookie('productlist').cartItems;
     } else {
         return [];
@@ -120,7 +121,7 @@ function loadCartItems() {
     var quan = 0;
     var total = 0;
     $("#carts2").html("");
-    $("#carts1").html("");
+    $(".show_mini_carts").html("");
     $(cart_items).each(function (i, v) {
         var t = (v.price - v.saleprice) * v.quantity;
         total += t;
@@ -137,7 +138,7 @@ function loadCartItems() {
             + "</tr>");
 
         // show CartItem nhỏ ngoài Layout
-        $("#carts1").append("<li class='single-cart-item'>"
+        $(".show_mini_carts").append("<li class='single-cart-item'>"
             + "<div class='cart-img'>"
             + "<a href=''><img src='" + v.picture + "'></a></div>"
             + "<div class='cart-content'>"

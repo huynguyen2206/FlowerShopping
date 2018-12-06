@@ -21,21 +21,24 @@
                 <div class="box-header">
                     @using (Html.BeginForm())
                     {
-                        <div class="form-horizontal">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label">Level Name</label>
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Level Name</label>
 
-                                    <div class="col-sm-6">
-                                        @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control kw_status select2" })
-                                    </div>
-                                    <script>
-                                    $('.select2').select2();
-                                    </script>
-                                    <button type="submit" name="search" class="btn btn-success">Search</button>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("LevelId", null, htmlAttributes: new { @class = "form-control kw_status select2" })
                                 </div>
+                                <script>
+                                    $('.select2').select2();
+                                </script>
+                                <button type="submit" name="search" class="btn btn-success">Search</button>
                             </div>
                         </div>
+                        <div style="text-align: right">
+                            <a href="@Url.Action("AddLevel", "Permisstions")" class="btn btn-success myaction">Add Level</a>
+                        </div>
+                    </div>
                     }
                 </div>
 
@@ -45,7 +48,6 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Display</th>
                                 <th>View</th>
                                 <th>Create</th>
@@ -57,7 +59,6 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.Id</td>
                                     <td>@item.DisplayName</td>
                                     @if (item.View)
                                     {

@@ -33,6 +33,7 @@
                         <ul class="nav nav-tabs pull-right">
                             <li class="active pull-left"><a href="#product-info" data-toggle="tab">Product Info</a></li>
                             <li class="pull-left"><a href="#product-pic" data-toggle="tab">Picture</a></li>
+                            <li class="pull-left"><a href="#product-add-quantity" data-toggle="tab">Add Quantty in Stock</a></li>
                             <li class="pull-right header"><i class="fa fa-inbox"></i>Product Details</li>
                         </ul>
                         <div class="tab-content no-padding">
@@ -97,7 +98,6 @@
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-3 control-label">Description Short</label>
                                                     <div class="col-sm-9">
-                                                        @*<textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>*@
                                                         @Html.TextAreaFor(model => model.DescriptionShort, new { htmlAttributes = new { @class = "form-control", rows = "3" } })
                                                         @Html.ValidationMessageFor(model => model.DescriptionShort, "", new { @class = "text-danger" })
                                                     </div>
@@ -306,8 +306,43 @@
                                         <!-- /.box -->
                                     </div>
                                 </div>
+                            </div>
+
+
+                            <div class="chart tab-pane" id="product-add-quantity">
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Add Quantity in Stock</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" class="form-control" placeholder="Quantity" name="realquantity" value="0"/>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                </div>
 
                             </div>
+
+
                         </div>
                         <!-- /.nav-tabs-custom -->
                     </div>

@@ -31,7 +31,6 @@ namespace FlowerShop.Models
         public virtual DbSet<Coupon> Coupons { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Disable> Disables { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Log_Types> Log_Types { get; set; }
@@ -42,12 +41,13 @@ namespace FlowerShop.Models
         public virtual DbSet<Product_Logs> Product_Logs { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Products_Categories_Mapping> Products_Categories_Mapping { get; set; }
-        public virtual DbSet<Shipping> Shippings { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<System_Logs> System_Logs { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<LevelPermission> LevelPermissions { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Shipping> Shippings { get; set; }
     }
 }

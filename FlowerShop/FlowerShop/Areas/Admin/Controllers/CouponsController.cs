@@ -9,7 +9,7 @@ using PagedList;
 
 namespace FlowerShop.Areas.Admin.Controllers
 {
-    [AdminCustomAuthorize(Roles = "Admin, Manager, Seller")]
+    [AdminCustomAuthorize]
     public class CouponsController : Controller
     {
         FlowerShoppingEntities db = new FlowerShoppingEntities();
@@ -17,14 +17,10 @@ namespace FlowerShop.Areas.Admin.Controllers
         // SHOW INDEX COUPON
         public ActionResult Index(int? page, string kw, string sort)
         {
-            PermisstionsVM per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Coupon");
+            PermisstionsVM per = CustomPermisstions.CheckPermisstion("Coupons");
             ViewBag.Create = per.Create.ToString();
             ViewBag.Edit = per.Edit.ToString();
             ViewBag.Delete = per.Delete.ToString();
-            if (!per.View)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
 
             int pagenumber = page ?? 1;
             int pagesize = 10;
@@ -77,11 +73,6 @@ namespace FlowerShop.Areas.Admin.Controllers
         // GET RANDOM COUPON
         public ActionResult RandomCoupon(string number, string price)
         {
-            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Coupon", 2);
-            if (!per)
-            {
-                return RedirectToAction("Index");
-            }
             if (string.IsNullOrEmpty(number))
             {
                 //return Content("Vui lòng nhập số lượng");
@@ -138,11 +129,6 @@ namespace FlowerShop.Areas.Admin.Controllers
         // DELETE
         public ActionResult Delete(int id)
         {
-            bool per = CustomPermisstions.CheckPermisstion(int.Parse(User.Identity.Name), "Coupon", 8);
-            if (!per)
-            {
-                return RedirectToAction("Index");
-            }
             try
             {
                 var coupon = db.Coupons.Find(id);

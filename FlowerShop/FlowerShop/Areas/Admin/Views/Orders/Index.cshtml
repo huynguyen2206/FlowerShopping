@@ -163,13 +163,13 @@
                                         }
                                         else
                                         {
-                                            Total = item.OrderDetails.Sum(x => ((x.UnitPrice - x.Discount) * x.Quantity) - item.Coupon.Price) - item.Discount;
+                                            Total = item.OrderDetails.Sum(x => (x.UnitPrice - x.Discount) * x.Quantity) - item.Coupon.Price - item.Discount;
                                         }
                                     }
                                     <td>@Total.ToString("N0") VNĐ</td>
                                     @if (ViewBag.Edit == "True")
                                     {
-                                        <td><a href="@Url.Action("Details", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block">View</a></td>
+                                        <td><a href="@Url.Action("Edit", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block">View</a></td>
                                     }
 
 
