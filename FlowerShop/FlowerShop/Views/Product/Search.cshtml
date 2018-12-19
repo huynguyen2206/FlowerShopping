@@ -39,7 +39,7 @@
                                 <label>price : </label>
                                 <input type="text" id="amount" name="price" placeholder="Add Your Price" />
                             </div>
-                            <button type="button">Filter</button>
+                            @*<button type="button">Filter</button>*@
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,9 @@
 
                                         @foreach (var item in Model)
                                         {
-                                            @Html.Partial("_Products_Grid_Search", item);
+                                            <div class="col-md-4">
+                                                @Html.Partial("_Single_Product", item)
+                                            </div>
                                         }
 
                                     </div>
@@ -105,15 +107,15 @@
                             <!--Pagination Start-->
                             @Html.PagedListPager(Model, page => Url.Action("Search", new { page, kw = ViewBag.kw }))
                             @*<div class="product-pagination">
-                                <ul>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                </ul>
-                            </div>*@
+                                    <ul>
+                                        <li class="active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                                    </ul>
+                                </div>*@
 
                             <!--Pagination End-->
                         </div>

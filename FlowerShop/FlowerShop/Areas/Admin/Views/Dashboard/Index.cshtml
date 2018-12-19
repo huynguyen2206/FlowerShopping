@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "Index";
 
-    var products = ViewBag.products as List<Product>;
-    var customer = ViewBag.cus as List<Customer>;
 }
 
 <section class="content-header">
@@ -16,93 +14,147 @@
     </ol>
 </section>
 
-<div class="col-md-6" style="margin-top: 10px">
-    <!-- TABLE: LATEST ORDERS -->
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">Sản Phẩm Bán Chạy</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Monthly Recap Report</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-wrench"></i>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="text-center">
+                                @{ 
+                                    var firstday = DateTime.Now;
+                                    firstday = firstday.AddDays((-firstday.Day) + 1);
+
+                                    var lastday = DateTime.Now;
+                                    lastday = lastday.AddMonths(1);
+                                    lastday = lastday.AddDays(-(lastday.Day));
+                                }
+                                <strong>Orders: @firstday.ToString("dd/MM/yyyy") - @lastday.ToString("dd/MM/yyyy")</strong>
+                            </p>
+
+                            <div class="chart">
+                                <!-- Sales Chart Canvas -->
+                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                            </div>
+                            <!-- /.chart-responsive -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-4">
+                            <p class="text-center">
+                                <strong>Goal Completion</strong>
+                            </p>
+
+                            <div class="progress-group">
+                                <span class="progress-text">Add Products to Cart</span>
+                                <span class="progress-number"><b>160</b>/200</span>
+
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Complete Purchase</span>
+                                <span class="progress-number"><b>310</b>/400</span>
+
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Visit Premium Page</span>
+                                <span class="progress-number"><b>480</b>/800</span>
+
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-green" style="width: 20%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">Send Inquiries</span>
+                                <span class="progress-number"><b>250</b>/500</span>
+
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- ./box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">@ViewBag.TR đ</h5>
+                                <span class="description-text">TOTAL REVENUE</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                                <h5 class="description-header">@ViewBag.TC đ</h5>
+                                <span class="description-text">TOTAL COST</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                                <h5 class="description-header">@ViewBag.TP đ</h5>
+                                <span class="description-text">TOTAL PROFIT</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                                <h5 class="description-header">1200</h5>
+                                <span class="description-text">GOAL COMPLETIONS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.box-footer -->
             </div>
+            <!-- /.box -->
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div class="form-horizontal">
-
-                <table class="table table-bordered">
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Products Name</th>
-                        <th>Quantity</th>
-                        <th style="width: 40px">Total</th>
-                        <th>View</th>
-                    </tr>
-                    @foreach (var item in products)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.ProductName</td>
-                            <td>@item.OrderDetails.Sum(x => x.Quantity)</td>
-                            <td>@item.OrderDetails.Sum(o => (o.UnitPrice - o.Discount) * o.Quantity).ToString("N0")</td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
-                            </td>
-                            @*<td><span class="badge bg-red">55%</span></td>*@
-                        </tr>
-                    }
-                </table>
-
-            </div>
-
-        </div>
-        <!-- /.box-body -->
+        <!-- /.col -->
     </div>
-    <!-- /.box -->
-</div>
-
-
-<div class="col-md-6" style="margin-top: 10px">
-    <!-- TABLE: LATEST ORDERS -->
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">Khách hàng mới</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div class="form-horizontal">
-
-                <table class="table table-bordered">
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Customers Name</th>
-                        <th>Phone Number</th>
-                        <th style="width: 40px">Total</th>
-                        <th>View</th>
-                    </tr>
-                    @foreach (var item in customer)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.CustomerName</td>
-                        </tr>
-                    }
-
-                </table>
-
-            </div>
-
-        </div>
-        <!-- /.box-body -->
-    </div>
-    <!-- /.box -->
-</div>
-
+    <!-- /.row -->
+</section>

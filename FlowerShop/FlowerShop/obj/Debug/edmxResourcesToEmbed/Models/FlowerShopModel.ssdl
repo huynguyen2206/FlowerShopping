@@ -184,6 +184,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RegisterDate" Type="datetime" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="ProductPrice" Type="int" Nullable="false" />
     <Property Name="ProductQuantity" Type="int" Nullable="false" />
     <Property Name="EmployeeId" Type="int" Nullable="false" />
   </EntityType>

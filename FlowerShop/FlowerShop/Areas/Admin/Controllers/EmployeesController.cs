@@ -41,9 +41,9 @@ namespace FlowerShop.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(Employee data)
+        public ActionResult Login(Employee data, string RememeberMe)
         {
-            var emp = db.Employees.SingleOrDefault(x => x.LoginName.Equals(data.LoginName));
+            var emp = db.Employees.SingleOrDefault(x => x.LoginName.ToLower().Equals(data.LoginName.ToLower()));
 
             if (emp == null)
             {
@@ -61,8 +61,8 @@ namespace FlowerShop.Areas.Admin.Controllers
             {
                 ViewBag.Msg = "Tài khoản đã bị khóa";
             }
-
-            FormsAuthentication.SetAuthCookie(emp.Id.ToString(), false);
+            
+            FormsAuthentication.SetAuthCookie(emp.Id.ToString(), RememeberMe == "on" ? true : false);
             return RedirectToAction("Index", "Dashboard");
         }
         

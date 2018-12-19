@@ -21,8 +21,8 @@ namespace FlowerShop.Models
             this.Likes = new HashSet<Like>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.Pictures = new HashSet<Picture>();
-            this.Product_Logs = new HashSet<Product_Logs>();
             this.Products_Categories_Mapping = new HashSet<Products_Categories_Mapping>();
+            this.Product_Logs = new HashSet<Product_Logs>();
         }
     
         public int Id { get; set; }
@@ -52,9 +52,9 @@ namespace FlowerShop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Picture> Pictures { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product_Logs> Product_Logs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products_Categories_Mapping> Products_Categories_Mapping { get; set; }
         public virtual Vendor Vendor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product_Logs> Product_Logs { get; set; }
     }
 }

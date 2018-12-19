@@ -63,7 +63,7 @@ namespace FlowerShop.Controllers
 
 
         // LOGIN
-        public ActionResult Login(string Email, string Password)
+        public ActionResult Login(string Email, string Password, string RememberMe)
         {
             try
             {
@@ -77,13 +77,13 @@ namespace FlowerShop.Controllers
                     return Content("Vui lòng nhập Pasword");
                 }
 
-                var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(Email));
+                var cus = db.Customers.SingleOrDefault(x => x.Email.ToLower().Equals(Email.ToLower()));
                 if (cus == null)
                 {
                     return Content("Email chưa được đăng ký");
                 }
 
-                if (!cus.Password.Equals(Security.Encrypt(Password)))
+                if (!cus.Password.Equals(Security.Encrypt(Password.ToLower())))
                 {
                     if (Session["login_log"] != null)
                     {
@@ -105,8 +105,8 @@ namespace FlowerShop.Controllers
                 }
 
                 Session.Abandon();
-                FormsAuthentication.SetAuthCookie(cus.Email, false);
-                Response.Cookies["name"].Value = cus.CustomerName;
+                FormsAuthentication.SetAuthCookie(cus.Email, RememberMe == "on" ? true : false);
+                //Response.Cookies["name"].Value = cus.CustomerName;
 
                 return Content("OK");
             }

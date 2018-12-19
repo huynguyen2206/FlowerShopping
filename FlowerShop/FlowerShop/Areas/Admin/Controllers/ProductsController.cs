@@ -176,7 +176,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(Product product, string[] CategoryId, HttpPostedFileBase img)
+        public ActionResult Create(Product product, int[] CategoryId, HttpPostedFileBase img, int InputPrice)
         {
             if (ModelState.IsValid)
             {
@@ -194,7 +194,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                     p_c_m = new Products_Categories_Mapping()
                     {
                         ProductId = product.Id,
-                        CategoryId = int.Parse(c),
+                        CategoryId = c,
                     };
                     db.Products_Categories_Mapping.Add(p_c_m);
                 }
@@ -230,6 +230,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 Product_Logs p_l = new Product_Logs()
                 {
                     ProductId = product.Id,
+                    ProductPrice = InputPrice,
                     ProductQuantity = product.QuantityAvailable,
                     EmployeeId = int.Parse(User.Identity.Name),
                     RegisterDate = DateTime.Now
@@ -279,7 +280,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(Product product, string[] CategoryId, int realquantity)
+        public ActionResult Edit(Product product, int[] CategoryId, int realquantity, int realprice)
         {
             if (ModelState.IsValid)
             {
@@ -287,21 +288,31 @@ namespace FlowerShop.Areas.Admin.Controllers
                 db.Entry(product).State = EntityState.Modified;
 
                 // Add Categories
+                List<int> category = new List<int>();
+
                 var categoriesList = db.Products_Categories_Mapping.Where(x => x.ProductId.Equals(product.Id));
 
-
-                foreach (var c in CategoryId)
+                foreach(var c in categoriesList)
                 {
-                    var cate = categoriesList.SingleOrDefault(x => x.CategoryId.ToString().Equals(c));
-                    if (cate == null)
+                    category.Add(c.CategoryId);
+                }
+
+                var categoriesRemove = category.Except(CategoryId);
+                foreach(var c in categoriesRemove)
+                {
+                    var cate = db.Products_Categories_Mapping.SingleOrDefault(x => x.CategoryId.Equals(c) && x.ProductId.Equals(product.Id));
+                    db.Products_Categories_Mapping.Remove(cate);
+                }
+
+                var categoriesAdd = CategoryId.Except(category);
+                foreach(var c in categoriesAdd)
+                {
+                    Products_Categories_Mapping cate = new Products_Categories_Mapping()
                     {
-                        p_c_m = new Products_Categories_Mapping()
-                        {
-                            ProductId = product.Id,
-                            CategoryId = int.Parse(c),
-                        };
-                        db.Products_Categories_Mapping.Add(p_c_m);
-                    }
+                        ProductId = product.Id,
+                        CategoryId = c
+                    };
+                    db.Products_Categories_Mapping.Add(cate);
                 }
 
                 // ghi Log
@@ -313,14 +324,15 @@ namespace FlowerShop.Areas.Admin.Controllers
                     RegisterDate = DateTime.Now,
                 };
 
-                db.System_Logs.Add(s_l);
+                //db.System_Logs.Add(s_l);
 
-                if(realquantity > 0)
+                if (realquantity > 0)
                 {
                     // add real quantity
                     Product_Logs p_l = new Product_Logs()
                     {
                         ProductId = product.Id,
+                        ProductPrice = realprice,
                         ProductQuantity = realquantity,
                         EmployeeId = int.Parse(User.Identity.Name),
                         RegisterDate = DateTime.Now

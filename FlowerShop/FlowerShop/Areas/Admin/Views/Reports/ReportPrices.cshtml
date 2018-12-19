@@ -1,0 +1,210 @@
+﻿@using FlowerShop.Models;
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "ReportPrices";
+    var ProductsInput = ViewBag.ProductsInput as PagedList.IPagedList<Product>;
+    var ProductsOrders = ViewBag.ProductsOrders as PagedList.IPagedList<Product>;
+}
+
+<section class="content-header">
+    <h1>
+        Thống kê doanh số
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                @using (Html.BeginForm())
+                {
+                    <div class="input-group" style="margin: 15px 0 0 25px">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-left" id="reservation" name="kw_daterange" style="width: 300px">
+                        <span>
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                        <script>
+                            $(function () {
+                                //Date range picker
+                                $('#reservation').daterangepicker()
+                                $('#reservation').val("")
+                            })
+                        </script>
+                    </div>
+                }
+
+                <div class="box-body">
+
+                    @*<div class="col-md-12" style="margin-top: 10px">
+                            <!-- TABLE: LATEST ORDERS -->
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Order with High Total</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="form-horizontal">
+
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Products name</th>
+                                                <th>Products Price</th>
+                                                <th>Price Quantity</th>
+                                                <th>Create Date</th>
+                                            </tr>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                    <td>@item.Product.ProductName</td>
+                                                    <td>@item.ProductPrice.ToString("N0") đ</td>
+                                                    <td>@item.ProductQuantity</td>
+                                                    <td>@item.RegisterDate.ToString("dd/MM/yyyy")</td>
+                                                </tr>
+                                            }
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>*@
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Tổng Sản Phẩm Nhập Vào</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+                                    @{
+                                        string datetime = ViewBag.kw;
+                                        string[] dt = new string[2];
+                                        if (ViewBag.kw != null)
+                                        {
+                                            dt = datetime.Split('-');
+                                        }
+                                        else
+                                        {
+                                            dt[0] = "1/1/" + DateTime.Now.Year;
+                                            dt[1] = "12/31/" + DateTime.Now.Year;
+                                        }
+
+                                    }
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Products Name</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in ProductsInput)
+                                        {
+                                            <tr>
+                                                <td>@item.ProductName</td>
+                                                <td>@item.Product_Logs.Where(x => x.RegisterDate.Date >= DateTime.Parse(dt[0]) && x.RegisterDate.Date <= DateTime.Parse(dt[1])).Sum(x => x.ProductQuantity)</td>
+                                                <td>@item.Product_Logs.Where(x => x.RegisterDate.Date >= DateTime.Parse(dt[0]) && x.RegisterDate.Date <= DateTime.Parse(dt[1])).Sum(x => x.ProductPrice * x.ProductQuantity).ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td colspan="2" style="color: red">TOTAL</td>
+                                            <td colspan="2" style="color: red">@ProductsInput.Sum(x => x.Product_Logs.Where(p => p.RegisterDate.Date >= DateTime.Parse(dt[0]) && p.RegisterDate.Date <= DateTime.Parse(dt[1])).Sum(p => p.ProductPrice * p.ProductQuantity)).ToString("N0") đ</td>
+                                        </tr>
+                                    </table>
+                                    @Html.PagedListPager(ProductsInput, page => Url.Action("ReportPrices", new { page_p_i = page, page_p_o = ViewBag.page_p_o, kw_daterange = ViewBag.kw_daterange }))
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Tổng Sản Phẩm Bán Ra</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Products Name</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in ProductsOrders)
+                                        {
+                                            <tr>
+                                                <td>@item.ProductName</td>
+                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(x => x.Quantity)</td>
+                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity).ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td colspan="2" style="color: red">TOTAL</td>
+                                            <td colspan="2" style="color: red">@ProductsOrders.Sum(x => x.OrderDetails.Where(o => o.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && o.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity)).ToString("N0") đ</td>
+                                        </tr>
+                                    </table>
+                                    @Html.PagedListPager(ProductsOrders, page => Url.Action("ReportPrices", new { page_p_i = ViewBag.page_p_i, page_p_o = page,  kw_daterange = ViewBag.kw_daterange }))
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

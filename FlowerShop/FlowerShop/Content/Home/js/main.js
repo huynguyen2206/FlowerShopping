@@ -651,15 +651,15 @@ var amountprice = $('#amount');
 $(function() {
     sliderrange.slider({
         range: true,
-        min: 20,
-        max: 100,
-        values: [0, 100],
+        min: 100,
+        max: 10000,
+        values: [100, 100000],
         slide: function(event, ui) {
-            amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+            amountprice.val(ui.values[0] + " đ - " + ui.values[1] + " đ");
         }
     });
-    amountprice.val("$" + sliderrange.slider("values", 0) +
-        " - $" + sliderrange.slider("values", 1));
+    amountprice.val(sliderrange.slider("values", 0) +
+        " đ - " + sliderrange.slider("values", 1) + " đ");
 });
 /*------------------------------ 
     Nice Select Active

@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="/Content/AdminTemplate/bower_components/select2/dist/css/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/Content/AdminTemplate/dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -74,11 +76,11 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="/Admin/index" class="logo">
+            <a href="@Url.Action("Index","Dashboard")" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>LTE</span>
+                <span class="logo-lg"><b>Admin</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -292,16 +294,20 @@
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
+                            @{
+                                var db = new FlowerShoppingEntities();
+                                var emp = db.Employees.Find(int.Parse(User.Identity.Name));
+                            }
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/Content/AdminTemplate/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <img src="~/Uploads/Employees/@emp.Id/@emp.PictureUrl" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@emp.EmployeeName</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="/Content/AdminTemplate/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="~/Uploads/Employees/@emp.Id/@emp.PictureUrl" class="img-circle" alt="User Image">
                                     <p>
-                                        Alexander Pierce - Web Developer
+                                        @emp.EmployeeName - @emp.Level.LevelName
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
@@ -346,10 +352,10 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="/Content/AdminTemplate/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="~/Uploads/Employees/@emp.Id/@emp.PictureUrl" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>@emp.EmployeeName</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -368,8 +374,6 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @{
-                        var db = new FlowerShoppingEntities();
-                        var emp = db.Employees.Find(int.Parse(User.Identity.Name));
                         var per = db.LevelPermissions.Where(x => x.LevelId == emp.LevelId).ToList();
                     }
                     @*<li class="header">MAIN NAVIGATION</li>*@
@@ -452,6 +456,8 @@
                         <ul class="treeview-menu">
                             <li><a href="@Url.Action("ReportOrders", "Reports")"><i class="fa fa-circle-o"></i>Orders</a></li>
                             <li><a href="@Url.Action("ReportProducts", "Reports")"><i class="fa fa-circle-o"></i>Products</a></li>
+                            <li><a href="@Url.Action("ReportPrices", "Reports")"><i class="fa fa-circle-o"></i>Doanh Thu</a></li>
+                            <li><a href="@Url.Action("ReportUsers", "Reports")"><i class="fa fa-circle-o"></i>Users</a></li>
                         </ul>
                     </li>
 
@@ -528,6 +534,11 @@
     <script src="/Content/AdminTemplate/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <script src="/Content/AdminTemplate/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
+    <!-- ChartJS -->
+    <script src="/Content/AdminTemplate/bower_components/chart.js/Chart.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="/Content/AdminTemplate/dist/js/pages/dashboard2.js"></script>
+
     <script src="/Content/AdminTemplate/plugins/iCheck/icheck.min.js"></script>
     <!-- Slimscroll -->
     <script src="/Content/AdminTemplate/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
@@ -539,6 +550,11 @@
     <script src="/Content/AdminTemplate/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/Content/AdminTemplate/dist/js/demo.js"></script>
+    <!-- Chartjs -->
+    @*<script src="~/Content/FlowerShopJs/Chartjs.js"></script>*@
+    <!-- Cookie Js -->
+    <script src="/Content/FlowerShopJs/jquery.cookie.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
     @RenderSection("scripts", required: false)
 
@@ -576,13 +592,18 @@
     </script>
 
     <script>
-            $(document).ready(function () {
-                $(".menu_bar_left").click(function () {
-                    $("li").removeClass("active");
-                    $(this).addClass("active");
-                    //return false;
-                });
+        $(document).ready(function () {
+            $(".sidebar-menu li").click(function () {
+                //e.preventDefault();
+
+                $(".sidebar-menu li").removeClass("active");
+                $(this).addClass("active");
+
+                //$("#content-wrapper").load($(this).attr("href"));
+
+                //return false;
             });
+        });
     </script>
 
 </body>

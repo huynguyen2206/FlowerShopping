@@ -4,7 +4,6 @@ $.cookie.defaults.path = '/';
 
 function getCartItems() {
     if ($.cookie('productlist')) {
-        //alert(($.cookie('productlist').cartItems).length);
         return $.cookie('productlist').cartItems;
     } else {
         return [];
@@ -23,7 +22,7 @@ function emptyCartItems() {
 }
 
 //Add Item
-function addItem(productid, productname, price, saleprice, picture, description, quantity, quantitystock) {
+function addItem(productid, productname, price, saleprice, picture, quantity, quantitystock) {
     var cart_items = getCartItems();
     //if (quantity == null) {
     //    quantity = 1;
@@ -37,7 +36,7 @@ function addItem(productid, productname, price, saleprice, picture, description,
         }
     });
     if (!is_exist) {
-        var new_item = { "productid": productid, "productname": productname, "price": price.replace(/,/g, ''), "saleprice": saleprice.replace(/,/g, ''), "picture": picture, "description": description, "quantity": quantity, "quantitystock": quantitystock };
+        var new_item = { "productid": productid, "productname": productname, "price": price.replace(/,/g, ''), "saleprice": saleprice.replace(/,/g, ''), "picture": picture, "quantity": quantity, "quantitystock": quantitystock };
         cart_items.push(new_item);
         saveCartItems(cart_items);
         alert("Thêm Sản Phẩm Thành Công!");
@@ -241,8 +240,8 @@ function Checkout(coupon) {
                 return false;
             }
         },
-        error: function () {
-
+        error: function (response) {
+            alert(response)
         }
     });
 
@@ -278,7 +277,7 @@ $(document).ready(function () {
             alert("Số lượng vượt quá số lượng sản phẩm hiện có!");
             return false;
         }
-        addItem(a.attr("pid"), a.attr("pname"), a.attr("pprice"), a.attr("psale"), a.attr("ppic"), a.attr("pdes"), quantity, quantitystock);
+        addItem(a.attr("pid"), a.attr("pname"), a.attr("pprice"), a.attr("psale"), a.attr("ppic"), quantity, quantitystock);
         return false;
     });
 

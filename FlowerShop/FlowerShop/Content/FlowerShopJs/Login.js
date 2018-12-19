@@ -9,7 +9,7 @@ function init_reload() {
 $(document).ready(function () {
     //init_reload();
     $("#Login_form").submit(function () {
-
+        var url = location.href;
         $.ajax({
             url: this.action,
             type: this.method,
@@ -19,10 +19,10 @@ $(document).ready(function () {
                     $(".login_email").val("");
                     $(".login_password").val("");
                     alert("Bạn đã đăng nhập sai nhiều lần, vui lòng chờ 10 phút");
-                    location.href = "/Home";
+                    location.href = url;
                 }
                 else if (response == "OK") {
-                    location.href = "/Home";
+                    location.href = url;
                 }
                 else {
                     alert(response);

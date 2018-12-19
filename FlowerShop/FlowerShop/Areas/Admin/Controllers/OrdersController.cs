@@ -84,7 +84,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName");
 
-            return View(orders.ToPagedList(pagenumber, pagesize));
+            return View(orders.OrderByDescending(x => x.Id).ToPagedList(pagenumber, pagesize));
         }
 
         // SHOW ORDER DETAILS
@@ -96,12 +96,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         }
 
         
-        public ActionResult Details(int id)
-        {
-            var orderdetails = orderRepository.GetModelById(id);
-            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", orderdetails.StatusId);
-            return View(orderdetails);
-        }
+        //public ActionResult Details(int id)
+        //{
+        //    var orderdetails = orderRepository.GetModelById(id);
+        //    ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", orderdetails.StatusId);
+        //    return View(orderdetails);
+        //}
 
 
         // CHANGE STATUS ORDER = CANCEL
@@ -140,7 +140,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             Mapper.Map(data, orderdetails);
             db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = data.OrderId });
+            return RedirectToAction("Edit", new { id = data.OrderId });
         }
 
 
@@ -178,9 +178,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         {
             var order = db.Orders.Find(data.Id);
             Mapper.Map(data, order);
+
+            order.EmployeeId = int.Parse(User.Identity.Name);
+            order.StatusId = 2;
             db.SaveChanges();
             
-            return RedirectToAction("Details", new { id = data.Id });
+            return RedirectToAction("Edit", new { id = data.Id });
         }
 
 

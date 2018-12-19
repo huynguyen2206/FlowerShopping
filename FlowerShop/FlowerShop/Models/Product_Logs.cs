@@ -17,10 +17,11 @@ namespace FlowerShop.Models
         public int Id { get; set; }
         public System.DateTime RegisterDate { get; set; }
         public int ProductId { get; set; }
+        public int ProductPrice { get; set; }
         public int ProductQuantity { get; set; }
         public int EmployeeId { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

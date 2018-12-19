@@ -16,7 +16,7 @@ namespace FlowerShop.Models
                 var permisstion = db.LevelPermissions.SingleOrDefault(x => x.LevelId == emp.LevelId && x.TableName == TableName);
                 var per = new PermisstionsVM()
                 {
-                    View = Convert.ToBoolean(permisstion.Total & 1),
+                    //View = Convert.ToBoolean(permisstion.Total & 1),
                     Create = Convert.ToBoolean(permisstion.Total & 2),
                     Edit = Convert.ToBoolean(permisstion.Total & 4),
                     Delete = Convert.ToBoolean(permisstion.Total & 8),

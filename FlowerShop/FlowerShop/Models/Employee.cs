@@ -19,13 +19,16 @@ namespace FlowerShop.Models
         public Employee()
         {
             this.Orders = new HashSet<Order>();
-            this.Product_Logs = new HashSet<Product_Logs>();
             this.System_Logs = new HashSet<System_Logs>();
+            this.Product_Logs = new HashSet<Product_Logs>();
         }
     
         public int Id { get; set; }
+        [Required]
         public string LoginName { get; set; }
+
         [DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
         public string EmployeeName { get; set; }
         public string Phone { get; set; }
@@ -42,8 +45,8 @@ namespace FlowerShop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product_Logs> Product_Logs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<System_Logs> System_Logs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product_Logs> Product_Logs { get; set; }
     }
 }

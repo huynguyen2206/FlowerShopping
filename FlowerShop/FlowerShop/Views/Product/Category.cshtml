@@ -15,7 +15,7 @@
                     <div class="categori-checkbox">
                         <form action="#">
                             <ul>
-                                @{ 
+                                @{
                                     var db = new FlowerShoppingEntities();
                                     var categories = db.Categories.ToList();
                                 }
@@ -28,7 +28,6 @@
                     </div>
                 </div>
                 <!--Product Category Widget End-->
-
                 <!--Price Filter Widget Start-->
                 <div class="shop-sidebar">
                     <h4>Filter by price</h4>
@@ -86,7 +85,9 @@
 
                                         @foreach (var item in Model)
                                         {
-                                            @Html.Partial("_Products_Grid_View", item);
+                                            <div class="col-md-4">
+                                                @Html.Partial("_Single_Products_pcm", item)
+                                            </div>
                                         }
 
                                     </div>
@@ -97,7 +98,7 @@
 
                                     @foreach (var item in Model)
                                     {
-                                        @Html.Partial("_Products_List_View", item);
+                                        @Html.Partial("_Products_List_View", item)
                                     }
 
                                 </div>

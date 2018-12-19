@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using FlowerShop.Models;
 using Newtonsoft.Json;
 
@@ -44,7 +45,7 @@ namespace FlowerShop.Controllers
             {
                 var pid = db.Products.SingleOrDefault(x => x.Id.Equals(item.productid));
 
-                if (pid.UnitPrice != item.price || pid.SalePrice != item.saleprice)
+                if (pid.UnitPrice != item.price || pid.SalePrice != item.saleprice || pid.QuantityAvailable < item.quantity)
                 {
                     return Content("Error!");
                 }
@@ -63,8 +64,13 @@ namespace FlowerShop.Controllers
                 }
             }
 
-            Order order;
+            //if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            //{
+            //    FormsAuthentication.SignOut();
+            //}
 
+            Order order;
+            
             if (!User.Identity.IsAuthenticated)
             {
                 order = new Order()

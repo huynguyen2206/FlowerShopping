@@ -51,6 +51,14 @@ namespace FlowerShop.Controllers
                     db.SaveChanges();
                 }
 
+                var category = db.Products_Categories_Mapping.FirstOrDefault(x => x.ProductId.Equals(product.Id));
+
+                var RelatedProducts = db.Products_Categories_Mapping.Where(x => x.CategoryId.Equals(category.CategoryId)).Take(6).ToList();
+                ViewBag.RelatedProducts = RelatedProducts;
+
+                var SamePriceProducts = db.Products.Where(x => x.UnitPrice >= (product.UnitPrice - 100000) && x.UnitPrice <= (product.UnitPrice + 100000)).Take(6).ToList();
+                ViewBag.SamePriceProducts = SamePriceProducts;
+
                 return View(product);
             }
             catch (Exception)

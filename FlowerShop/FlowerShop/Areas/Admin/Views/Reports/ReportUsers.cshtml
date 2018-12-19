@@ -1,0 +1,246 @@
+﻿@using FlowerShop.Models
+
+@{
+    ViewBag.Title = "ReportUsers";
+    var customer = ViewBag.customer as List<Customer>;
+    var employee = ViewBag.employee as List<Employee>;
+    var shipper = ViewBag.shipper as List<Shipping>;
+}
+
+<section class="content-header">
+    <h1>
+        Report Users
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+
+                @using (Html.BeginForm())
+                {
+                    @*<div class="input-group" style="margin: 10px 0 0 25px">
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">Date Range</label>
+
+                                        <input type="text" class="form-control pull-right" id="reservation" name="kw_daterange">
+                                        <script>
+                                        $(function () {
+                                            //Date range picker
+                                            $('#reservation').daterangepicker()
+                                            $('#reservation').val("")
+                                        })
+                                        </script>
+                                        <button type="submit" name="search" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                }
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Khách Hàng Mua Nhiều Nhất</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Name</th>
+                                            <th>Order Total</th>
+                                            <th>Pay Total</th>
+                                            <th>View</th>
+                                        </tr>
+
+                                        @foreach (var item in customer.Where(x => x.Orders.Count > 0).OrderByDescending(x => x.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity))).Take(10))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.Orders.Count()</td>
+                                                <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Customers", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Khách Hàng Mới</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Register Date</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in customer.OrderByDescending(x => x.RegisterDate).Take(10))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.Phone</td>
+                                                <td>@item.RegisterDate.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Customers", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Nhân Viên Bán Nhiều Nhất</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Name</th>
+                                            <th>Order Total</th>
+                                            <th>pay Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in employee.Where(x => x.Orders.Count > 0).OrderByDescending(x => x.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity))).Take(10))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.EmployeeName</td>
+                                                <td>@item.Orders.Count()</td>
+                                                <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Employees", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                    <div class="col-md-6" style="margin-top: 10px">
+                        <!-- TABLE: LATEST ORDERS -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Shipper Chạy Nhiều Nhất</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="form-horizontal">
+
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 10px">#</th>
+                                            <th>Name</th>
+                                            <th>Order Total</th>
+                                            <th>pay Total</th>
+                                            <th>View</th>
+                                        </tr>
+                                        @foreach (var item in shipper.Where(x => x.Orders.Count > 0).OrderByDescending(x => x.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity))).Take(10))
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.ShippingName</td>
+                                                <td>@item.Orders.Count()</td>
+                                                <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit", "Employees", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

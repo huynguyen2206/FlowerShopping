@@ -77,10 +77,11 @@
                                                     @{
                                                         var db = new FlowerShoppingEntities();
                                                         var Customer = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
+                                                        var CustomerName = Customer.CustomerName;
                                                         var src = Customer.ImageUrl;
                                                     }
                                                     <img src="~/Uploads/Customers/@Customer.Id/@src" class="user-image" alt="User Image" style="width: 30px; border-radius: 50%">
-                                                    <span class="hidden-xs">@Request.Cookies["name"].Value</span>
+                                                    <span class="hidden-xs">@CustomerName</span>
                                                 </a>
                                             </li>
 
@@ -107,6 +108,11 @@
                                                                         <div class="form-fild">
                                                                             <p><label>Mật Khẩu <span class="required">*</span></label></p>
                                                                             <input class="form-control login_password" type="password" placeholder="Mật Khẩu" name="Password" />
+                                                                        </div>
+                                                                        <div class="form-fild">
+                                                                            <label>
+                                                                                <input type="checkbox" style="height: 20px; width: 20px" name="RememberMe" id="RememberMe"/> Remember Me
+                                                                            </label>
                                                                         </div>
                                                                         <div class="login-submit">
                                                                             <button type="submit" class="form-button">Login</button>

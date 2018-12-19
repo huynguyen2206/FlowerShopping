@@ -287,6 +287,7 @@
     <Compile Include="Models\ViewModel\OrderDetailsVM.cs" />
     <Compile Include="Models\ViewModel\PermisstionsVM.cs" />
     <Compile Include="Models\ViewModel\RegisterVM.cs" />
+    <Compile Include="Models\ViewModel\RP_ProductsOrders.cs" />
     <Compile Include="Models\ViewModel\UpdateProfileVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -7977,6 +7978,8 @@
     <Content Include="Areas\Admin\Views\Shippers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shippers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Permisstions\AddLevel.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\ReportPrices.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\ReportUsers.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -7992,6 +7995,8 @@
     <Content Include="Uploads\Customers\1\product11.jpg" />
     <Content Include="Uploads\Customers\2\product1.jpg" />
     <Content Include="Uploads\Default\1.jpg" />
+    <Content Include="Uploads\Employees\4\product4.jpg" />
+    <Content Include="Uploads\Employees\5\product12.jpg" />
     <Content Include="Uploads\Products\10\product10.jpg" />
     <Content Include="Uploads\Products\10\product9.jpg" />
     <Content Include="Uploads\Products\11\product10.jpg" />
@@ -8003,7 +8008,9 @@
     <Content Include="Uploads\Products\2\product9.jpg" />
     <Content Include="Uploads\Products\3\product10.jpg" />
     <Content Include="Uploads\Products\3\product18.jpg" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -8020,7 +8027,7 @@
     <Content Include="Views\Customer\UpdateAndChange.cshtml" />
     <Content Include="Views\Customer\UpdateProfile.cshtml" />
     <Content Include="Views\Customer\ChangePassword.cshtml" />
-    <Content Include="Views\Home\_Single_Product.cshtml" />
+    <Content Include="Views\Shared\_Single_Product.cshtml" />
     <Content Include="Views\Product\ProductDetails.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\CheckoutIndex.cshtml" />
@@ -8030,12 +8037,11 @@
     <Content Include="Views\Shared\_MenuProducts.cshtml" />
     <Content Include="Views\Product\Category.cshtml" />
     <Content Include="Views\Home\_Show_Categories.cshtml" />
-    <Content Include="Views\Product\_Products_Grid_View.cshtml" />
     <Content Include="Views\Product\_Products_List_View.cshtml" />
     <Content Include="Views\Error\Page404.cshtml" />
     <Content Include="Views\Customer\Activate.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
-    <Content Include="Views\Product\_Products_Grid_Search.cshtml" />
+    <Content Include="Views\Shared\_Single_Products_pcm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

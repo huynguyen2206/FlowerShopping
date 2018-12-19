@@ -40,7 +40,13 @@ namespace FlowerShop.Models
                     case "Create": number = 2; break;
                     case "Edit": number = 4; break;
                     case "Delete": number = 8; break;
-                    case "RandomCoupon": number = 1; break;
+
+                    case "RandomCoupon": number = 2; break;
+
+                    case "AddShipper": number = 4; break;
+                    case "OrderDetails": number = 4; break;
+                    case "CancelOrder": number = 4; break;
+                    case "ChangeStatus": number = 4; break;
                     default:
                         break;
                 }

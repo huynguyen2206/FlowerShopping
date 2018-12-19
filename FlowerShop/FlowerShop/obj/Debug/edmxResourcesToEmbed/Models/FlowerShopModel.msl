@@ -143,17 +143,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Product_Logs">
-      <EntityTypeMapping TypeName="FlowerShoppingModel.Product_Logs">
-        <MappingFragment StoreEntitySet="Product_Logs">
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-          <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="FlowerShoppingModel.Product">
         <MappingFragment StoreEntitySet="Products">
@@ -282,6 +271,18 @@
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="ShippingName" ColumnName="ShippingName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product_Logs">
+      <EntityTypeMapping TypeName="FlowerShoppingModel.Product_Logs">
+        <MappingFragment StoreEntitySet="Product_Logs">
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+          <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

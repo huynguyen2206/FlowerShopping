@@ -68,6 +68,13 @@
                                                     <th>Order Id:</th>
                                                     <td>@Model.Id</td>
                                                 </tr>
+                                                @if (Model.EmployeeId != null)
+                                                {
+                                                    <tr>
+                                                        <th>Employee:</th>
+                                                        <td>@Model.Employee.EmployeeName</td>
+                                                    </tr>
+                                                }
                                                 @if (Model.CustomerId != null)
                                                 {
                                                     <tr>
