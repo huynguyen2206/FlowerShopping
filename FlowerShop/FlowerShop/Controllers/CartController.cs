@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -73,8 +74,21 @@ namespace FlowerShop.Controllers
             
             if (!User.Identity.IsAuthenticated)
             {
+                StringBuilder builder = new StringBuilder();
+                Random rd = new Random();
+                int number;
+
+                for (int i = 0; i < 10; i++)
+                {
+                    //tạo random 1 kí tự
+                    number = rd.Next(0,9);
+                    // add vào builder
+                    builder.Append(number);
+                }
+
                 order = new Order()
                 {
+                    OrderCode = builder.ToString(),
                     OrderDate = DateTime.Now,
                     StatusId = 1,
                     CouponId = coupon,
@@ -153,6 +167,11 @@ namespace FlowerShop.Controllers
             return Content((ccode.Price.ToString("N0")) + "|" + ccode.Id);
         }
 
+
+        public ActionResult CheckoutLog()
+        {
+            return View();
+        }
 
 
     }

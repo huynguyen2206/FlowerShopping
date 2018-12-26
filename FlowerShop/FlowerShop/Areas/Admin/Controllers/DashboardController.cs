@@ -39,7 +39,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             lastday = lastday.AddMonths(1);
             lastday = lastday.AddDays(-(lastday.Day));
 
-            var order = db.Orders.Where(o => o.OrderDate >= firstday && o.OrderDate <= lastday);
+            var order = db.Orders.Where(o => o.OrderDate >= firstday && o.OrderDate <= lastday && o.StatusId == 3);
             var TR = order.Sum(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity));
             ViewBag.TR = TR.ToString("N0");
 
@@ -51,7 +51,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             var TC = TotalCost.Sum(x => (x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductPrice * p.ProductQuantity) 
                     / x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductQuantity))
-                    * x.OrderDetails.Where(od => od.Order.OrderDate >= firstday && od.Order.OrderDate <= lastday).Sum(od => od.Quantity));
+                    * x.OrderDetails.Where(od => od.Order.OrderDate >= firstday && od.Order.OrderDate <= lastday && od.Order.StatusId == 3).Sum(od => od.Quantity));
             ViewBag.TC = TC.ToString("N0");
 
             var TP = TR - TC;

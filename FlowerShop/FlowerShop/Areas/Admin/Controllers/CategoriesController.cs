@@ -93,5 +93,25 @@ namespace FlowerShop.Areas.Admin.Controllers
             return View(data);
         }
 
+
+        // DELETE
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var category = db.Categories.Find(id);
+
+                db.Categories.Remove(category);
+                db.SaveChanges();
+
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+
+        }
+
     }
 }

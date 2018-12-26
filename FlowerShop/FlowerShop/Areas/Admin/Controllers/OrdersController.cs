@@ -17,7 +17,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         FlowerShoppingEntities db = new FlowerShoppingEntities();
         
         // SHOW INDEX ORDER
-        public ActionResult Index(int? page, string kw_customername, string StatusId, string kw_daterange, string sort)
+        public ActionResult Index(int? page, string kw_customername, string StatusId, string kw_daterange, string kw_ordercode, string sort )
         {
             PermisstionsVM per = CustomPermisstions.CheckPermisstion("Orders");
             ViewBag.Create = per.Create.ToString();
@@ -27,6 +27,11 @@ namespace FlowerShop.Areas.Admin.Controllers
             int pagenumber = page ?? 1;
             int pagesize = 10;
             var orders = orderRepository.GetModel();
+
+            if(!string.IsNullOrEmpty(kw_ordercode))
+            {
+                orders = orders.Where(x => x.OrderCode.Equals(kw_ordercode));
+            }
 
             if (!string.IsNullOrEmpty(StatusId))
             {
@@ -137,6 +142,12 @@ namespace FlowerShop.Areas.Admin.Controllers
         {
             var orderdetails = db.OrderDetails.Find(data.Id);
 
+            if(data.Quantity < 0 || data.UnitPrice < data.Discount)
+            {
+                ViewBag.Msg = "Error!";
+                return PartialView(data);
+            }
+
             Mapper.Map(data, orderdetails);
             db.SaveChanges();
 
@@ -169,7 +180,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             var order = db.Orders.Find(id);
             AddShipperVM data = Mapper.Map<AddShipperVM>(order);
 
-            ViewBag.ShippingId = new SelectList(db.Shippings, "Id", "ShippingName");
+            ViewBag.ShippingId = new SelectList(db.Shippings.Where(x => x.IsActive == true), "Id", "ShippingName");
             return PartialView(data);
         }
 

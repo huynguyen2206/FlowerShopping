@@ -44,7 +44,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             return View(orders);
         }
 
-        public ActionResult ReportPrices(int? page_p_i, int? page_p_o, string kw_daterange)
+        public ActionResult ReportPrices(int? page_p_i, int? page_p_o, string kw_daterange, string StatusId)
         {
             int pagesize = 5;
             int pagenumber_p_i = page_p_i ?? 1;
@@ -53,8 +53,26 @@ namespace FlowerShop.Areas.Admin.Controllers
             ViewBag.page_p_i = page_p_i;
             ViewBag.page_p_o = page_p_o;
 
+            if (string.IsNullOrEmpty((StatusId)))
+            {
+                StatusId = 3.ToString();
+                ViewBag.S_id = 3;
+            }
+            else
+            {
+                ViewBag.S_id = int.Parse(StatusId);
+            }
+
+            //string.IsNullOrEmpty(StatusId) ? StatusId = 3 : StatusId = StatusId;
+
             var ProductsInput = productRepository.GetModel().Where(x => x.Product_Logs.Count > 0);
+
             var ProductsOrders = productRepository.GetModel().Where(x => x.OrderDetails.Count > 0);
+            ProductsOrders = from p in ProductsOrders
+                             join od in db.OrderDetails on p.Id equals od.ProductId
+                             join o in db.Orders on od.OrderId equals o.Id
+                             where o.StatusId == int.Parse(StatusId)
+                             select p;
 
             if (!string.IsNullOrEmpty(kw_daterange))
             {
@@ -64,6 +82,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                                 join l in db.Product_Logs on p.Id equals l.ProductId
                                 where l.RegisterDate.Date >= DateTime.Parse(dt[0]) && l.RegisterDate.Date <= DateTime.Parse(dt[1])
                                 select p;
+
                 ProductsOrders = from p in ProductsOrders
                                  join od in db.OrderDetails on p.Id equals od.ProductId
                                  join o in db.Orders on od.OrderId equals o.Id
@@ -73,6 +92,11 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             ViewBag.ProductsInput = ProductsInput.Distinct().ToPagedList(pagenumber_p_i, pagesize);
             ViewBag.ProductsOrders = ProductsOrders.Distinct().ToPagedList(pagenumber_p_o, pagesize);
+
+            ViewBag.ProductsInput_Total = ProductsInput.Distinct().ToList();
+            ViewBag.ProductsOrders_Total = ProductsOrders.Distinct().ToList();
+
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName");
 
             return View();
         }

@@ -74,7 +74,7 @@
                                         var count = item.Products_Categories_Mapping.Count;
                                         if (count == 0)
                                         {
-                                            <td><button class="btn_delete btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
+                                            <td><button class="btn_delete_category btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
                                         }
                                     }
 
@@ -96,3 +96,36 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".btn_delete_category").click(function () {
+            var btn = $(this);
+            var pid = btn.attr("pid");
+
+            if (confirm("Bạn Có Muốn Xóa Danh Mục Này?")) {
+                $.ajax({
+                    url: '/Admin/Categories/Delete',
+                    type: "POST",
+                    data: "id=" + pid,
+                    success: function (response) {
+                        //alert(response);
+
+                        if (response == "OK") {
+                            btn.parent().parent().remove();
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+
+                });
+            }
+
+        });
+
+
+    });
+</script>

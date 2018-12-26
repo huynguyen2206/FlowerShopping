@@ -8042,6 +8042,7 @@
     <Content Include="Views\Customer\Activate.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Shared\_Single_Products_pcm.cshtml" />
+    <Content Include="Views\Cart\CheckoutLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

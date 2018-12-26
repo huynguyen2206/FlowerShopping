@@ -5,6 +5,9 @@
     ViewBag.Title = "ReportPrices";
     var ProductsInput = ViewBag.ProductsInput as PagedList.IPagedList<Product>;
     var ProductsOrders = ViewBag.ProductsOrders as PagedList.IPagedList<Product>;
+
+    var ProductsInput_Total = ViewBag.ProductsInput_Total as List<Product>;
+    var ProductsOrders_Total = ViewBag.ProductsOrders_Total as List<Product>;
 }
 
 <section class="content-header">
@@ -32,14 +35,18 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                        <script>
+                    </div>
+                    <div class="input-group" style="margin: 15px 0 0 25px">
+                        @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control", @placeholder = "-select-" })
+                    </div>
+                    <script>
                             $(function () {
                                 //Date range picker
-                                $('#reservation').daterangepicker()
-                                $('#reservation').val("")
+                                $('#reservation').daterangepicker();
+                                $('#reservation').val("");
+                                $('#StatusId').val("")
                             })
-                        </script>
-                    </div>
+                    </script>
                 }
 
                 <div class="box-body">
@@ -89,12 +96,25 @@
                             <!-- /.box -->
                         </div>*@
 
+                    @{
+                        string datetime = ViewBag.kw;
+                        string[] dt = new string[2];
+                        if (ViewBag.kw != null)
+                        {
+                            dt = datetime.Split('-');
+                        }
+                        else
+                        {
+                            dt[0] = "1/1/" + DateTime.Now.Year;
+                            dt[1] = "12/31/" + DateTime.Now.Year;
+                        }
 
+                    }
                     <div class="col-md-6" style="margin-top: 10px">
                         <!-- TABLE: LATEST ORDERS -->
                         <div class="box box-info">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Tổng Sản Phẩm Nhập Vào</h3>
+                                <h3 class="box-title">Tổng Sản Phẩm Nhập Vào ( @ProductsInput_Total.Sum(x => x.Product_Logs.Where(p => p.RegisterDate.Date >= DateTime.Parse(dt[0]) && p.RegisterDate.Date <= DateTime.Parse(dt[1])).Sum(p => p.ProductPrice * p.ProductQuantity)).ToString("N0") đ )</h3>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                         <i class="fa fa-minus"></i>
@@ -105,20 +125,6 @@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="form-horizontal">
-                                    @{
-                                        string datetime = ViewBag.kw;
-                                        string[] dt = new string[2];
-                                        if (ViewBag.kw != null)
-                                        {
-                                            dt = datetime.Split('-');
-                                        }
-                                        else
-                                        {
-                                            dt[0] = "1/1/" + DateTime.Now.Year;
-                                            dt[1] = "12/31/" + DateTime.Now.Year;
-                                        }
-
-                                    }
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>Products Name</th>
@@ -142,7 +148,7 @@
                                             <td colspan="2" style="color: red">@ProductsInput.Sum(x => x.Product_Logs.Where(p => p.RegisterDate.Date >= DateTime.Parse(dt[0]) && p.RegisterDate.Date <= DateTime.Parse(dt[1])).Sum(p => p.ProductPrice * p.ProductQuantity)).ToString("N0") đ</td>
                                         </tr>
                                     </table>
-                                    @Html.PagedListPager(ProductsInput, page => Url.Action("ReportPrices", new { page_p_i = page, page_p_o = ViewBag.page_p_o, kw_daterange = ViewBag.kw_daterange }))
+                                    @Html.PagedListPager(ProductsInput, page => Url.Action("ReportPrices", new { page_p_i = page, page_p_o = ViewBag.page_p_o, kw_daterange = ViewBag.kw_daterange, StatusId = ViewBag.S_id }))
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -155,7 +161,7 @@
                         <!-- TABLE: LATEST ORDERS -->
                         <div class="box box-info">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Tổng Sản Phẩm Bán Ra</h3>
+                                <h3 class="box-title">Tổng Sản Phẩm Bán Ra ( @ProductsOrders_Total.Sum(x => x.OrderDetails.Where(o => o.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && o.Order.OrderDate.Date <= DateTime.Parse(dt[1]) && o.Order.StatusId == ViewBag.S_id).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity)).ToString("N0") đ )</h3>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                         <i class="fa fa-minus"></i>
@@ -178,8 +184,8 @@
                                         {
                                             <tr>
                                                 <td>@item.ProductName</td>
-                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(x => x.Quantity)</td>
-                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity).ToString("N0") đ</td>
+                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1]) && x.Order.StatusId == ViewBag.S_id).Sum(x => x.Quantity)</td>
+                                                <td>@item.OrderDetails.Where(x => x.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && x.Order.OrderDate.Date <= DateTime.Parse(dt[1]) && x.Order.StatusId == ViewBag.S_id).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity).ToString("N0") đ</td>
                                                 <td>
                                                     <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
                                                 </td>
@@ -187,12 +193,11 @@
                                         }
                                         <tr>
                                             <td colspan="2" style="color: red">TOTAL</td>
-                                            <td colspan="2" style="color: red">@ProductsOrders.Sum(x => x.OrderDetails.Where(o => o.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && o.Order.OrderDate.Date <= DateTime.Parse(dt[1])).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity)).ToString("N0") đ</td>
+                                            <td colspan="2" style="color: red">@ProductsOrders.Sum(x => x.OrderDetails.Where(o => o.Order.OrderDate.Date >= DateTime.Parse(dt[0]) && o.Order.OrderDate.Date <= DateTime.Parse(dt[1]) && o.Order.StatusId == ViewBag.S_id).Sum(o => (o.UnitPrice - o.Discount) * o.Quantity)).ToString("N0") đ</td>
                                         </tr>
                                     </table>
-                                    @Html.PagedListPager(ProductsOrders, page => Url.Action("ReportPrices", new { page_p_i = ViewBag.page_p_i, page_p_o = page,  kw_daterange = ViewBag.kw_daterange }))
+                                    @Html.PagedListPager(ProductsOrders, page => Url.Action("ReportPrices", new { page_p_i = ViewBag.page_p_i, page_p_o = page, kw_daterange = ViewBag.kw_daterange, StatusId = ViewBag.S_id }))
                                 </div>
-
                             </div>
                             <!-- /.box-body -->
                         </div>
