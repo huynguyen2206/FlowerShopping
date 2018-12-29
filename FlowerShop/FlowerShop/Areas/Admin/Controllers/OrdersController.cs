@@ -17,7 +17,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         FlowerShoppingEntities db = new FlowerShoppingEntities();
         
         // SHOW INDEX ORDER
-        public ActionResult Index(int? page, string kw_customername, string StatusId, string kw_daterange, string kw_ordercode, string sort )
+        public ActionResult Index(int? page, string slider_price, string kw_customername, string StatusId, string kw_daterange, string kw_ordercode, string sort )
         {
             PermisstionsVM per = CustomPermisstions.CheckPermisstion("Orders");
             ViewBag.Create = per.Create.ToString();
@@ -28,22 +28,35 @@ namespace FlowerShop.Areas.Admin.Controllers
             int pagesize = 10;
             var orders = orderRepository.GetModel();
 
-            if(!string.IsNullOrEmpty(kw_ordercode))
+            if (!string.IsNullOrEmpty(slider_price))
+            {
+                var price = slider_price.Split(',');
+
+                orders = orders.Where(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity) >= int.Parse(price[0]) && x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity) <= int.Parse(price[1]));
+                ViewBag.slider_price = slider_price;
+            }
+
+            if (!string.IsNullOrEmpty(kw_ordercode))
             {
                 orders = orders.Where(x => x.OrderCode.Equals(kw_ordercode));
+                ViewBag.kw_ordercode = kw_ordercode;
             }
 
             if (!string.IsNullOrEmpty(StatusId))
             {
                 orders = orders.Where(x => x.StatusId.ToString().Equals(StatusId));
-                ViewBag.kw_productname = StatusId;
+                ViewBag.kw_status = StatusId;
             }
+            //else
+            //{
+            //    ViewBag.StatusId = 0;
+            //}
 
             if (!string.IsNullOrEmpty(kw_customername))
             {
                 orders = orders.Where(x => x.CustomerId != null && ChangeVN_EN.change(x.Customer.CustomerName.ToLower()).Contains(kw_customername.ToLower().Trim())
                 || x.CustomerId != null && x.Customer.CustomerName.ToLower().Contains(kw_customername.ToLower().Trim()));
-                ViewBag.kw = kw_customername;
+                ViewBag.kw_customername = kw_customername;
             }
 
             if (!string.IsNullOrEmpty(kw_daterange))
@@ -51,7 +64,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 var dt = kw_daterange.Split('-');
 
                 orders = orders.Where(x => x.OrderDate.Date >= DateTime.Parse(dt[0]) && x.OrderDate.Date <= DateTime.Parse(dt[1]));
-                ViewBag.kw_date = kw_daterange;
+                ViewBag.kw_daterange = kw_daterange;
             }
 
 
@@ -74,18 +87,18 @@ namespace FlowerShop.Areas.Admin.Controllers
                     orders = orders.OrderByDescending(x => x.OrderDate);
                     ViewBag.sortdate = "date_asc";
                     break;
-                case "status_asc":
-                    orders = orders.OrderBy(x => x.Status.Id);
-                    ViewBag.sortastatus = "status_desc";
+                case "total_asc":
+                    orders = orders.OrderBy(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity));
+                    ViewBag.sortstatus = "total_desc";
                     break;
-                case "status_desc":
-                    orders = orders.OrderByDescending(x => x.Status.Id);
-                    ViewBag.sortstatus = "status_asc";
+                case "total_desc":
+                    orders = orders.OrderByDescending(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity));
+                    ViewBag.sortstatus = "total_asc";
                     break;
             }
 
             ViewBag.sortdate = ViewBag.sortdate ?? "date_desc";
-            ViewBag.sortstatus = ViewBag.sortstatus ?? "status_asc";
+            ViewBag.sorttotal = ViewBag.sortstatus ?? "total_asc";
 
             ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName");
 

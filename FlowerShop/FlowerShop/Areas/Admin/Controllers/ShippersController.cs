@@ -75,6 +75,9 @@ namespace FlowerShop.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Shippings.Add(shipping);
+
+                SystemLogs.Create("Shipper", shipping.ShippingName);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -107,6 +110,9 @@ namespace FlowerShop.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(shipping).State = EntityState.Modified;
+
+                SystemLogs.Edit("Shipper", shipping.ShippingName);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

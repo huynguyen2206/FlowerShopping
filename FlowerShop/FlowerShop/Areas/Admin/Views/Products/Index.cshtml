@@ -33,9 +33,11 @@
                                 <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
 
                                 <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                        <input name="kw_price" type="text" class="form-control">
+                                    <div class="input-group" style="width: 100%; margin-top: 10px">
+                                        <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="5000000"
+                                               data-slider-step="100000" data-slider-value="[0,5000000]" data-slider-orientation="horizontal"
+                                               data-slider-selection="before" data-slider-tooltip="show" data-slider-id="green" name="slider_price">
+
                                     </div>
                                 </div>
                             </div>
@@ -112,13 +114,13 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortid })">MS</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, slider_price = ViewBag.slider_price, kw_productname = ViewBag.kw_productname, kw_daterange = ViewBag.kw_daterange, sort = ViewBag.sortid })">MS</a></th>
                                 <th style="width:200px">Tên Sản Phẩm</th>
                                 <th>Hình Ảnh</th>
                                 <th>Đơn Vị</th>
 
-                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortprice })">Giá</a></th>
-                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw_price = ViewBag.kw_price, sort = ViewBag.sortquan })">Số Lượng</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, slider_price = ViewBag.slider_price, kw_productname = ViewBag.kw_productname, kw_daterange = ViewBag.kw_daterange, sort = ViewBag.sortprice })">Giá</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, slider_price = ViewBag.slider_price, kw_productname = ViewBag.kw_productname, kw_daterange = ViewBag.kw_daterange, sort = ViewBag.sortquan })">Số Lượng</a></th>
 
 
                                 <th>Danh Mục</th>
@@ -144,7 +146,7 @@
                                     }
                                     <td><img src="@src" style="max-height: 100px; max-width: 150px" /></td>
                                     <td>@Html.DisplayFor(modelItem => item.Unit)</td>
-                                    <td>@item.UnitPrice.ToString("N0")</td>
+                                    <td>@item.UnitPrice.ToString("N0") đ</td>
                                     <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
                                     @{
                                         var cate = item.Products_Categories_Mapping.Where(x => x.ProductId.Equals(item.Id));
@@ -162,7 +164,7 @@
                                         @quantity
                                     </td>
 
-                                    @if (quantity == 0)
+                                    @if (quantity <= 0)
                                     {
                                         <td><span class="label label-danger" style="font-size:12px">Hết Hàng</span></td>
                                     }
@@ -193,7 +195,7 @@
 
                     </table>
                     <p>
-                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw_price = ViewBag.kw_price, sort = ViewBag.sort }))
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, slider_price = ViewBag.slider_price, kw_productname = ViewBag.kw_productname, kw_daterange = ViewBag.kw_daterange, sort = ViewBag.sort }))
                     </p>
 
                 </div>
@@ -248,3 +250,10 @@
 </script>
 
 
+
+<script>
+    $(function () {
+        /* BOOTSTRAP SLIDER */
+        $('.slider').slider()
+    })
+</script>

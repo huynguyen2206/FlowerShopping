@@ -23,10 +23,6 @@ namespace FlowerShop.Models
 
     public class AdminCustomAuthorize : AuthorizeAttribute
     {
-        public AdminCustomAuthorize()
-        {
-        }
-
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (this.AuthorizeCore(filterContext.HttpContext))
@@ -47,6 +43,9 @@ namespace FlowerShop.Models
                     case "OrderDetails": number = 4; break;
                     case "CancelOrder": number = 4; break;
                     case "ChangeStatus": number = 4; break;
+
+                    case "Display": number = 4; break;
+                    case "Deletepic": number = 8; break;
                     default:
                         break;
                 }

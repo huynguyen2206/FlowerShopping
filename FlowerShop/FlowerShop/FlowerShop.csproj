@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Controllers\ReportsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermisstionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShippersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SystemsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TopicsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Models\Status.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SystemLogs.cs" />
     <Compile Include="Models\System_Logs.cs">
       <DependentUpon>FlowerShopModel.tt</DependentUpon>
     </Compile>
@@ -7980,6 +7982,9 @@
     <Content Include="Areas\Admin\Views\Permisstions\AddLevel.cshtml" />
     <Content Include="Areas\Admin\Views\Reports\ReportPrices.cshtml" />
     <Content Include="Areas\Admin\Views\Reports\ReportUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\Systems\ProductsLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Systems\SystemLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Systems\Display.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

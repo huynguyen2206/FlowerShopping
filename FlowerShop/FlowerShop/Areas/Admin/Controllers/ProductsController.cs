@@ -82,7 +82,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
 
         // INDEX SHOW PRODUCT
-        public ActionResult Index(int? page, string kw_price, string kw_productname, string kw_daterange, string sort)
+        public ActionResult Index(int? page, string slider_price, string kw_productname, string kw_daterange, string sort)
         {
             PermisstionsVM per = CustomPermisstions.CheckPermisstion("Products");
             ViewBag.Create = per.Create.ToString();
@@ -94,18 +94,22 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             var products = productRepository.GetModel();
 
+            //ViewBag.Msg = slider_price;
+
+            if (!string.IsNullOrEmpty(slider_price))
+            {
+                var price = slider_price.Split(',');
+
+                products = products.Where(x => x.UnitPrice >= int.Parse(price[0]) && x.UnitPrice <= int.Parse(price[1]));
+                ViewBag.slider_price = slider_price;
+            }
+
             // lọc qua keywork để search
             if (!string.IsNullOrEmpty(kw_productname))
             {
                 products = products.Where(x => ChangeVN_EN.change(x.ProductName.ToLower()).Contains(kw_productname.ToLower().Trim()) 
                 || x.ProductName.ToLower().Contains(kw_productname.ToLower().Trim()) );
-                ViewBag.kw = kw_productname;
-            }
-
-            if (!string.IsNullOrEmpty(kw_price))
-            {
-                products = products.Where(x => x.UnitPrice.ToString().Equals(kw_price));
-                ViewBag.kw_price = kw_price;
+                ViewBag.kw_productname = kw_productname;
             }
 
             if (!string.IsNullOrEmpty(kw_daterange))
@@ -113,7 +117,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 var dt = kw_daterange.Split('-');
 
                 products = products.Where(x => x.CreateDate.Date >= DateTime.Parse(dt[0]) && x.CreateDate.Date <= DateTime.Parse(dt[1]));
-                ViewBag.kw_date = kw_price;
+                ViewBag.kw_daterange = kw_daterange;
             }
 
 
@@ -215,16 +219,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
                 db.SaveChanges();
 
-                // ghi Log
-                System_Logs s_l = new System_Logs()
-                {
-                    EmployeeId = 4,
-                    Log_Type_Id = 1,
-                    Message = "Create new product: " + product.ProductName,
-                    RegisterDate = DateTime.Now,
-                };
-
-                db.System_Logs.Add(s_l);
+                SystemLogs.Create("Product", product.ProductName);
 
                 // add real quantity
                 Product_Logs p_l = new Product_Logs()
@@ -315,16 +310,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                     db.Products_Categories_Mapping.Add(cate);
                 }
 
-                // ghi Log
-                System_Logs s_l = new System_Logs()
-                {
-                    EmployeeId = 4,
-                    Log_Type_Id = 2,
-                    Message = "Edit a product: " + product.ProductName,
-                    RegisterDate = DateTime.Now,
-                };
-
-                //db.System_Logs.Add(s_l);
+                SystemLogs.Edit("Product", product.ProductName);
 
                 if (realquantity > 0)
                 {
@@ -372,16 +358,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 // xóa product
                 db.Products.Remove(product);
 
-                // ghi log
-                System_Logs s_l = new System_Logs()
-                {
-                    EmployeeId = 4,
-                    Log_Type_Id = 3,
-                    Message = "Delete a product: " + product.ProductName,
-                    RegisterDate = DateTime.Now,
-                };
-
-                db.System_Logs.Add(s_l);
+                SystemLogs.Delete("Product", product.ProductName);
 
                 // lưu lại
                 db.SaveChanges();

@@ -165,17 +165,36 @@
                                             <th>pay Total</th>
                                             <th>View</th>
                                         </tr>
+                                        @{
+                                            int index = 1;
+                                        }
                                         @foreach (var item in employee.Where(x => x.Orders.Count > 0).OrderByDescending(x => x.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity))).Take(10))
                                         {
-                                            <tr>
-                                                <td>@item.Id</td>
-                                                <td>@item.EmployeeName</td>
-                                                <td>@item.Orders.Count()</td>
-                                                <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
-                                                <td>
-                                                    <a href="@Url.Action("Edit", "Employees", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
-                                                </td>
-                                            </tr>
+                                            if (index == 1)
+                                            {
+                                                <tr style="color: goldenrod; font-weight: bold">
+                                                    <td>@item.Id</td>
+                                                    <td>@item.EmployeeName</td>
+                                                    <td>@item.Orders.Count()</td>
+                                                    <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
+                                                    <td>
+                                                        <a href="@Url.Action("Edit", "Employees", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                    <td>@item.EmployeeName</td>
+                                                    <td>@item.Orders.Count()</td>
+                                                    <td>@item.Orders.Sum(o => o.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity)).ToString("N0") đ</td>
+                                                    <td>
+                                                        <a href="@Url.Action("Edit", "Employees", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            index++;
                                         }
                                     </table>
 

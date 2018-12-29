@@ -105,6 +105,9 @@ namespace FlowerShop.Areas.Admin.Controllers
                 var cus = db.Customers.Find(customer.Id);
 
                 cus.ImageUrl = ImageName;
+
+                SystemLogs.Create("Customer", cus.CustomerName);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
 
@@ -160,6 +163,9 @@ namespace FlowerShop.Areas.Admin.Controllers
                 cus.IsActive = customer.IsActive;
                 cus.Phone = customer.Phone;
                 cus.Address = customer.Address;
+
+                SystemLogs.Edit("Customer", cus.CustomerName);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -190,6 +196,9 @@ namespace FlowerShop.Areas.Admin.Controllers
         {
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
+
+            SystemLogs.Delete("Customer", customer.CustomerName);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

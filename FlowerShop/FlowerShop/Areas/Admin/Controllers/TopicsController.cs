@@ -42,16 +42,8 @@ namespace FlowerShop.Areas.Admin.Controllers
                     topic.CreateDate = DateTime.Now;
                     db.Topics.Add(topic);
 
-                    // ghi Log
-                    System_Logs s_l = new System_Logs()
-                    {
-                        EmployeeId = 4,
-                        Log_Type_Id = 1,
-                        Message = "Create new Topic: " + topic.TopicName,
-                        RegisterDate = DateTime.Now,
-                    };
-
-                    db.System_Logs.Add(s_l);
+                    SystemLogs.Create("Topic", topic.TopicName);
+                    
                     db.SaveChanges();
                 }
                 return RedirectToAction("Topic");
@@ -76,6 +68,9 @@ namespace FlowerShop.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 topicRepository.UpdateModel(data);
+
+                SystemLogs.Edit("Topic", data.TopicName);
+
                 topicRepository.Save();
                 return RedirectToAction("Index");
             }

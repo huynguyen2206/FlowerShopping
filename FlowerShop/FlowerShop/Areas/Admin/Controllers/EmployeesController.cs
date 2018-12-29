@@ -167,6 +167,9 @@ namespace FlowerShop.Areas.Admin.Controllers
                 var employees = db.Employees.Find(employee.Id);
 
                 employees.PictureUrl = ImageName;
+
+                SystemLogs.Create("Employee", employee.EmployeeName);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -225,6 +228,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                 emp.Address = employee.Address;
                 emp.Gender = employee.Gender;
 
+                SystemLogs.Edit("Employee", employee.EmployeeName);
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -271,6 +275,9 @@ namespace FlowerShop.Areas.Admin.Controllers
         {
             Employee employee = db.Employees.Find(id);
             db.Employees.Remove(employee);
+
+            SystemLogs.Delete("Employee", employee.EmployeeName);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

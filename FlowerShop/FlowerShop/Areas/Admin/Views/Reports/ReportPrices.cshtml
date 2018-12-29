@@ -25,6 +25,16 @@
             <div class="box">
                 @using (Html.BeginForm())
                 {
+                    @*<div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
+                                </div>
+                            </div>
+                        </div>*@
+
                     <div class="input-group" style="margin: 15px 0 0 25px">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
@@ -40,12 +50,12 @@
                         @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control", @placeholder = "-select-" })
                     </div>
                     <script>
-                            $(function () {
-                                //Date range picker
-                                $('#reservation').daterangepicker();
-                                $('#reservation').val("");
-                                $('#StatusId').val("")
-                            })
+                        $(function () {
+                            //Date range picker
+                            $('#reservation').daterangepicker();
+                            $('#reservation').val("");
+                            $('#StatusId').val("")
+                        })
                     </script>
                 }
 

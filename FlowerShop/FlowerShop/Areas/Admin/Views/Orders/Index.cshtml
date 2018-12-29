@@ -29,10 +29,19 @@
                                 <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
 
                                 <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                        <input name="kw_price" type="text" class="form-control">
+                                    <div class="input-group" style="width: 100%; margin-top: 10px">
+                                        <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="10000000"
+                                               data-slider-step="500000" data-slider-value="[0,10000000]" data-slider-orientation="horizontal"
+                                               data-slider-selection="before" data-slider-tooltip="show" data-slider-id="green" name="slider_price">
+
                                     </div>
+
+                                    <script>
+    $(function () {
+        /* BOOTSTRAP SLIDER */
+        $('.slider').slider()
+    })
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -123,11 +132,11 @@
                         <thead>
                             <tr>
                                 <th>Order Code</th>
-                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortstatus })">Order Status</a></th>
+                                <th>Order Status</th>
                                 <th>Payment Status</th>
                                 <th>Customer</th>
-                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortdate })">Created on</a></th>
-                                <th>Order total</th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, slider_price = ViewBag.slider_price, kw_customername = ViewBag.kw_customername, StatusId = ViewBag.kw_status, kw_daterange = ViewBag.kw_daterange, kw_ordercode= ViewBag.kw_ordercode, sort = ViewBag.sortdate })">Created on</a></th>
+                                <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, slider_price = ViewBag.slider_price, kw_customername = ViewBag.kw_customername, StatusId = ViewBag.kw_status, kw_daterange = ViewBag.kw_daterange, kw_ordercode= ViewBag.kw_ordercode, sort = ViewBag.sorttotal })">Order total</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -194,7 +203,7 @@
 
                     </table>
                     <p>
-                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, kw_price = ViewBag.kw_price, sort = ViewBag.sort }))
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, slider_price = ViewBag.slider_price, kw_customername = ViewBag.kw_customername, StatusId = ViewBag.kw_status, kw_daterange = ViewBag.kw_daterange, kw_ordercode = ViewBag.kw_ordercode, sort = ViewBag.sort }))
                     </p>
 
                 </div>

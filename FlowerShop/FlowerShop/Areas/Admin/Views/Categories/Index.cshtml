@@ -101,26 +101,41 @@
 
     $(document).ready(function () {
 
+        // ở đây là đoạn code sử dụng ajax post để xử lý delete một category
+        // khi mình click vào button có class="btn_delete_category" nó sẽ chạy vào đoạn code phía dưới
         $(".btn_delete_category").click(function () {
+
+            // trong button đó có một cái thuộc tính là pid="id của category mà mình bấm"
             var btn = $(this);
             var pid = btn.attr("pid");
 
+            // confirm("Bạn Có Muốn Xóa Danh Mục Này?") nghĩa là hiện lên một thông báo có muốn xóa không với 2 chữ yes - no
+            // nếu bấm no nó sẽ hủy không chạy tiếp
+            // nếu bấm yes no sẽ tiếp tục chạy vào trong
             if (confirm("Bạn Có Muốn Xóa Danh Mục Này?")) {
+                // đây là bắt đầu ajax
                 $.ajax({
+                    // url là đường dẫn sẽ post lên đâu để xử lý
                     url: '/Admin/Categories/Delete',
+                    // type là thuộc tính, ajax có nhiều thuộc tính vd như post, get, load
                     type: "POST",
+                    // data là cái mình sẽ chuyển lên trên Action detele để nó nhận vào, ở đây là truyền id lên
                     data: "id=" + pid,
+                    // success là nếu thành công post lên nó sẽ chạy vào tiếp
                     success: function (response) {
                         //alert(response);
-
+                        // nếu Action truyền ra chữ "Ok" có nghĩa là đã delete thành công
                         if (response == "OK") {
+                            // btn.parent().parent().remove() đây là javascrip dùng để xóa cái hiển thị ra ngoài View,
+                            // nếu không có dòng này thì khi mình delete thành công mình phải f5 reload lại trang nó mới mất,
+                            // nhưng thực chất là trong database đã mất rồi mà ở ngoài view nó chưa xóa, nên mới sử dụng đoạn này để xóa ngoài View
                             btn.parent().parent().remove();
                         }
                         else {
+                            // nếu không thành công sẽ trả lỗi ra
                             alert(response);
                         }
                     }
-
                 });
             }
 

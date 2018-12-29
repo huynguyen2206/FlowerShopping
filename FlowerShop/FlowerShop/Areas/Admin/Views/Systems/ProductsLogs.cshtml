@@ -1,0 +1,161 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Product_Logs>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "ProductsLogs";
+}
+
+<section class="content-header">
+    <h1>
+        Products Logs
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Products Logs</a></li>
+    </ol>
+</section>
+
+
+<div class="chart tab-pane" id="product-pic">
+    <div class="col-md-12" style="margin-top: 10px">
+
+        <div class="box box-info">
+            @using (Html.BeginForm())
+            {
+                <div class="box-body">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Price</label>
+
+                                <div class="col-sm-9">
+                                    <div class="input-group" style="width: 100%; margin-top: 10px">
+                                        <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="5000000"
+                                               data-slider-step="100000" data-slider-value="[0,5000000]" data-slider-orientation="horizontal"
+                                               data-slider-selection="before" data-slider-tooltip="show" data-slider-id="green" name="kw_price">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Quantity</label>
+
+                                <div class="col-sm-9">
+                                    <div class="input-group" style="width: 100%; margin-top: 10px">
+                                        <input type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="100"
+                                               data-slider-step="1" data-slider-value="[0,100]" data-slider-orientation="horizontal"
+                                               data-slider-selection="before" data-slider-tooltip="show" data-slider-id="green" name="kw_quantity">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Product name</label>
+
+                                <div class="col-sm-9">
+                                    <input name="kw_productname" type="text" class="form-control" id="inputEmail3" placeholder="Product name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Date range</label>
+
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="reservation" name="kw_daterange">
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        //Date range picker
+                                        $('#reservation').daterangepicker()
+                                        $('#reservation').val("")
+                                    })
+                                </script>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer" style="text-align:center">
+                    <button type="submit" name="search" class="btn btn-success">Search</button>
+                </div>
+                <!-- /.box-footer -->
+
+                <script>
+                    $(function () {
+                        /* BOOTSTRAP SLIDER */
+                        $('.slider').slider()
+                    })
+                </script>
+
+            }
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content" style="margin-top: -30px">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    @*<h3 class="box-title" style="float:left">Sản Phẩm</h3>*@
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Employee Name</th>
+                                <th>Products Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Create Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Employee.EmployeeName</td>
+                                    <td>@item.Product.ProductName</td>
+                                    <td>@item.ProductPrice.ToString("N0") đ</td>
+                                    <td>@item.ProductQuantity</td>
+                                    <td>@item.RegisterDate.ToString("dd/MM/yyyy - HH:mm:ss")</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    <p>
+                        @Html.PagedListPager(Model, page => Url.Action("ProductsLogs", new { page, kw_price = ViewBag.kw_price, kw_quantity = ViewBag.kw_quantity, kw_productname = ViewBag.kw_productname, kw_daterange = ViewBag.kw_daterange, sort = ViewBag.sort }))
+                    </p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

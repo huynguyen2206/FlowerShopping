@@ -83,7 +83,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             {
                 return Content("Vui lòng nhập giá trị khuyến mãi");
             }
-            
+
             // tạo random coupon
             Random rd = new Random();
             char ch;
@@ -120,6 +120,9 @@ namespace FlowerShop.Areas.Admin.Controllers
             }
 
             db.SaveChanges();
+
+            //db.Coupons.Where(x => x.Price < 15).ToList().ForEach(x => x.Price = 5);
+            //db.SaveChanges();
 
             return Content("OK");
 
