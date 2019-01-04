@@ -1,0 +1,113 @@
+﻿@model PagedList.IPagedList<FlowerShop.Models.Banner>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content-header">
+    <h1>
+        Banners
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Banners</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    @*<h3 class="box-title" style="float:left">Sản Phẩm</h3>*@
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @if (ViewBag.Create == "True")
+                    {
+                        <a href="@Url.Action("Create", "Banners")" class="btn btn-block btn-success" style="margin-bottom: 20px">Add New Banners</a>
+                    }
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Tittle</th>
+                                <th>Url</th>
+                                <th>Show Home Page</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @{
+                                        var src = "/Uploads/Banners/" + item.PictureUrl;
+                                    }
+                                    <td><img src="@src" style="max-height: 100px; max-width: 150px" /></td>
+                                    <td>@item.Tittle</td>
+                                    <td>@item.Url</td>
+                                    <td>@item.ShowHomePage</td>
+
+                                    @if (ViewBag.Edit == "True")
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Banners", new { id = item.Id })" class="btn btn-instagram btn-block">Edit</a>
+
+                                        </td>
+                                    }
+                                    @if (ViewBag.Delete == "True")
+                                    {
+                                        <td><button class="btn_delete_banners btn btn-danger btn-block" pid="@item.Id">Delete</button></td>
+
+                                    }
+
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    <p>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    </p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".btn_delete_banners").click(function () {
+            var btn = $(this);
+            var pid = btn.attr("pid");
+
+            if (confirm("Bạn Có Muốn Xóa Banner Này?")) {
+                $.ajax({
+                    url: '/Admin/Banners/Delete',
+                    type: "POST",
+                    data: "id=" + pid,
+                    success: function (response) {
+                        if (response == "OK") {
+                            btn.parent().parent().remove();
+                        }
+                        else {
+                            alert(response);
+                        }
+                    }
+                });
+            }
+
+        });
+
+
+    });
+</script>

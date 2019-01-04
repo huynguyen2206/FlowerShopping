@@ -25,12 +25,10 @@ namespace FlowerShop.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Banner> Banners { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Coupon> Coupons { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Disable> Disables { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Log_Types> Log_Types { get; set; }
@@ -49,5 +47,7 @@ namespace FlowerShop.Models
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Shipping> Shippings { get; set; }
         public virtual DbSet<Product_Logs> Product_Logs { get; set; }
+        public virtual DbSet<Banner> Banners { get; set; }
+        public virtual DbSet<Disable> Disables { get; set; }
     }
 }

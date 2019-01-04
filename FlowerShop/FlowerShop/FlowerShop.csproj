@@ -165,6 +165,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannersController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CouponsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomersController.cs" />
@@ -7985,6 +7986,11 @@
     <Content Include="Areas\Admin\Views\Systems\ProductsLogs.cshtml" />
     <Content Include="Areas\Admin\Views\Systems\SystemLogs.cshtml" />
     <Content Include="Areas\Admin\Views\Systems\Display.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Coupons\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -7997,6 +8003,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Uploads\Banners\banner1.jpg" />
+    <Content Include="Uploads\Banners\banner3.jpg" />
     <Content Include="Uploads\Customers\1\product11.jpg" />
     <Content Include="Uploads\Customers\2\product1.jpg" />
     <Content Include="Uploads\Default\1.jpg" />

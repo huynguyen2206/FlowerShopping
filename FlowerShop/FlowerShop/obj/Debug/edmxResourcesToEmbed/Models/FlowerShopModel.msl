@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="FlowerShoppingModelStoreContainer" CdmEntityContainer="FlowerShoppingEntities">
-    <EntitySetMapping Name="Banners">
-      <EntityTypeMapping TypeName="FlowerShoppingModel.Banner">
-        <MappingFragment StoreEntitySet="Banners">
-          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-          <ScalarProperty Name="Tittle" ColumnName="Tittle" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="FlowerShoppingModel.Category">
         <MappingFragment StoreEntitySet="Categories">
@@ -61,15 +52,6 @@
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Disables">
-      <EntityTypeMapping TypeName="FlowerShoppingModel.Disable">
-        <MappingFragment StoreEntitySet="Disables">
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="DisableName" ColumnName="DisableName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -283,6 +265,27 @@
           <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Banners">
+      <EntityTypeMapping TypeName="FlowerShoppingModel.Banner">
+        <MappingFragment StoreEntitySet="Banners">
+          <ScalarProperty Name="ShowHomePage" ColumnName="ShowHomePage" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+          <ScalarProperty Name="Tittle" ColumnName="Tittle" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Disables">
+      <EntityTypeMapping TypeName="FlowerShoppingModel.Disable">
+        <MappingFragment StoreEntitySet="Disables">
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DisableName" ColumnName="DisableName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

@@ -87,7 +87,7 @@
                                                 }
                                                 <td>@Total.ToString("N0") đ</td>
                                                 <td>
-                                                    <a href="@Url.Action("Details", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                    <a href="@Url.Action("Edit", "Orders", new { id = item.Id })" class="btn btn-instagram btn-block btn-xs"><i class="fa fa-eye"></i> View</a>
                                                 </td>
                                             </tr>
                                         }
@@ -102,47 +102,6 @@
                     </div>
 
 
-                    <div class="col-md-6" style="margin-top: 10px">
-                        <!-- TABLE: LATEST ORDERS -->
-                        <div class="box box-info">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Khách hàng mới</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
-                                <div class="form-horizontal">
-
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Customers Name</th>
-                                            <th>Phone Number</th>
-                                            <th style="width: 40px">Total</th>
-                                            <th>View</th>
-                                        </tr>
-                                        @*@foreach (var item in customer)
-                                            {
-                                                <tr>
-                                                    <td>@item.Id</td>
-                                                    <td>@item.CustomerName</td>
-                                                </tr>
-                                            }*@
-
-                                    </table>
-
-                                </div>
-
-                            </div>
-                            <!-- /.box-body -->
-                        </div>
-                        <!-- /.box -->
-                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>

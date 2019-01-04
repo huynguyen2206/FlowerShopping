@@ -39,8 +39,17 @@ namespace FlowerShop.Areas.Admin.Controllers
             lastday = lastday.AddMonths(1);
             lastday = lastday.AddDays(-(lastday.Day));
 
-            var order = db.Orders.Where(o => o.OrderDate >= firstday && o.OrderDate <= lastday && o.StatusId == 3);
-            var TR = order.Sum(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity));
+            var order = db.Orders.Where(o => o.OrderDate >= firstday && o.OrderDate <= lastday && o.StatusId == 3).ToList();
+            decimal TR = 0; 
+            if(order == null)
+            {
+                TR = 0;
+            }
+            else
+            {
+                TR = order.Sum(x => x.OrderDetails.Sum(od => (od.UnitPrice - od.Discount) * od.Quantity));
+            }
+            
             ViewBag.TR = TR.ToString("N0");
 
             var TotalCost = db.Products.Where(x => x.OrderDetails.Count > 0);
@@ -49,13 +58,33 @@ namespace FlowerShop.Areas.Admin.Controllers
             //             where l.RegisterDate >= firstday && l.RegisterDate <= lastday
             //             select p;
 
-            var TC = TotalCost.Sum(x => (x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductPrice * p.ProductQuantity) 
-                    / x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductQuantity))
+            //var TC = TotalCost.Sum(x => (x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductPrice * p.ProductQuantity) 
+            //        / x.Product_Logs.Where(p => p.RegisterDate >= firstday && p.RegisterDate <= lastday).Sum(p => p.ProductQuantity))
+            //        * x.OrderDetails.Where(od => od.Order.OrderDate >= firstday && od.Order.OrderDate <= lastday && od.Order.StatusId == 3).Sum(od => od.Quantity));
+
+            decimal TC = 0;
+            try
+            {
+                TC = TotalCost.Sum(x => (x.Product_Logs.Sum(p => p.ProductPrice * p.ProductQuantity)
+                    / x.Product_Logs.Sum(p => p.ProductQuantity))
                     * x.OrderDetails.Where(od => od.Order.OrderDate >= firstday && od.Order.OrderDate <= lastday && od.Order.StatusId == 3).Sum(od => od.Quantity));
+            }
+            catch
+            {
+                TC = 0;
+            }
+            
+
             ViewBag.TC = TC.ToString("N0");
 
             var TP = TR - TC;
             ViewBag.TP = TP.ToString("N0");
+
+            ViewBag.pendding = db.Orders.Where(x => x.StatusId == 1 && x.OrderDate >= firstday && x.OrderDate <= lastday).Count().ToString();
+            ViewBag.processing = db.Orders.Where(x => x.StatusId == 2 && x.OrderDate >= firstday && x.OrderDate <= lastday).Count().ToString();
+            ViewBag.complete = db.Orders.Where(x => x.StatusId == 3 && x.OrderDate >= firstday && x.OrderDate <= lastday).Count().ToString();
+            ViewBag.cancel = db.Orders.Where(x => x.StatusId == 4 && x.OrderDate >= firstday && x.OrderDate <= lastday).Count().ToString();
+            ViewBag.total = db.Orders.Where(x => x.OrderDate >= firstday && x.OrderDate <= lastday).Count().ToString();
 
             return View();
         }

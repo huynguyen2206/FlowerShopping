@@ -98,7 +98,7 @@
                                                     <div class="cart-dropdown" style="width:500px">
                                                         <div class="container">
                                                             <form id="Login_form" action="/Customer/Login" method="post">
-                                                                @if (@Session["login_log3"] == null)
+                                                                @if (Session["login_log3"] == null)
                                                                 {
                                                                     <div class="unlock_login">
                                                                         <div class="form-fild">
@@ -295,72 +295,30 @@
             <div class="container-fluid pl-50 pr-50">
                 <div class="row">
                     <div class="banner-slider-active">
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner1.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner2.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner3.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner1.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner2.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
-                        <div class="col-md-4">
-                            <!--Single Banner Area Start-->
-                            <div class="single-banner mb-35">
-                                <div class="banner-img">
-                                    <a href="#">
-                                        <img src="/Content/Home/img/banner/banner3.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Single Banner Area End-->
-                        </div>
+
+                        @{
+                            using (var db = new FlowerShoppingEntities())
+                            {
+                                foreach (var item in db.Banners.Where(x => x.ShowHomePage == true))
+                                {
+                                    <div class="col-md-4">
+                                        <!--Single Banner Area Start-->
+                                        <div class="single-banner mb-35">
+                                            <div class="banner-img">
+                                                <a href="@item.Url">
+                                                    <img src="~/Uploads/Banners/@item.PictureUrl" alt="" title="@item.Tittle">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!--Single Banner Area End-->
+                                    </div>
+                                }
+
+                            }
+                        }
+
+
+
                     </div>
                 </div>
             </div>

@@ -17,5 +17,6 @@ namespace FlowerShop.Models
         public int Id { get; set; }
         public string DisableName { get; set; }
         public bool IsActive { get; set; }
+        public string DisplayName { get; set; }
     }
 }

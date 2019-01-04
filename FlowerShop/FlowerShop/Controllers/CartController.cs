@@ -71,20 +71,21 @@ namespace FlowerShop.Controllers
             //}
 
             Order order;
-            
+            StringBuilder builder = new StringBuilder();
+            Random rd = new Random();
+            int number;
+
+            for (int i = 0; i < 10; i++)
+            {
+                //tạo random 1 kí tự
+                number = rd.Next(0, 9);
+                // add vào builder
+                builder.Append(number);
+            }
+
             if (!User.Identity.IsAuthenticated)
             {
-                StringBuilder builder = new StringBuilder();
-                Random rd = new Random();
-                int number;
-
-                for (int i = 0; i < 10; i++)
-                {
-                    //tạo random 1 kí tự
-                    number = rd.Next(0,9);
-                    // add vào builder
-                    builder.Append(number);
-                }
+                
 
                 order = new Order()
                 {
@@ -106,6 +107,7 @@ namespace FlowerShop.Controllers
                 var cus = db.Customers.SingleOrDefault(x => x.Email.Equals(User.Identity.Name));
                 order = new Order()
                 {
+                    OrderCode = builder.ToString(),
                     OrderDate = DateTime.Now,
                     StatusId = 1,
                     CustomerId = cus.Id,
@@ -146,6 +148,7 @@ namespace FlowerShop.Controllers
             db.SaveChanges();
 
             return Content("OK");
+            //return RedirectToAction("CheckoutLog", new { order.Id });
         }
 
 
@@ -168,8 +171,9 @@ namespace FlowerShop.Controllers
         }
 
 
-        public ActionResult CheckoutLog()
+        public ActionResult CheckoutLog(int id)
         {
+            ViewBag.Msg = id;
             return View();
         }
 

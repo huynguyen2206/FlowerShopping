@@ -46,7 +46,7 @@ namespace FlowerShop.Areas.Admin.Controllers
                     
                     db.SaveChanges();
                 }
-                return RedirectToAction("Topic");
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {

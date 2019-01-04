@@ -17,5 +17,7 @@ namespace FlowerShop.Models
         public int Id { get; set; }
         public string Tittle { get; set; }
         public string PictureUrl { get; set; }
+        public string Url { get; set; }
+        public bool ShowHomePage { get; set; }
     }
 }

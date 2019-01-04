@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -15,9 +16,9 @@ namespace FlowerShop.Areas.Admin.Controllers
     {
         private GenericRepository<Order> orderRepository = new GenericRepository<Order>();
         FlowerShoppingEntities db = new FlowerShoppingEntities();
-        
+
         // SHOW INDEX ORDER
-        public ActionResult Index(int? page, string slider_price, string kw_customername, string StatusId, string kw_daterange, string kw_ordercode, string sort )
+        public ActionResult Index(int? page, string slider_price, string kw_customername, string StatusId, string kw_daterange, string kw_ordercode, string sort)
         {
             PermisstionsVM per = CustomPermisstions.CheckPermisstion("Orders");
             ViewBag.Create = per.Create.ToString();
@@ -70,7 +71,7 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             if (string.IsNullOrEmpty(sort))
             {
-                ViewBag.sort = "date_asc";
+                ViewBag.sort = "date_desc";
             }
             else
             {
@@ -102,18 +103,93 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName");
 
-            return View(orders.OrderByDescending(x => x.Id).ToPagedList(pagenumber, pagesize));
+            return View(orders.ToPagedList(pagenumber, pagesize));
         }
+
+
+        // CREATE ORDER
+        public ActionResult Create()
+        {
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName");
+            ViewBag.PaymentMethodId = new SelectList(db.PaymentMethods, "Id", "MethodName");
+            ViewBag.ShippingId = new SelectList(db.Shippings.Where(x => x.IsActive == true), "Id", "ShippingName");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Order data, string CouponCode)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CouponCode != "")
+                {
+                    var coupon = db.Coupons.SingleOrDefault(x => x.CouponCode.Equals(CouponCode));
+                    if (coupon == null)
+                    {
+                        ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", data.StatusId);
+                        ViewBag.PaymentMethodId = new SelectList(db.PaymentMethods, "Id", "MethodName", data.PaymentMethodId);
+                        ViewBag.ShippingId = new SelectList(db.Shippings.Where(x => x.IsActive == true), "Id", "ShippingName", data.ShippingId);
+                        ViewBag.coupon = "Coupon Code không chính xác";
+                        return View();
+                    }
+                    data.CouponId = coupon.Id;
+                }
+                else
+                {
+                    data.CouponId = 1;
+                }
+
+                StringBuilder builder = new StringBuilder();
+                Random rd = new Random();
+                int number;
+
+                for (int i = 0; i < 10; i++)
+                {
+                    //tạo random 1 kí tự
+                    number = rd.Next(0, 9);
+                    // add vào builder
+                    builder.Append(number);
+                }
+
+                data.OrderCode = builder.ToString();
+                data.OrderDate = DateTime.Now;
+                data.EmployeeId = int.Parse(User.Identity.Name);
+                db.Orders.Add(data);
+                db.SaveChanges();
+
+                SystemLogs.Create("Order", data.OrderCode);
+
+                return RedirectToAction("Index");
+
+            }
+
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", data.StatusId);
+            ViewBag.PaymentMethodId = new SelectList(db.PaymentMethods, "Id", "MethodName", data.PaymentMethodId);
+            ViewBag.ShippingId = new SelectList(db.Shippings.Where(x => x.IsActive == true), "Id", "ShippingName", data.ShippingId);
+
+            return View(data);
+
+        }
+
+        // ADD PRODUCTS
+        public ActionResult AddProduct(int ProductId)
+        {
+
+            return View();
+        }
+
 
         // SHOW ORDER DETAILS
         public ActionResult Edit(int id)
         {
-            var orderdetails = orderRepository.GetModelById(id);
-            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", orderdetails.StatusId);
-            return View(orderdetails);
+            var order = orderRepository.GetModelById(id);
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "StatusName", order.StatusId);
+            ViewBag.ProductId = new SelectList(db.Products, "Id", "ProductName");
+            return View(order);
         }
 
-        
+
         //public ActionResult Details(int id)
         //{
         //    var orderdetails = orderRepository.GetModelById(id);
@@ -137,7 +213,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             {
                 return Content("Error!");
             }
-            
+
         }
 
 
@@ -155,7 +231,7 @@ namespace FlowerShop.Areas.Admin.Controllers
         {
             var orderdetails = db.OrderDetails.Find(data.Id);
 
-            if(data.Quantity < 0 || data.UnitPrice < data.Discount)
+            if (data.Quantity < 0 || data.UnitPrice < data.Discount)
             {
                 ViewBag.Msg = "Error!";
                 return PartialView(data);
@@ -206,7 +282,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             order.EmployeeId = int.Parse(User.Identity.Name);
             order.StatusId = 2;
             db.SaveChanges();
-            
+
             return RedirectToAction("Edit", new { id = data.Id });
         }
 

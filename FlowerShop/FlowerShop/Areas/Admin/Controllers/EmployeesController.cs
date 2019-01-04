@@ -60,6 +60,7 @@ namespace FlowerShop.Areas.Admin.Controllers
             if (!emp.IsActive)
             {
                 ViewBag.Msg = "Tài khoản đã bị khóa";
+                return View();
             }
             
             FormsAuthentication.SetAuthCookie(emp.Id.ToString(), RememeberMe == "on" ? true : false);

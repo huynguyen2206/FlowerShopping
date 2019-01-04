@@ -67,17 +67,14 @@ namespace FlowerShop.Areas.Admin.Controllers
 
             var ProductsInput = productRepository.GetModel().Where(x => x.Product_Logs.Count > 0);
 
+
             var ProductsOrders = productRepository.GetModel().Where(x => x.OrderDetails.Count > 0);
-            ProductsOrders = from p in ProductsOrders
-                             join od in db.OrderDetails on p.Id equals od.ProductId
-                             join o in db.Orders on od.OrderId equals o.Id
-                             where o.StatusId == int.Parse(StatusId)
-                             select p;
+
 
             if (!string.IsNullOrEmpty(kw_daterange))
             {
                 var dt = kw_daterange.Split('-');
-                ViewBag.kw = kw_daterange;
+                ViewBag.kw_daterange = kw_daterange;
                 ProductsInput = from p in ProductsInput
                                 join l in db.Product_Logs on p.Id equals l.ProductId
                                 where l.RegisterDate.Date >= DateTime.Parse(dt[0]) && l.RegisterDate.Date <= DateTime.Parse(dt[1])
@@ -86,7 +83,20 @@ namespace FlowerShop.Areas.Admin.Controllers
                 ProductsOrders = from p in ProductsOrders
                                  join od in db.OrderDetails on p.Id equals od.ProductId
                                  join o in db.Orders on od.OrderId equals o.Id
-                                 where o.OrderDate.Date >= DateTime.Parse(dt[0]) && o.OrderDate.Date <= DateTime.Parse(dt[1])
+                                 where o.StatusId == int.Parse(StatusId) && o.OrderDate.Date >= DateTime.Parse(dt[0]) && o.OrderDate.Date <= DateTime.Parse(dt[1])
+                                 select p;
+            }
+            else
+            {
+                ProductsInput = from p in ProductsInput
+                                join l in db.Product_Logs on p.Id equals l.ProductId
+                                where l.RegisterDate.Date >= DateTime.Parse("1/1/" + DateTime.Now.Year) && l.RegisterDate.Date <= DateTime.Parse("12/31/" + DateTime.Now.Year)
+                                select p;
+
+                ProductsOrders = from p in ProductsOrders
+                                 join od in db.OrderDetails on p.Id equals od.ProductId
+                                 join o in db.Orders on od.OrderId equals o.Id
+                                 where o.StatusId == int.Parse(StatusId) && o.OrderDate.Date >= DateTime.Parse("1/1/" + DateTime.Now.Year) && o.OrderDate.Date <= DateTime.Parse("12/31/" + DateTime.Now.Year)
                                  select p;
             }
 

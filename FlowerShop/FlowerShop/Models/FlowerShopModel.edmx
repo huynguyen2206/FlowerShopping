@@ -12,6 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tittle" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="PictureUrl" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ShowHomePage" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -71,6 +73,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DisableName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -682,12 +685,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="FlowerShoppingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FlowerShoppingEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Banners" EntityType="FlowerShoppingModel.Banner" />
           <EntitySet Name="Categories" EntityType="FlowerShoppingModel.Category" />
           <EntitySet Name="Comments" EntityType="FlowerShoppingModel.Comment" />
           <EntitySet Name="Coupons" EntityType="FlowerShoppingModel.Coupon" />
           <EntitySet Name="Customers" EntityType="FlowerShoppingModel.Customer" />
-          <EntitySet Name="Disables" EntityType="FlowerShoppingModel.Disable" />
           <EntitySet Name="Levels" EntityType="FlowerShoppingModel.Level" />
           <EntitySet Name="Likes" EntityType="FlowerShoppingModel.Like" />
           <EntitySet Name="Log_Types" EntityType="FlowerShoppingModel.Log_Types" />
@@ -802,15 +803,9 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Product_Logs" EntitySet="Product_Logs" />
           </AssociationSet>
+          <EntitySet Name="Banners" EntityType="FlowerShoppingModel.Banner" />
+          <EntitySet Name="Disables" EntityType="FlowerShoppingModel.Disable" />
         </EntityContainer>
-        <EntityType Name="Banner">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tittle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PictureUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
@@ -870,14 +865,6 @@
           <NavigationProperty Name="Likes" Relationship="FlowerShoppingModel.FK_Likes_Customers" FromRole="Customer" ToRole="Like" />
           <NavigationProperty Name="LoginLogs" Relationship="FlowerShoppingModel.FK_LoginLogs_Customers" FromRole="Customer" ToRole="LoginLog" />
           <NavigationProperty Name="Orders" Relationship="FlowerShoppingModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="Disable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DisableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
@@ -1401,21 +1388,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Banner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tittle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PictureUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ShowHomePage" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Disable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="FlowerShoppingModelStoreContainer" CdmEntityContainer="FlowerShoppingEntities">
-          <EntitySetMapping Name="Banners">
-            <EntityTypeMapping TypeName="FlowerShoppingModel.Banner">
-              <MappingFragment StoreEntitySet="Banners">
-                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-                <ScalarProperty Name="Tittle" ColumnName="Tittle" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="FlowerShoppingModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -1467,15 +1464,6 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Disables">
-            <EntityTypeMapping TypeName="FlowerShoppingModel.Disable">
-              <MappingFragment StoreEntitySet="Disables">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="DisableName" ColumnName="DisableName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1689,6 +1677,27 @@
                 <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banners">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Banner">
+              <MappingFragment StoreEntitySet="Banners">
+                <ScalarProperty Name="ShowHomePage" ColumnName="ShowHomePage" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+                <ScalarProperty Name="Tittle" ColumnName="Tittle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disables">
+            <EntityTypeMapping TypeName="FlowerShoppingModel.Disable">
+              <MappingFragment StoreEntitySet="Disables">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DisableName" ColumnName="DisableName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

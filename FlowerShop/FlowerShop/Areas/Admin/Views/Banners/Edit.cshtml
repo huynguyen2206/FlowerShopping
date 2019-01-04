@@ -1,0 +1,159 @@
+﻿@model FlowerShop.Models.Banner
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="content-header">
+        <h1>
+            Add New Employee
+            <small><a href="@Url.Action("Index", "Banners")"><i class="fa fa-arrow-circle-left"></i> Back to banners list</a></small>
+        </h1>
+        <ol class="breadcrumb">
+            @*<li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Product</a></li>*@
+            <button type="submit" class="btn btn-info">Save</button>
+        </ol>
+    </section>
+
+    @Html.AntiForgeryToken()
+    <!-- Main content -->
+    <section class="content" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs pull-right">
+                            <li class="active pull-left"><a href="#product-info" data-toggle="tab">Banner Info</a></li>
+
+
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <!-- Morris chart - Sales -->
+                            <div class="chart tab-pane active" id="product-info">
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Banner Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Tittle</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.EditorFor(model => model.Tittle, new { htmlAttributes = new { @class = "form-control", placeholder = "Tittle" } })
+                                                        @Html.ValidationMessageFor(model => model.Tittle, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Url</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", placeholder = "Url" } })
+                                                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-4 control-label">Show Home Page</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.EditorFor(model => model.ShowHomePage)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        <img src="~/Uploads/Banners/@Model.PictureUrl" height="350" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Image</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        <input type="file" name="img" id="chooseimg" />
+                                                        <p></p>
+                                                        <img id="image" height="350" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </section>
+    <!-- /.content -->
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<!--load image tạm thời-->
+<script type="text/javascript">
+	var file = document.getElementById('chooseimg');
+	var img = document.getElementById('image');
+	file.addEventListener("change", function() {
+		if (this.value) {
+			var file = this.files[0];
+			var reader = new FileReader();
+			reader.onloadend = function () {
+				img.src = reader.result;
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+</script>
+

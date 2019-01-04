@@ -68,6 +68,44 @@ namespace FlowerShop.Areas.Admin.Controllers
         }
 
 
+        // CREATE COUPON
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult Create(string couponcode, decimal price)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Coupon cp = new Coupon()
+                    {
+                        // kết thúc vòng for tạo đủ 10 kí tự sau đó add vào CouponCode
+                        CouponCode = couponcode,
+                        Price = price,
+                        IsActive = true,
+                        Quantity = 1,
+                        RegisterDate = DateTime.Now,
+                        InitDate = DateTime.Now,
+                        FinishDate = DateTime.Now,
+                        UseDate = DateTime.Now,
+                    };
+
+                    db.Coupons.Add(cp);
+
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
         // GET RANDOM COUPON
@@ -83,29 +121,22 @@ namespace FlowerShop.Areas.Admin.Controllers
             {
                 return Content("Vui lòng nhập giá trị khuyến mãi");
             }
-
-            // tạo random coupon
+            
             Random rd = new Random();
             char ch;
-
-            // vòng for tạo ra số lượng coupon theo "number" truyền vào
+            
             for (int j = 0; j < int.Parse(number); j++)
             {
                 StringBuilder builder = new StringBuilder();
-
-                // vòng for tạo ra random số lượng kí tự trong 1 coupon
+                
                 for (int i = 0; i < 10; i++)
                 {
-                    //tạo random 1 kí tự
                     ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * rd.NextDouble() + 65)));
-                    // add vào builder
                     builder.Append(ch);
                 }
-
-                // add vào db
+                
                 Coupon cp = new Coupon()
                 {
-                    // kết thúc vòng for tạo đủ 10 kí tự sau đó add vào CouponCode
                     CouponCode = builder.ToString(),
                     Price = decimal.Parse(price),
                     IsActive = true,

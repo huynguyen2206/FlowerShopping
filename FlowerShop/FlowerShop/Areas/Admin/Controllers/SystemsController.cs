@@ -93,7 +93,19 @@ namespace FlowerShop.Areas.Admin.Controllers
 
         public ActionResult Display()
         {
-            return View();
+            var display = db.Disables.ToList();
+
+            return View(display);
+        }
+
+        [HttpPost]
+        public ActionResult Display(int pid)
+        {
+            var display = db.Disables.Find(pid);
+            display.IsActive = !display.IsActive;
+            db.SaveChanges();
+
+            return Content("OK");
         }
     }
 }

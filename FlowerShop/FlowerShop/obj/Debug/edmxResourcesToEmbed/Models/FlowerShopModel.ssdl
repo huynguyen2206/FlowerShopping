@@ -7,6 +7,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Tittle" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="PictureUrl" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Url" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ShowHomePage" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Categories">
     <Key>
@@ -66,6 +68,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DisableName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Employees">
     <Key>

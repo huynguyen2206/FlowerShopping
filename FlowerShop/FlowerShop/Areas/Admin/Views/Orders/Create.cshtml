@@ -1,0 +1,261 @@
+﻿@model FlowerShop.Models.Order
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    <section class="content-header">
+        <h1>
+            Add New Order
+            <small><a href="@Url.Action("Index", "Orders")"><i class="fa fa-arrow-circle-left"></i> Back to Orders list</a></small>
+        </h1>
+        <ol class="breadcrumb">
+            @*<li><a href="/Admin/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Product</a></li>*@
+            <button type="submit" class="btn btn-info">Save</button>
+        </ol>
+    </section>
+
+    @Html.AntiForgeryToken()
+    <!-- Main content -->
+    <section class="content" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs pull-right">
+                            <li class="active pull-left"><a href="#product-info" data-toggle="tab">Order Info</a></li>
+                            <li class="pull-left"><a href="#product-details" data-toggle="tab">Order Details</a></li>
+
+
+                        </ul>
+                        <div class="tab-content no-padding">
+                            <!-- Morris chart - Sales -->
+                            <div class="chart tab-pane active" id="product-info">
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Customer Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Receiver</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Receiver, new { htmlAttributes = new { @class = "form-control", placeholder = "Login Name" } })
+                                                        @Html.ValidationMessageFor(model => model.Receiver, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Phone Number</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Customer Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Shipping Fee</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.ShippingFee, new { htmlAttributes = new { @class = "form-control", placeholder = "Shipping Fee" } })
+                                                        @Html.ValidationMessageFor(model => model.ShippingFee, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Tax</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control", placeholder = "Tax" } })
+                                                        @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Discount</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control", placeholder = "Discount" } })
+                                                        @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Coupon</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" placeholder="Coupon Code" name="CouponCode" />
+                                                        @ViewBag.coupon
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Customer Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Status</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownList("StatusId", null, htmlAttributes: new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Payment Method</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownList("PaymentMethodId", null, htmlAttributes: new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Shipper</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownList("ShippingId", null, htmlAttributes: new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                            </div>
+
+
+                            <div class="chart tab-pane active" id="product-details">
+                                <div class="col-md-6" style="margin-top: 10px">
+                                    <!-- TABLE: LATEST ORDERS -->
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Customer Infomation</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Receiver</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Receiver, new { htmlAttributes = new { @class = "form-control", placeholder = "Login Name" } })
+                                                        @Html.ValidationMessageFor(model => model.Receiver, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Address" } })
+                                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="col-sm-3 control-label">Phone Number</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </section>
+    <!-- /.content -->
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

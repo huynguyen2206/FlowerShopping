@@ -51,12 +51,11 @@
                 <div class="box-body">
                     @if (ViewBag.Create == "True")
                     {
-                        <a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success" style="margin-bottom:10px">Add New Coupon</a>
+                        <a href="@Url.Action("Create", "Coupons")" class="btn btn-block btn-success myaction" style="margin-bottom:10px">Add New Coupon</a>
                     }
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Mã Coupon</th>
                                 <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortprice })">Giá Trị</a></th>
                                 <th><a href="@Url.Action("Index", new { Page = Model.PageNumber, kw = ViewBag.kw, sort = ViewBag.sortactive })">Kích Hoạt</a></th>
@@ -67,7 +66,6 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td><input type="checkbox" class="minimal_cid" cid="@item.Id"></td>
                                     <td>@item.CouponCode</td>
                                     @{
                                         if (item.Price <= 100 & item.Price > 0)
